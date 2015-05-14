@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tab.Slack.Common.Model.Responses
 {
-    public class TestResponse : ResponseBase
+    public class ApiTestResponse : ResponseBase
     {
         public string Error { get; set; }
         public IDictionary<string, string> Args { get; set; }

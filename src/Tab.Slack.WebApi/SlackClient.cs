@@ -36,7 +36,7 @@ namespace Tab.Slack.WebApi
             return rtmStartResponse;
         }
 
-        public TestResponse ApiTest(string error = null, params string[] args)
+        public ApiTestResponse ApiTest(string error = null, params string[] args)
         {
             var queryParams = new List<string>();
 
@@ -52,7 +52,14 @@ namespace Tab.Slack.WebApi
 
             var request = "/api.test?" + string.Join("&", queryParams);
 
-            var testResponse = ExecuteAndDeserializeRequest<TestResponse>(request);
+            var testResponse = ExecuteAndDeserializeRequest<ApiTestResponse>(request);
+
+            return testResponse;
+        }
+
+        public AuthTestResponse AuthTest()
+        {
+            var testResponse = ExecuteAndDeserializeRequest<AuthTestResponse>("/auth.test");
 
             return testResponse;
         }

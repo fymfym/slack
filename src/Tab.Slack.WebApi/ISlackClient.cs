@@ -9,6 +9,7 @@ namespace Tab.Slack.WebApi
         IResponseParser ResponseParser { get; set; }
 
         RtmStartResponse RtmStart();
-        TestResponse ApiTest(string error = null, params string[] args);
+        ApiTestResponse ApiTest(string error = null, params string[] args);
+        AuthTestResponse AuthTest();
     }
 }

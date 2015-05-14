@@ -46,6 +46,23 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("test", result.Args["arg1"]);
         }
 
+        [Fact]
+        public void AuthTestShouldReturnResponse()
+        {
+            var content = @"{""ok"":true,""user_id"":""test""}";
+
+            IRestRequest requestMade = null;
+            var mockRestClient = SetupMockRestClient(content, r => requestMade = r);
+            var slackClient = SetupSlackClient(mockRestClient);
+
+            var result = slackClient.AuthTest();
+
+            mockRestClient.Verify();
+            Assert.True(result.Ok);
+            Assert.Equal("/auth.test", requestMade.Resource);
+            Assert.Equal("test", result.UserId);
+        }
+
         private SlackClient SetupSlackClient(Mock<IRestClient> restClient)
         {
             return new SlackClient("mockkey")
