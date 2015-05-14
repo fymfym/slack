@@ -1,4 +1,5 @@
-# TAB Slack RTM (WebSocket) Bot and Slack Rest Client
+# TAB Slack RTM (WebSocket) Bot
+# Slack Web API Client
 
 An initial start.
 
