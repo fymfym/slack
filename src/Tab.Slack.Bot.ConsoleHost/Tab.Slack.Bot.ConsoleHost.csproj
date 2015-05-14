@@ -68,9 +68,9 @@
       <Project>{a84c7a78-afa9-42c6-9919-8a52ee119cf2}</Project>
       <Name>Tab.Slack.Bot</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tab.Slack.Rest\Tab.Slack.Rest.csproj">
+    <ProjectReference Include="..\Tab.Slack.WebApi\Tab.Slack.WebApi.csproj">
       <Project>{4129750b-42b2-4981-96a5-26a09e8796cf}</Project>
-      <Name>Tab.Slack.Rest</Name>
+      <Name>Tab.Slack.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

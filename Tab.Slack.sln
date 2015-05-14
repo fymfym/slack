@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Bot.ConsoleHost",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Bot.Handlers", "src\Tab.Slack.Bot.Handlers\Tab.Slack.Bot.Handlers.csproj", "{61C738E6-0DB3-478E-B335-9B2950728E67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Rest", "src\Tab.Slack.Rest\Tab.Slack.Rest.csproj", "{4129750B-42B2-4981-96A5-26A09E8796CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.WebApi", "src\Tab.Slack.WebApi\Tab.Slack.WebApi.csproj", "{4129750B-42B2-4981-96A5-26A09E8796CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}"
 EndProject
@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Bot.Handlers.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Common.Tests", "test\Tab.Slack.Common.Tests\Tab.Slack.Common.Tests.csproj", "{7DE2F29E-8FF6-45A6-9027-E9B8CFE27F0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Rest.Tests", "test\Tab.Slack.Rest.Tests\Tab.Slack.Rest.Tests.csproj", "{10D7C3B4-D69A-4A74-8E5D-469551FA090F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.WebApi.Tests", "test\Tab.Slack.WebApi.Tests\Tab.Slack.WebApi.Tests.csproj", "{10D7C3B4-D69A-4A74-8E5D-469551FA090F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

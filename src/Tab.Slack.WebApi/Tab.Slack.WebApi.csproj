@@ -7,8 +7,8 @@
     <ProjectGuid>{4129750B-42B2-4981-96A5-26A09E8796CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tab.Slack.Rest</RootNamespace>
-    <AssemblyName>Tab.Slack.Rest</AssemblyName>
+    <RootNamespace>Tab.Slack.WebApi</RootNamespace>
+    <AssemblyName>Tab.Slack.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

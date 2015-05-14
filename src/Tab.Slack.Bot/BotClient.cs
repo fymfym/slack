@@ -8,7 +8,7 @@ using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Bot.Integration;
 using WebSocket4Net;
-using Tab.Slack.Rest;
+using Tab.Slack.WebApi;
 
 namespace Tab.Slack.Bot
 {

@@ -8,7 +8,7 @@ using Tab.Slack.Common.Json;
 using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
 
-namespace Tab.Slack.Rest
+namespace Tab.Slack.WebApi
 {
     public class SlackClient : ISlackClient
     {

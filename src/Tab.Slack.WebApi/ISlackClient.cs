@@ -1,7 +1,7 @@
 ﻿using Tab.Slack.Common.Json;
 using Tab.Slack.Common.Model;
 
-namespace Tab.Slack.Rest
+namespace Tab.Slack.WebApi
 {
     public interface ISlackClient
     {
