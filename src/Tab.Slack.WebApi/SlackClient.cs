@@ -182,6 +182,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ResponseBase ChannelUnarchive(string channelId)
+        {
+            var apiPath = BuildApiPath("/channels.unarchive", channel => channelId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

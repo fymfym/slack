@@ -25,5 +25,6 @@ namespace Tab.Slack.WebApi
         ChannelResponse ChannelRename(string channelId, string channelName);
         PurposeResponse ChannelSetPurpose(string channelId, string channelPurpose);
         TopicResponse ChannelSetTopic(string channelId, string channelTopic);
+        ResponseBase ChannelUnarchive(string channelId);
     }
 }

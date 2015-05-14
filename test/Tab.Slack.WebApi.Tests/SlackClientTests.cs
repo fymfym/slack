@@ -208,6 +208,17 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("hello", result.Topic);
         }
 
+        [Fact]
+        public void ChannelUnarchiveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackClient.ChannelUnarchive("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.unarchive?channel=foo", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }
