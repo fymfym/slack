@@ -118,6 +118,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ChannelResponse ChannelJoin(string channelName)
+        {
+            var apiPath = BuildApiPath("/channels.join", name => channelName);
+            var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

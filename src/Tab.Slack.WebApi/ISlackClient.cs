@@ -17,5 +17,6 @@ namespace Tab.Slack.WebApi
             string oldestTs = null, bool isInclusive = false, int messageCount = 100);
         ChannelResponse ChannelInfo(string channelId);
         ChannelResponse ChannelInvite(string channelId, string userId);
+        ChannelResponse ChannelJoin(string channelName);
     }
 }

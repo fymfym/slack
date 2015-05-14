@@ -75,6 +75,18 @@ namespace Tab.Slack.WebApi.Tests
         }
 
         [Fact]
+        public void ChannelJoinShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
+
+            var result = context.SlackClient.ChannelJoin("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.join?name=foo", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel.Name);
+        }
+
+        [Fact]
         public void ChannelHistoryShouldReturnResponse()
         {
             var context = SetupTestContext(@"{""ok"":true,""messages"":[{""type"":""message"",""text"":""hello""},{""type"":""message"",""subtype"":""me_message"",""text"":""me""}]}");
