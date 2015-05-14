@@ -29,12 +29,12 @@ namespace Tab.Slack.WebApi
 
         public RtmStartResponse RtmStart()
         {
-            var rtmStartResponse = ExecuteAndDeserializeRequest<RtmStartResponse>("/rtm.start");
+            var response = ExecuteAndDeserializeRequest<RtmStartResponse>("/rtm.start");
 
-            if (rtmStartResponse != null)
-                rtmStartResponse.Type = EventType.RtmStart;
+            if (response != null)
+                response.Type = EventType.RtmStart;
 
-            return rtmStartResponse;
+            return response;
         }
 
         public ApiTestResponse ApiTest(string error = null, params string[] args)
@@ -53,22 +53,30 @@ namespace Tab.Slack.WebApi
 
             var request = "/api.test?" + string.Join("&", queryParams);
 
-            var testResponse = ExecuteAndDeserializeRequest<ApiTestResponse>(request);
+            var response = ExecuteAndDeserializeRequest<ApiTestResponse>(request);
 
-            return testResponse;
+            return response;
         }
 
         public AuthTestResponse AuthTest()
         {
-            var testResponse = ExecuteAndDeserializeRequest<AuthTestResponse>("/auth.test");
+            var response = ExecuteAndDeserializeRequest<AuthTestResponse>("/auth.test");
             
-            return testResponse;
+            return response;
         }
 
         public ResponseBase ChannelArchive(string channelId)
         {
             var apiPath = BuildApiPath("/channels.archive", channel => channelId);
-            var testResponse = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public ChannelResponse ChannelCreate(string channelName)
+        {
+            var apiPath = BuildApiPath("/channels.create", name => channelName);
+            var testResponse = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
 
             return testResponse;
         }

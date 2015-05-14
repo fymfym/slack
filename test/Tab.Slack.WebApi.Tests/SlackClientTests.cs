@@ -61,6 +61,17 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/channels.archive?channel=CHANID", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void ChannelCreateShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
+
+            var result = context.SlackClient.ChannelCreate("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.create?name=foo", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }
