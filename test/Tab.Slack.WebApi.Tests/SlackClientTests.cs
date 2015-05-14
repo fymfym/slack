@@ -137,6 +137,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/channels.kick?channel=CHANID&user=UID", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void ChannelLeaveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""not_in_channel"":true}");
+
+            var result = context.SlackClient.ChannelLeave("CHANID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.leave?channel=CHANID", context.RequestMade.Resource);
+            Assert.True(result.NotInChannel);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }

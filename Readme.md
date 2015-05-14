@@ -7,6 +7,7 @@ Project:
 - The Slack Web API client library provides a simple way to integrate your code with Slack.
 
 Todo:
+- Get an alpha version onto Nuget
 - Flesh out the slack rest client code to handle full set of methods
 - Sort out default bot handlers
 - Add error/connection handling to bot

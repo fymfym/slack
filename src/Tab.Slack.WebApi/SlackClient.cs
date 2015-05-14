@@ -134,6 +134,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public LeaveChannelResponse ChannelLeave(string channelId)
+        {
+            var apiPath = BuildApiPath("/channels.leave", channel => channelId);
+            var response = ExecuteAndDeserializeRequest<LeaveChannelResponse>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

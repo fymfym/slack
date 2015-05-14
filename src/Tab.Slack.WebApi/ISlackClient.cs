@@ -19,5 +19,6 @@ namespace Tab.Slack.WebApi
         ChannelResponse ChannelInvite(string channelId, string userId);
         ChannelResponse ChannelJoin(string channelName);
         ResponseBase ChannelKick(string channelId, string userId);
+        LeaveChannelResponse ChannelLeave(string channelId);
     }
 }
