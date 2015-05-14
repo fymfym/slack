@@ -150,6 +150,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ResponseBase ChannelMark(string channelId, string timestamp)
+        {
+            var apiPath = BuildApiPath("/channels.mark", channel => channelId, ts => timestamp);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

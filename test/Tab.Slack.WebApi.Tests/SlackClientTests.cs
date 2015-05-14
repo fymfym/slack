@@ -161,6 +161,17 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("CHANID", result.Channels[0].Id);
         }
 
+        [Fact]
+        public void ChannelMarkShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackClient.ChannelMark("CHANID","1111.2222");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.mark?channel=CHANID&ts=1111.2222", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }
