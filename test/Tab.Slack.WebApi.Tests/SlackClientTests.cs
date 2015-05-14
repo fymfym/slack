@@ -126,6 +126,17 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("foo", result.Channel.Name);
         }
 
+        [Fact]
+        public void ChannelKickShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackClient.ChannelKick("CHANID", "UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.kick?channel=CHANID&user=UID", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }

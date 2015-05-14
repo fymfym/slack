@@ -126,6 +126,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ResponseBase ChannelKick(string channelId, string userId)
+        {
+            var apiPath = BuildApiPath("/channels.kick", channel => channelId, user => userId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)
