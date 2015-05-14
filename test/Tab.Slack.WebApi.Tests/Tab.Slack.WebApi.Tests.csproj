@@ -9,8 +9,8 @@
     <ProjectGuid>{10D7C3B4-D69A-4A74-8E5D-469551FA090F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tab.Slack.Rest.Tests</RootNamespace>
-    <AssemblyName>Tab.Slack.Rest.Tests</AssemblyName>
+    <RootNamespace>Tab.Slack.WebApi.Tests</RootNamespace>
+    <AssemblyName>Tab.Slack.WebApi.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -68,9 +68,9 @@
       <Project>{1d8a8d58-958e-4789-9a26-6ffa4ba79ae6}</Project>
       <Name>Tab.Slack.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Tab.Slack.Rest\Tab.Slack.Rest.csproj">
+    <ProjectReference Include="..\..\src\Tab.Slack.WebApi\Tab.Slack.WebApi.csproj">
       <Project>{4129750b-42b2-4981-96a5-26a09e8796cf}</Project>
-      <Name>Tab.Slack.Rest</Name>
+      <Name>Tab.Slack.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

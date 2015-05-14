@@ -10,7 +10,7 @@ using Tab.Slack.Common;
 using Tab.Slack.Bot.Integration;
 using Tab.Slack.Bot.Handlers;
 using Tab.Slack.Common.Json;
-using Tab.Slack.Rest;
+using Tab.Slack.WebApi;
 
 namespace Tab.Slack.Bot.ConsoleHost
 {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tab.Slack.Rest")]
+[assembly: AssemblyTitle("Tab.Slack.WebApi.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Tab.Slack.Rest")]
+[assembly: AssemblyProduct("Tab.Slack.WebApi.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4129750b-42b2-4981-96a5-26a09e8796cf")]
+[assembly: Guid("10d7c3b4-d69a-4a74-8e5d-469551fa090f")]
 
 // Version information for an assembly consists of the following four values:
 //
