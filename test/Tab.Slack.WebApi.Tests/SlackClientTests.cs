@@ -82,7 +82,7 @@ namespace Tab.Slack.WebApi.Tests
             var result = context.SlackClient.ChannelHistory("foo", messageCount: 44);
 
             context.VerifyOk(result);
-            Assert.Equal("/channels.history?name=foo&inclusive=0&count=44", context.RequestMade.Resource);
+            Assert.Equal("/channels.history?channel=foo&inclusive=0&count=44", context.RequestMade.Resource);
             Assert.IsType<PlainMessage>(result.Messages[0]);
             Assert.Equal(MessageSubType.PlainMessage, result.Messages[0].Subtype);
             Assert.Equal("hello", result.Messages[0].Text);
@@ -98,7 +98,19 @@ namespace Tab.Slack.WebApi.Tests
             var result = context.SlackClient.ChannelInfo("foo");
 
             context.VerifyOk(result);
-            Assert.Equal("/channels.info?name=foo", context.RequestMade.Resource);
+            Assert.Equal("/channels.info?channel=foo", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel.Name);
+        }
+
+        [Fact]
+        public void ChannelInviteShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
+
+            var result = context.SlackClient.ChannelInvite("foo", "uid");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.invite?channel=foo&user=uid", context.RequestMade.Resource);
             Assert.Equal("foo", result.Channel.Name);
         }
 

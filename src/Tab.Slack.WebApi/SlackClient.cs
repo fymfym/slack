@@ -81,11 +81,11 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
-        public MessagesResponse ChannelHistory(string channelName, string latestTs = null,
+        public MessagesResponse ChannelHistory(string channelId, string latestTs = null,
             string oldestTs = null, bool isInclusive = false, int messageCount = 100)
         {
             var apiPath = BuildApiPath("/channels.history", 
-                                        name => channelName, 
+                                        channel => channelId, 
                                         latest => latestTs, 
                                         oldest => oldestTs, 
                                         inclusive => isInclusive ? "1" : "0", 
@@ -102,9 +102,17 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
-        public ChannelResponse ChannelInfo(string channelName)
+        public ChannelResponse ChannelInfo(string channelId)
         {
-            var apiPath = BuildApiPath("/channels.info", name => channelName);
+            var apiPath = BuildApiPath("/channels.info", channel => channelId);
+            var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
+
+            return response;
+        }
+
+        public ChannelResponse ChannelInvite(string channelId, string userId)
+        {
+            var apiPath = BuildApiPath("/channels.invite", channel => channelId, user => userId);
             var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
 
             return response;
