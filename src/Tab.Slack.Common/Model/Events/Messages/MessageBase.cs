@@ -1,6 +1,6 @@
 ﻿namespace Tab.Slack.Common.Model.Events.Messages
 {
-    public abstract class MessageBase : EventMessageBase
+    public class MessageBase : EventMessageBase
     {
         public MessageSubType Subtype { get; set; }
         public string Ts { get; set; }

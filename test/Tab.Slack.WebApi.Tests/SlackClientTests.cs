@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tab.Slack.Common.Model.Events;
+using Tab.Slack.Common.Model.Events.Messages;
 using Tab.Slack.Common.Model.Responses;
 using Xunit;
 
@@ -70,6 +71,22 @@ namespace Tab.Slack.WebApi.Tests
 
             context.VerifyOk(result);
             Assert.Equal("/channels.create?name=foo", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void ChannelHistoryShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""messages"":[{""type"":""message"",""text"":""hello""},{""type"":""message"",""subtype"":""me_message"",""text"":""me""}]}");
+
+            var result = context.SlackClient.ChannelHistory("foo", messageCount: 44);
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.history?name=foo&inclusive=0&count=44", context.RequestMade.Resource);
+            Assert.IsType<PlainMessage>(result.Messages[0]);
+            Assert.Equal(MessageSubType.PlainMessage, result.Messages[0].Subtype);
+            Assert.Equal("hello", result.Messages[0].Text);
+            Assert.IsType<MeMessage>(result.Messages[1]);
+            Assert.Equal(MessageSubType.MeMessage, result.Messages[1].Subtype);
         }
 
         internal class TestContext

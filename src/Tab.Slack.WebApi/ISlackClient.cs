@@ -13,5 +13,7 @@ namespace Tab.Slack.WebApi
         AuthTestResponse AuthTest();
         ResponseBase ChannelArchive(string channelId);
         ChannelResponse ChannelCreate(string name);
+        MessagesResponse ChannelHistory(string channelName, string latestTs = null,
+            string oldestTs = null, bool isInclusive = false, int messageCount = 100);
     }
 }

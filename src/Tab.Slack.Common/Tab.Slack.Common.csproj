@@ -53,6 +53,7 @@
     <Compile Include="Model\Attachment.cs" />
     <Compile Include="Model\Responses\AuthTestResponse.cs" />
     <Compile Include="Model\Responses\ChannelResponse.cs" />
+    <Compile Include="Model\Responses\MessagesResponse.cs" />
     <Compile Include="Model\Responses\ResponseBase.cs" />
     <Compile Include="Model\SlackBot.cs" />
     <Compile Include="Model\BotIcons.cs" />

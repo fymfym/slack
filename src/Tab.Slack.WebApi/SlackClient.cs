@@ -81,6 +81,27 @@ namespace Tab.Slack.WebApi
             return testResponse;
         }
 
+        public MessagesResponse ChannelHistory(string channelName, string latestTs = null,
+            string oldestTs = null, bool isInclusive = false, int messageCount = 100)
+        {
+            var apiPath = BuildApiPath("/channels.history", 
+                                        name => channelName, 
+                                        latest => latestTs, 
+                                        oldest => oldestTs, 
+                                        inclusive => isInclusive ? "1" : "0", 
+                                        count => messageCount.ToString());
+
+            var response = ExecuteAndDeserializeRequest<MessagesResponse>(apiPath);
+
+            if (response.Messages != null)
+            {
+                response.Messages = this.ResponseParser.RemapMessagesToConcreteTypes(response.Messages)
+                                                       .ToList();
+            }
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)
@@ -91,8 +112,12 @@ namespace Tab.Slack.WebApi
             foreach (var paramPart in queryParamParts)
             {
                 var key = paramPart.Parameters[0].Name;
-                var value = Uri.EscapeDataString(paramPart.Compile().Invoke(""));
-                queryParams.Add($"{key}={value}");
+                var value = paramPart.Compile().Invoke("");
+
+                if (value == null)
+                    continue;
+
+                queryParams.Add($"{key}={Uri.EscapeDataString(value)}");
             }
 
             return $"{apiPath}?" + string.Join("&", queryParams);
