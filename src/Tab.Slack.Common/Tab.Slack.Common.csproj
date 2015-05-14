@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1D8A8D58-958E-4789-9A26-6FFA4BA79AE6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tab.Slack.Common</RootNamespace>
+    <AssemblyName>Tab.Slack.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Json\IResponseParser.cs" />
+    <Compile Include="Json\LowerCaseDelimitedPropertyNamesContractResolver.cs" />
+    <Compile Include="Json\ResponseParser.cs" />
+    <Compile Include="Json\StringExtensions.cs" />
+    <Compile Include="Json\UnderScoreEnumTypeConverter.cs" />
+    <Compile Include="Model\Attachment.cs" />
+    <Compile Include="Model\SlackBot.cs" />
+    <Compile Include="Model\BotIcons.cs" />
+    <Compile Include="Model\Channel.cs" />
+    <Compile Include="Model\DirectMessageChannel.cs" />
+    <Compile Include="Model\EditedMessage.cs" />
+    <Compile Include="Model\ErrorType.cs" />
+    <Compile Include="Model\Events\AccountsChanged.cs" />
+    <Compile Include="Model\Events\BotAdded.cs" />
+    <Compile Include="Model\Events\BotChanged.cs" />
+    <Compile Include="Model\Events\ChannelArchive.cs" />
+    <Compile Include="Model\Events\ChannelCreated.cs" />
+    <Compile Include="Model\Events\ChannelDeleted.cs" />
+    <Compile Include="Model\Events\ChannelHistoryChanged.cs" />
+    <Compile Include="Model\Events\ChannelJoined.cs" />
+    <Compile Include="Model\Events\ChannelLeft.cs" />
+    <Compile Include="Model\Events\ChannelMarked.cs" />
+    <Compile Include="Model\Events\ChannelRename.cs" />
+    <Compile Include="Model\Events\ChannelUnarchive.cs" />
+    <Compile Include="Model\Events\CommandsChanged.cs" />
+    <Compile Include="Model\Events\EmailDomainChanged.cs" />
+    <Compile Include="Model\Events\EmojiChanged.cs" />
+    <Compile Include="Model\Events\Error.cs" />
+    <Compile Include="Model\Events\EventMessageBase.cs" />
+    <Compile Include="Model\Events\EventType.cs" />
+    <Compile Include="Model\Events\FileChange.cs" />
+    <Compile Include="Model\Events\FileCommentAdded.cs" />
+    <Compile Include="Model\Events\FileCommentDeleted.cs" />
+    <Compile Include="Model\Events\FileCommentEdited.cs" />
+    <Compile Include="Model\Events\FileCreated.cs" />
+    <Compile Include="Model\Events\FileDeleted.cs" />
+    <Compile Include="Model\Events\FilePrivate.cs" />
+    <Compile Include="Model\Events\FilePublic.cs" />
+    <Compile Include="Model\Events\FileShared.cs" />
+    <Compile Include="Model\Events\FileUnshared.cs" />
+    <Compile Include="Model\Events\GroupArchive.cs" />
+    <Compile Include="Model\Events\GroupClose.cs" />
+    <Compile Include="Model\Events\GroupHistoryChanged.cs" />
+    <Compile Include="Model\Events\GroupJoined.cs" />
+    <Compile Include="Model\Events\GroupLeft.cs" />
+    <Compile Include="Model\Events\GroupMarked.cs" />
+    <Compile Include="Model\Events\GroupOpen.cs" />
+    <Compile Include="Model\Events\GroupRename.cs" />
+    <Compile Include="Model\Events\GroupUnarchive.cs" />
+    <Compile Include="Model\Events\Hello.cs" />
+    <Compile Include="Model\Events\ImClose.cs" />
+    <Compile Include="Model\Events\ImCreated.cs" />
+    <Compile Include="Model\Events\ImHistoryChanged.cs" />
+    <Compile Include="Model\Events\ImMarked.cs" />
+    <Compile Include="Model\Events\ImOpen.cs" />
+    <Compile Include="Model\Events\ManualPresenceChange.cs" />
+    <Compile Include="Model\Events\Messages\BotMessage.cs" />
+    <Compile Include="Model\Events\Messages\ChannelArchive.cs" />
+    <Compile Include="Model\Events\Messages\ChannelJoin.cs" />
+    <Compile Include="Model\Events\Messages\ChannelLeave.cs" />
+    <Compile Include="Model\Events\Messages\ChannelName.cs" />
+    <Compile Include="Model\Events\Messages\ChannelPurpose.cs" />
+    <Compile Include="Model\Events\Messages\ChannelTopic.cs" />
+    <Compile Include="Model\Events\Messages\ChannelUnarchive.cs" />
+    <Compile Include="Model\Events\Messages\FileComment.cs" />
+    <Compile Include="Model\Events\Messages\FileMention.cs" />
+    <Compile Include="Model\Events\Messages\FileShare.cs" />
+    <Compile Include="Model\Events\Messages\GroupArchive.cs" />
+    <Compile Include="Model\Events\Messages\GroupJoin.cs" />
+    <Compile Include="Model\Events\Messages\GroupLeave.cs" />
+    <Compile Include="Model\Events\Messages\GroupName.cs" />
+    <Compile Include="Model\Events\Messages\GroupPurpose.cs" />
+    <Compile Include="Model\Events\Messages\GroupTopic.cs" />
+    <Compile Include="Model\Events\Messages\GroupUnarchive.cs" />
+    <Compile Include="Model\Events\Messages\MeMessage.cs" />
+    <Compile Include="Model\Events\Messages\MessageBase.cs" />
+    <Compile Include="Model\Events\Messages\MessageChanged.cs" />
+    <Compile Include="Model\Events\Messages\MessageDeleted.cs" />
+    <Compile Include="Model\Events\Messages\MessageSubType.cs" />
+    <Compile Include="Model\Events\Messages\PinnedItem.cs" />
+    <Compile Include="Model\Events\Messages\PlainMessage.cs" />
+    <Compile Include="Model\Events\Messages\UnpinnedItem.cs" />
+    <Compile Include="Model\Events\PinAdded.cs" />
+    <Compile Include="Model\Events\PinRemoved.cs" />
+    <Compile Include="Model\Events\PrefChange.cs" />
+    <Compile Include="Model\Events\PresenceChange.cs" />
+    <Compile Include="Model\Events\StarAdded.cs" />
+    <Compile Include="Model\Events\StarRemoved.cs" />
+    <Compile Include="Model\Events\TeamDomainChange.cs" />
+    <Compile Include="Model\Events\TeamJoin.cs" />
+    <Compile Include="Model\Events\TeamMigrationStarted.cs" />
+    <Compile Include="Model\Events\TeamPlanChange.cs" />
+    <Compile Include="Model\Events\TeamPrefChange.cs" />
+    <Compile Include="Model\Events\TeamRename.cs" />
+    <Compile Include="Model\Events\UserChange.cs" />
+    <Compile Include="Model\Events\UserTyping.cs" />
+    <Compile Include="Model\Field.cs" />
+    <Compile Include="Model\File.cs" />
+    <Compile Include="Model\FlexibleJsonModel.cs" />
+    <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\ItemType.cs" />
+    <Compile Include="Model\MessageEditor.cs" />
+    <Compile Include="Model\OutputMessage.cs" />
+    <Compile Include="Model\ProfileData.cs" />
+    <Compile Include="Model\Purpose.cs" />
+    <Compile Include="Model\RtmStartResponse.cs" />
+    <Compile Include="Model\SelfBotData.cs" />
+    <Compile Include="Model\TeamData.cs" />
+    <Compile Include="Model\Topic.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
