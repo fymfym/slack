@@ -149,6 +149,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.True(result.NotInChannel);
         }
 
+        [Fact]
+        public void ChannelsListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channels"":[{""id"":""CHANID""}]}");
+
+            var result = context.SlackClient.ChannelsList();
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.list?exclude_archived=0", context.RequestMade.Resource);
+            Assert.Equal("CHANID", result.Channels[0].Id);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }

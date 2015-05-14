@@ -20,5 +20,6 @@ namespace Tab.Slack.WebApi
         ChannelResponse ChannelJoin(string channelName);
         ResponseBase ChannelKick(string channelId, string userId);
         LeaveChannelResponse ChannelLeave(string channelId);
+        ChannelsResponse ChannelsList(bool excludeArchived = false);
     }
 }

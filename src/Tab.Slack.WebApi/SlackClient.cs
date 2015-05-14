@@ -142,6 +142,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ChannelsResponse ChannelsList(bool excludeArchived = false)
+        {
+            var apiPath = BuildApiPath("/channels.list", exclude_archived => excludeArchived ? "1" : "0");
+            var response = ExecuteAndDeserializeRequest<ChannelsResponse>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

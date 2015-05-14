@@ -52,6 +52,7 @@
     <Compile Include="Json\UnderScoreEnumTypeConverter.cs" />
     <Compile Include="Model\Attachment.cs" />
     <Compile Include="Model\Responses\AuthTestResponse.cs" />
+    <Compile Include="Model\Responses\ChannelsResponse.cs" />
     <Compile Include="Model\Responses\ChannelResponse.cs" />
     <Compile Include="Model\Responses\LeaveChannelResponse.cs" />
     <Compile Include="Model\Responses\MessagesResponse.cs" />
