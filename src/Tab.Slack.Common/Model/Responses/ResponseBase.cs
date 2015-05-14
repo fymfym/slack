@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tab.Slack.Common.Model.Responses
 {
-    public abstract class ResponseBase : FlexibleJsonModel
+    public class ResponseBase : FlexibleJsonModel
     {
         public bool Ok { get; set; }
     }

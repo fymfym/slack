@@ -11,5 +11,6 @@ namespace Tab.Slack.WebApi
         RtmStartResponse RtmStart();
         ApiTestResponse ApiTest(string error = null, params string[] args);
         AuthTestResponse AuthTest();
+        ResponseBase ChannelArchive(string channelId);
     }
 }

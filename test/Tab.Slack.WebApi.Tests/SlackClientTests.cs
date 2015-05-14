@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tab.Slack.Common.Model.Events;
+using Tab.Slack.Common.Model.Responses;
 using Xunit;
 
 namespace Tab.Slack.WebApi.Tests
@@ -15,60 +16,77 @@ namespace Tab.Slack.WebApi.Tests
         [Fact]
         public void RtmStartShouldReturnEvent()
         {
-            var content = @"{""ok"":true,""url"":""https://www.google.com/""}";
+            var context = SetupTestContext(@"{""ok"":true,""url"":""https://www.google.com/""}");
+            
+            var result = context.SlackClient.RtmStart();
 
-            IRestRequest requestMade = null;
-            var mockRestClient = SetupMockRestClient(content, r => requestMade = r);
-            var slackClient = SetupSlackClient(mockRestClient);
-
-            var result = slackClient.RtmStart();
-
-            mockRestClient.Verify();
+            context.MockRestClient.Verify();
             Assert.Equal(EventType.RtmStart, result.Type);
-            Assert.Equal("/rtm.start", requestMade.Resource);
+            Assert.Equal("/rtm.start", context.RequestMade.Resource);
             Assert.Equal("https://www.google.com/", result.Url);
         }
 
         [Fact]
         public void ApiTestShouldReturnArgs()
         {
-            var content = @"{""ok"":true,""args"":{""arg1"":""test""}}";
+            var context = SetupTestContext(@"{""ok"":true,""args"":{""arg1"":""test""}}");
 
-            IRestRequest requestMade = null;
-            var mockRestClient = SetupMockRestClient(content, r => requestMade = r);
-            var slackClient = SetupSlackClient(mockRestClient);
+            var result = context.SlackClient.ApiTest(null, "test");
 
-            var result = slackClient.ApiTest(null, "test");
-
-            mockRestClient.Verify();
-            Assert.True(result.Ok);
-            Assert.StartsWith("/api.test", requestMade.Resource);
+            context.VerifyOk(result);
+            Assert.StartsWith("/api.test?arg1=test", context.RequestMade.Resource);
             Assert.Equal("test", result.Args["arg1"]);
         }
 
         [Fact]
         public void AuthTestShouldReturnResponse()
         {
-            var content = @"{""ok"":true,""user_id"":""test""}";
+            var context = SetupTestContext(@"{""ok"":true,""user_id"":""test""}");
 
-            IRestRequest requestMade = null;
-            var mockRestClient = SetupMockRestClient(content, r => requestMade = r);
-            var slackClient = SetupSlackClient(mockRestClient);
+            var result = context.SlackClient.AuthTest();
 
-            var result = slackClient.AuthTest();
-
-            mockRestClient.Verify();
-            Assert.True(result.Ok);
-            Assert.Equal("/auth.test", requestMade.Resource);
+            context.VerifyOk(result);
+            Assert.Equal("/auth.test", context.RequestMade.Resource);
             Assert.Equal("test", result.UserId);
         }
 
-        private SlackClient SetupSlackClient(Mock<IRestClient> restClient)
+        [Fact]
+        public void ChannelArchiveShouldReturnResponse()
         {
-            return new SlackClient("mockkey")
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackClient.ChannelArchive("CHANID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.archive?channel=CHANID", context.RequestMade.Resource);
+        }
+
+        internal class TestContext
+        {
+            internal SlackClient SlackClient { get; set; }
+            internal IRestRequest RequestMade { get; set; }
+            internal Mock<IRestClient> MockRestClient { get; set; }
+            internal string Content { get; set; }
+
+            internal void VerifyOk(ResponseBase response)
             {
-                RestClient = restClient.Object
+                this.MockRestClient.Verify();
+                Assert.True(response.Ok);
+            }
+        }
+
+        private TestContext SetupTestContext(string content)
+        {
+            var context = new TestContext(); 
+            context.MockRestClient = SetupMockRestClient(content, r => context.RequestMade = r);
+            context.Content = content;
+
+            context.SlackClient = new SlackClient("mockkey")
+            {
+                RestClient = context.MockRestClient.Object
             };
+
+            return context;
         }
 
         private Mock<IRestClient> SetupMockRestClient(string contentToReturn, Action<IRestRequest> requestCallback = null)

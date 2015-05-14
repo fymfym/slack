@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Tab.Slack.Common.Json;
@@ -60,8 +61,33 @@ namespace Tab.Slack.WebApi
         public AuthTestResponse AuthTest()
         {
             var testResponse = ExecuteAndDeserializeRequest<AuthTestResponse>("/auth.test");
+            
+            return testResponse;
+        }
+
+        public ResponseBase ChannelArchive(string channelId)
+        {
+            var apiPath = BuildApiPath("/channels.archive", channel => channelId);
+            var testResponse = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
 
             return testResponse;
+        }
+
+        private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
+        {
+            if (queryParamParts == null)
+                return apiPath;
+
+            var queryParams = new List<string>();
+
+            foreach (var paramPart in queryParamParts)
+            {
+                var key = paramPart.Parameters[0].Name;
+                var value = Uri.EscapeDataString(paramPart.Compile().Invoke(""));
+                queryParams.Add($"{key}={value}");
+            }
+
+            return $"{apiPath}?" + string.Join("&", queryParams);
         }
 
         private T ExecuteAndDeserializeRequest<T>(string apiPath, Method method = Method.POST)
