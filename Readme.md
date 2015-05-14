@@ -10,3 +10,4 @@ Todo:
 - Add error/connection handling to bot
 - Documentation / examples
 - Sort out dire test naming
+- Add some integration tests - potentially via a manual runner
