@@ -158,6 +158,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ChannelResponse ChannelRename(string channelId, string channelName)
+        {
+            var apiPath = BuildApiPath("/channels.rename", channel => channelId, name => channelName);
+            var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

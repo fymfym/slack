@@ -172,6 +172,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/channels.mark?channel=CHANID&ts=1111.2222", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void ChannelRenameShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
+
+            var result = context.SlackClient.ChannelRename("foo", "uid");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.rename?channel=foo&name=uid", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel.Name);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }

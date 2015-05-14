@@ -22,5 +22,6 @@ namespace Tab.Slack.WebApi
         LeaveChannelResponse ChannelLeave(string channelId);
         ChannelsResponse ChannelsList(bool excludeArchived = false);
         ResponseBase ChannelMark(string channelId, string timestamp);
+        ChannelResponse ChannelRename(string channelId, string channelName);
     }
 }
