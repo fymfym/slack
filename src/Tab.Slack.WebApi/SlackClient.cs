@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tab.Slack.Common.Json;
 using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
+using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.WebApi
 {
@@ -27,13 +28,41 @@ namespace Tab.Slack.WebApi
 
         public RtmStartResponse RtmStart()
         {
-            var response = ExecuteRequest("/rtm.start");
-            var rtmStartResponse = this.ResponseParser.DeserializeEvent<RtmStartResponse>(response.Content);
+            var rtmStartResponse = ExecuteAndDeserializeRequest<RtmStartResponse>("/rtm.start");
 
             if (rtmStartResponse != null)
                 rtmStartResponse.Type = EventType.RtmStart;
 
             return rtmStartResponse;
+        }
+
+        public TestResponse ApiTest(string error = null, params string[] args)
+        {
+            var queryParams = new List<string>();
+
+            if (error != null)
+                queryParams.Add($"error={Uri.EscapeDataString(error)}");
+
+            int argIndex = 1;
+
+            foreach (var arg in args ?? Enumerable.Empty<string>())
+            {
+                queryParams.Add($"arg{argIndex++}={Uri.EscapeDataString(arg)}");
+            }
+
+            var request = "/api.test?" + string.Join("&", queryParams);
+
+            var testResponse = ExecuteAndDeserializeRequest<TestResponse>(request);
+
+            return testResponse;
+        }
+
+        private T ExecuteAndDeserializeRequest<T>(string apiPath, Method method = Method.POST)
+        {
+            var response = ExecuteRequest(apiPath, method);
+            var result = this.ResponseParser.Deserialize<T>(response.Content);
+
+            return result;
         }
 
         private IRestResponse ExecuteRequest(string apiPath, Method method = Method.POST)

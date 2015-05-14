@@ -21,7 +21,7 @@ namespace Tab.Slack.Bot
         private readonly IBotServices slackService;
         private readonly Config clientConfig;
         private readonly IResponseParser responseParser;
-        private readonly ISlackClient slackRestClient;
+        private readonly ISlackClient webApiClient;
 
         // TODO: we don't have enough constructor args - WE NEED MOAR!!!
         public BotClient(Config clientConfig, IEnumerable<IMessageHandler> messageHandlers,
@@ -54,7 +54,7 @@ namespace Tab.Slack.Bot
             this.slackState = slackState;
             this.slackService = slackService;
             this.responseParser = responseParser;
-            this.slackRestClient = slackRestClient;
+            this.webApiClient = slackRestClient;
         }
 
         public void Start()
@@ -77,7 +77,7 @@ namespace Tab.Slack.Bot
             
             this.cancellationTokenSource = cancellationTokenSource;
 
-            var rtmStartResponse = this.slackRestClient.RtmStart();
+            var rtmStartResponse = this.webApiClient.RtmStart();
             
             // TODO: handle
             if (rtmStartResponse == null || !rtmStartResponse.Ok)

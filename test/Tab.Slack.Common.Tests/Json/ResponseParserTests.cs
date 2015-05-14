@@ -31,7 +31,7 @@ namespace Tab.Slack.Common.Tests.Json
             var messageContent = @"{""type"":""hello""}";
 
             var parser = new ResponseParser();
-            var result = parser.DeserializeEvent<Hello>(messageContent);
+            var result = parser.Deserialize<Hello>(messageContent);
 
             Assert.NotNull(result);
             Assert.Equal(EventType.Hello, result.Type);
@@ -43,7 +43,7 @@ namespace Tab.Slack.Common.Tests.Json
             var messageContent = @"{""type"":""message"",""subtype"":""me_message""}";
 
             var parser = new ResponseParser();
-            var result = parser.DeserializeEvent<MeMessage>(messageContent);
+            var result = parser.Deserialize<MeMessage>(messageContent);
 
             Assert.NotNull(result);
             Assert.Equal(EventType.Message, result.Type);
@@ -56,7 +56,7 @@ namespace Tab.Slack.Common.Tests.Json
             var messageContent = @"{""type"":""message"",""subtype"":""me_message"",""something"":""extra""}";
 
             var parser = new ResponseParser();
-            var result = parser.DeserializeEvent<MeMessage>(messageContent);
+            var result = parser.Deserialize<MeMessage>(messageContent);
 
             Assert.NotNull(result);
             Assert.Equal(EventType.Message, result.Type);

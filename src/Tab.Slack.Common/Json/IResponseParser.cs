@@ -1,11 +1,12 @@
 ﻿using Tab.Slack.Common.Model.Events;
+using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.Common.Json
 {
     public interface IResponseParser
     {
         EventMessageBase DeserializeEvent(string content);
-        T DeserializeEvent<T>(string content) where T : EventMessageBase;
+        T Deserialize<T>(string content);
         string SerializeMessage(object message);
     }
 }

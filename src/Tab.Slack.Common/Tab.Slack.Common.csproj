@@ -51,6 +51,7 @@
     <Compile Include="Json\StringExtensions.cs" />
     <Compile Include="Json\UnderScoreEnumTypeConverter.cs" />
     <Compile Include="Model\Attachment.cs" />
+    <Compile Include="Model\Responses\ResponseBase.cs" />
     <Compile Include="Model\SlackBot.cs" />
     <Compile Include="Model\BotIcons.cs" />
     <Compile Include="Model\Channel.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Model\RtmStartResponse.cs" />
     <Compile Include="Model\SelfBotData.cs" />
     <Compile Include="Model\TeamData.cs" />
+    <Compile Include="Model\Responses\TestResponse.cs" />
     <Compile Include="Model\Topic.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

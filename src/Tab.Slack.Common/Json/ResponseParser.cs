@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Common.Model.Events.Messages;
+using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.Common.Json
 {
@@ -31,7 +32,7 @@ namespace Tab.Slack.Common.Json
             return JsonConvert.SerializeObject(message, Formatting.None, this.serializerSettings);
         }
 
-        public T DeserializeEvent<T>(string content) where T : EventMessageBase
+        public T Deserialize<T>(string content)
         {
             if (content == null)
                 throw new ArgumentNullException(nameof(content));

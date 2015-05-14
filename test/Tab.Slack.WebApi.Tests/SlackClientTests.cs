@@ -29,6 +29,23 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("https://www.google.com/", result.Url);
         }
 
+        [Fact]
+        public void ApiTestShouldReturnArgs()
+        {
+            var content = @"{""ok"":true,""args"":{""arg1"":""test""}}";
+
+            IRestRequest requestMade = null;
+            var mockRestClient = SetupMockRestClient(content, r => requestMade = r);
+            var slackClient = SetupSlackClient(mockRestClient);
+
+            var result = slackClient.ApiTest(null, "test");
+
+            mockRestClient.Verify();
+            Assert.True(result.Ok);
+            Assert.StartsWith("/api.test", requestMade.Resource);
+            Assert.Equal("test", result.Args["arg1"]);
+        }
+
         private SlackClient SetupSlackClient(Mock<IRestClient> restClient)
         {
             return new SlackClient("mockkey")
