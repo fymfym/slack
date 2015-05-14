@@ -15,5 +15,6 @@ namespace Tab.Slack.WebApi
         ChannelResponse ChannelCreate(string name);
         MessagesResponse ChannelHistory(string channelName, string latestTs = null,
             string oldestTs = null, bool isInclusive = false, int messageCount = 100);
+        ChannelResponse ChannelInfo(string channelName);
     }
 }

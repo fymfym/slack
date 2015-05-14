@@ -71,6 +71,7 @@ namespace Tab.Slack.WebApi.Tests
 
             context.VerifyOk(result);
             Assert.Equal("/channels.create?name=foo", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel.Name);
         }
 
         [Fact]
@@ -87,6 +88,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("hello", result.Messages[0].Text);
             Assert.IsType<MeMessage>(result.Messages[1]);
             Assert.Equal(MessageSubType.MeMessage, result.Messages[1].Subtype);
+        }
+
+        [Fact]
+        public void ChannelInfoShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
+
+            var result = context.SlackClient.ChannelInfo("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.info?name=foo", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel.Name);
         }
 
         internal class TestContext

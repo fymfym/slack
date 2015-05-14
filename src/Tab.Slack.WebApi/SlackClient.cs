@@ -76,9 +76,9 @@ namespace Tab.Slack.WebApi
         public ChannelResponse ChannelCreate(string channelName)
         {
             var apiPath = BuildApiPath("/channels.create", name => channelName);
-            var testResponse = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
+            var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
 
-            return testResponse;
+            return response;
         }
 
         public MessagesResponse ChannelHistory(string channelName, string latestTs = null,
@@ -98,6 +98,14 @@ namespace Tab.Slack.WebApi
                 response.Messages = this.ResponseParser.RemapMessagesToConcreteTypes(response.Messages)
                                                        .ToList();
             }
+
+            return response;
+        }
+
+        public ChannelResponse ChannelInfo(string channelName)
+        {
+            var apiPath = BuildApiPath("/channels.info", name => channelName);
+            var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
 
             return response;
         }
