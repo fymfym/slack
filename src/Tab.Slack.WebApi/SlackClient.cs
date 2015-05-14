@@ -166,6 +166,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public PurposeResponse ChannelSetPurpose(string channelId, string channelPurpose)
+        {
+            var apiPath = BuildApiPath("/channels.setPurpose", channel => channelId, purpose => channelPurpose);
+            var response = ExecuteAndDeserializeRequest<PurposeResponse>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)

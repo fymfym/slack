@@ -184,6 +184,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("foo", result.Channel.Name);
         }
 
+        [Fact]
+        public void ChannelSetPurposeShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""purpose"":""hello""}");
+
+            var result = context.SlackClient.ChannelSetPurpose("foo", "hello");
+
+            context.VerifyOk(result);
+            Assert.Equal("/channels.setPurpose?channel=foo&purpose=hello", context.RequestMade.Resource);
+            Assert.Equal("hello", result.Purpose);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }
