@@ -58,6 +58,7 @@
     <Compile Include="Model\Responses\MessagesResponse.cs" />
     <Compile Include="Model\Responses\PurposeResponse.cs" />
     <Compile Include="Model\Responses\ResponseBase.cs" />
+    <Compile Include="Model\Responses\TopicResponse.cs" />
     <Compile Include="Model\SlackBot.cs" />
     <Compile Include="Model\BotIcons.cs" />
     <Compile Include="Model\Channel.cs" />

@@ -24,5 +24,6 @@ namespace Tab.Slack.WebApi
         ResponseBase ChannelMark(string channelId, string timestamp);
         ChannelResponse ChannelRename(string channelId, string channelName);
         PurposeResponse ChannelSetPurpose(string channelId, string channelPurpose);
+        TopicResponse ChannelSetTopic(string channelId, string channelTopic);
     }
 }
