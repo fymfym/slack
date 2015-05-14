@@ -12,9 +12,9 @@ namespace Tab.Slack.WebApi
 {
     public class SlackClient : ISlackClient
     {
-        private readonly RestClient restClient;
         private readonly string apiKey;
 
+        public IRestClient RestClient { get; set; } = new RestClient("https://slack.com/api");
         public IResponseParser ResponseParser { get; set; } = new ResponseParser();
 
         public SlackClient(string apiKey)
@@ -23,7 +23,6 @@ namespace Tab.Slack.WebApi
                 throw new ArgumentNullException(nameof(apiKey));
 
             this.apiKey = apiKey;
-            this.restClient = new RestClient("https://slack.com/api");
         }
 
         public RtmStartResponse RtmStart()
@@ -42,7 +41,7 @@ namespace Tab.Slack.WebApi
             var request = new RestRequest(apiPath, method);
             request.AddParameter("token", this.apiKey);
 
-            return this.restClient.Execute(request);
+            return this.RestClient.Execute(request);
         }
     }
 }
