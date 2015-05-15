@@ -312,6 +312,20 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("foo", result.File.Id);
         }
 
+        [Fact]
+        public void FileListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""files"":[{""id"":""foo""}]}");
+
+            var request = new FilesListRequest { Types = "all" };
+            var result = context.SlackClient.FileList(request);
+
+            context.VerifyOk(result);
+            Assert.Equal("/files.list", context.RequestMade.Resource);
+            Assert.True(context.RequestMade.Parameters.Any(p => p.Name == "types" && (string)p.Value == "all"));
+            Assert.Equal("foo", result.Files[0].Id);
+        }
+
         internal class TestContext
         {
             internal ISlackClient SlackClient { get; set; }

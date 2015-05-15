@@ -53,6 +53,7 @@
     <Compile Include="Model\Attachment.cs" />
     <Compile Include="Model\ItemComment.cs" />
     <Compile Include="Model\PagingSettings.cs" />
+    <Compile Include="Model\Requests\FilesListRequest.cs" />
     <Compile Include="Model\Requests\ParseMode.cs" />
     <Compile Include="Model\Requests\PostMessageRequest.cs" />
     <Compile Include="Model\Responses\AuthTestResponse.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Model\Responses\ChannelResponse.cs" />
     <Compile Include="Model\Responses\ChatDeleteResponse.cs" />
     <Compile Include="Model\Responses\EmojiResponse.cs" />
+    <Compile Include="Model\Responses\FilesResponse.cs" />
     <Compile Include="Model\Responses\FileResponse.cs" />
     <Compile Include="Model\Responses\LeaveChannelResponse.cs" />
     <Compile Include="Model\Responses\MessageResponse.cs" />

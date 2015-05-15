@@ -33,5 +33,6 @@ namespace Tab.Slack.WebApi
         EmojiResponse EmojiList();
         ResponseBase FileDelete(string fileId);
         FileResponse FileInfo(string fileId, int commentsCount = 100, int pageNumber = 1);
+        FilesResponse FileList(FilesListRequest request);
     }
 }

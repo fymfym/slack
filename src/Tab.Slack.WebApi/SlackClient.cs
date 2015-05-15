@@ -245,6 +245,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public FilesResponse FileList(FilesListRequest request)
+        {
+            var requestParams = BuildRequestParams(request);
+            var response = ExecuteAndDeserializeRequest<FilesResponse>("/files.list", requestParams);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
