@@ -225,6 +225,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ResponseBase FileDelete(string fileId)
+        {
+            var apiPath = BuildApiPath("/files.delete", file => fileId);
+            var response = ExecuteAndDeserializeRequest<ChatUpdateResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

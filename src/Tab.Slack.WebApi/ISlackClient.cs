@@ -31,5 +31,6 @@ namespace Tab.Slack.WebApi
         MessageResponse ChatPostMessage(PostMessageRequest request);
         ChatUpdateResponse ChatUpdate(string channelId, string timestamp, string updatedText);
         EmojiResponse EmojiList();
+        ResponseBase FileDelete(string fileId);
     }
 }

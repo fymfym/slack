@@ -289,6 +289,17 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("bar", result.Emoji["foo"]);
         }
 
+        [Fact]
+        public void FileDeleteShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackClient.FileDelete("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/files.delete?file=foo", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal ISlackClient SlackClient { get; set; }
