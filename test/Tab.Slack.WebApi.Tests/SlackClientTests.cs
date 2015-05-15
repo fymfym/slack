@@ -219,6 +219,19 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/channels.unarchive?channel=foo", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void ChatDeleteShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":""foo"",""ts"":""1111.2222""}");
+
+            var result = context.SlackClient.ChatDelete("foo", "1111.2222");
+
+            context.VerifyOk(result);
+            Assert.Equal("/chat.delete?channel=foo&ts=1111.2222", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel);
+            Assert.Equal("1111.2222", result.Ts);
+        }
+
         internal class TestContext
         {
             internal SlackClient SlackClient { get; set; }

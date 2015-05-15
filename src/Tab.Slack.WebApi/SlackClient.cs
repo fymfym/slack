@@ -190,6 +190,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ChatDeleteResponse ChatDelete(string channelId, string timestamp)
+        {
+            var apiPath = BuildApiPath("/chat.delete", channel => channelId, ts => timestamp);
+            var response = ExecuteAndDeserializeRequest<ChatDeleteResponse>(apiPath);
+
+            return response;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)
