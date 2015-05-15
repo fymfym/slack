@@ -11,5 +11,6 @@ namespace Tab.Slack.Common.Json
         T Deserialize<T>(string content);
         string SerializeMessage(object message);
         IEnumerable<MessageBase> RemapMessagesToConcreteTypes(IEnumerable<MessageBase> messages);
+        MessageBase RemapMessageToConcreteType(MessageBase baseMessage);
     }
 }

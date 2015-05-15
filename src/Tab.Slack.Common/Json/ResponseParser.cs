@@ -39,21 +39,29 @@ namespace Tab.Slack.Common.Json
 
             foreach (var baseMessage in messages)
             {
-                var concreteMessage = ParseEvent<MessageSubType>(
-                                        baseMessage.UnmatchedAdditionalJsonData, 
+                yield return RemapMessageToConcreteType(baseMessage);
+            }
+        }
+
+        public MessageBase RemapMessageToConcreteType(MessageBase baseMessage)
+        {
+            if (baseMessage == null)
+                throw new ArgumentNullException(nameof(baseMessage));
+
+            var concreteMessage = ParseEvent<MessageSubType>(
+                                        baseMessage.UnmatchedAdditionalJsonData,
                                         baseMessage.Subtype.ToString().ToDelimitedString('_')
                                       ) as MessageBase;
 
-                concreteMessage.Channel = baseMessage.Channel;
-                concreteMessage.Subtype = baseMessage.Subtype;
-                concreteMessage.Team = baseMessage.Team;
-                concreteMessage.Ts = baseMessage.Ts;
-                concreteMessage.Type = baseMessage.Type;
-                concreteMessage.Text = baseMessage.Text;
-                concreteMessage.User = baseMessage.User;
+            concreteMessage.Channel = baseMessage.Channel;
+            concreteMessage.Subtype = baseMessage.Subtype;
+            concreteMessage.Team = baseMessage.Team;
+            concreteMessage.Ts = baseMessage.Ts;
+            concreteMessage.Type = baseMessage.Type;
+            concreteMessage.Text = baseMessage.Text;
+            concreteMessage.User = baseMessage.User;
 
-                yield return concreteMessage;
-            }
+            return concreteMessage;
         }
 
         public T Deserialize<T>(string content)
