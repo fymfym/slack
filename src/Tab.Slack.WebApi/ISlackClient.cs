@@ -1,5 +1,6 @@
 ﻿using Tab.Slack.Common.Json;
 using Tab.Slack.Common.Model;
+using Tab.Slack.Common.Model.Requests;
 using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.WebApi
@@ -27,5 +28,6 @@ namespace Tab.Slack.WebApi
         TopicResponse ChannelSetTopic(string channelId, string channelTopic);
         ResponseBase ChannelUnarchive(string channelId);
         ChatDeleteResponse ChatDelete(string channelId, string timestamp);
+        MessageResponse ChatPostMessage(PostMessageRequest request);
     }
 }

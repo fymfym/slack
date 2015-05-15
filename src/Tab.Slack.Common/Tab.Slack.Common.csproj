@@ -51,11 +51,14 @@
     <Compile Include="Json\StringExtensions.cs" />
     <Compile Include="Json\UnderScoreEnumTypeConverter.cs" />
     <Compile Include="Model\Attachment.cs" />
+    <Compile Include="Model\Requests\ParseMode.cs" />
+    <Compile Include="Model\Requests\PostMessageRequest.cs" />
     <Compile Include="Model\Responses\AuthTestResponse.cs" />
     <Compile Include="Model\Responses\ChannelsResponse.cs" />
     <Compile Include="Model\Responses\ChannelResponse.cs" />
     <Compile Include="Model\Responses\ChatDeleteResponse.cs" />
     <Compile Include="Model\Responses\LeaveChannelResponse.cs" />
+    <Compile Include="Model\Responses\MessageResponse.cs" />
     <Compile Include="Model\Responses\MessagesResponse.cs" />
     <Compile Include="Model\Responses\PurposeResponse.cs" />
     <Compile Include="Model\Responses\ResponseBase.cs" />

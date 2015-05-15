@@ -3,15 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tab.Slack.Common.Json;
 using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
+using Tab.Slack.Common.Model.Requests;
 using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.WebApi
 {
+    // TODO: read up on this strange "Single Responsibility Principle" people talk of
     public class SlackClient : ISlackClient
     {
         private readonly string apiKey;
@@ -198,6 +201,46 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public MessageResponse ChatPostMessage(PostMessageRequest request)
+        {
+            var requestParams = BuildRequestParams(request);
+            var response = ExecuteAndDeserializeRequest<MessageResponse>("/chat.postMessage", requestParams);
+            response.Message = this.ResponseParser.RemapMessageToConcreteType(response.Message);
+
+            return response;
+        }
+
+        private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
+        {
+            if (requestParamsObject == null)
+                return new Dictionary<string, string>();
+
+            var requestParams = new Dictionary<string, string>();
+            var publicProps = typeof(T).GetProperties();
+
+            foreach (var paramProp in publicProps)
+            {
+                var key = paramProp.Name.ToDelimitedString('_');
+                object value = paramProp.GetMethod.Invoke(requestParamsObject, null);
+
+                if (value == null)
+                    continue;
+
+                var stringValue = value.ToString();
+
+                if (value is bool)
+                    stringValue = stringValue.ToLower();
+                else if (value.GetType().IsEnum)
+                    stringValue = stringValue.ToDelimitedString('_');
+                else if (!value.GetType().IsPrimitive && !(value is string))
+                    stringValue = this.ResponseParser.SerializeMessage(value);
+
+                requestParams.Add(key, stringValue);
+            }
+
+            return requestParams;
+        }
+
         private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
         {
             if (queryParamParts == null)
@@ -219,18 +262,29 @@ namespace Tab.Slack.WebApi
             return $"{apiPath}?" + string.Join("&", queryParams);
         }
 
-        private T ExecuteAndDeserializeRequest<T>(string apiPath, Method method = Method.POST)
+        private T ExecuteAndDeserializeRequest<T>(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST)
         {
-            var response = ExecuteRequest(apiPath, method);
+            var response = ExecuteRequest(apiPath, parameters, method);
             var result = this.ResponseParser.Deserialize<T>(response.Content);
 
             return result;
         }
 
-        private IRestResponse ExecuteRequest(string apiPath, Method method = Method.POST)
+        private IRestResponse ExecuteRequest(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST)
         {
             var request = new RestRequest(apiPath, method);
             request.AddParameter("token", this.apiKey);
+
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                {
+                    if (parameter.Value == null)
+                        continue;
+
+                    request.AddParameter(parameter.Key, parameter.Value);
+                }
+            }
 
             return this.RestClient.Execute(request);
         }

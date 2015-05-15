@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Common.Model.Events.Messages;
+using Tab.Slack.Common.Model.Requests;
 using Tab.Slack.Common.Model.Responses;
 using Xunit;
 
@@ -232,9 +234,39 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("1111.2222", result.Ts);
         }
 
+        [Fact]
+        public void ChatPostMessageShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""message"":{""type"":""message""}}");
+
+            var request = new PostMessageRequest
+            {
+                Channel = "foo",
+                Parse = ParseMode.Full,
+                Attachments = new List<Attachment>
+                {
+                    new Attachment
+                    {
+                        Text = "Attach1",
+                        Fields = new List<Field>
+                        {
+                            new Field { Title = "F1", Value = "V1" },
+                            new Field { Title = "F2", Value = "V2" },
+                        }
+                    }
+                }
+            };
+
+            var result = context.SlackClient.ChatPostMessage(request);
+
+            context.VerifyOk(result);
+            Assert.Equal("/chat.postMessage", context.RequestMade.Resource);
+            Assert.True(context.RequestMade.Parameters.Any(p => p.Name == "parse" && (string)p.Value == "full"));
+        }
+
         internal class TestContext
         {
-            internal SlackClient SlackClient { get; set; }
+            internal ISlackClient SlackClient { get; set; }
             internal IRestRequest RequestMade { get; set; }
             internal Mock<IRestClient> MockRestClient { get; set; }
             internal string Content { get; set; }
