@@ -264,6 +264,19 @@ namespace Tab.Slack.WebApi.Tests
             Assert.True(context.RequestMade.Parameters.Any(p => p.Name == "parse" && (string)p.Value == "full"));
         }
 
+        [Fact]
+        public void ChatUpdateShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":""foo"",""text"":""bar""}");
+
+            var result = context.SlackClient.ChatUpdate("foo", "1111.2222", "bar");
+
+            context.VerifyOk(result);
+            Assert.Equal("/chat.update?channel=foo&ts=1111.2222&text=bar", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel);
+            Assert.Equal("bar", result.Text);
+        }
+
         internal class TestContext
         {
             internal ISlackClient SlackClient { get; set; }

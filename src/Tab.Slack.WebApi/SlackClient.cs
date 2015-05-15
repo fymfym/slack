@@ -210,6 +210,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ChatUpdateResponse ChatUpdate(string channelId, string timestamp, string updatedText)
+        {
+            var apiPath = BuildApiPath("/chat.update", channel => channelId, ts => timestamp, text => updatedText);
+            var response = ExecuteAndDeserializeRequest<ChatUpdateResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

@@ -29,5 +29,6 @@ namespace Tab.Slack.WebApi
         ResponseBase ChannelUnarchive(string channelId);
         ChatDeleteResponse ChatDelete(string channelId, string timestamp);
         MessageResponse ChatPostMessage(PostMessageRequest request);
+        ChatUpdateResponse ChatUpdate(string channelId, string timestamp, string updatedText);
     }
 }
