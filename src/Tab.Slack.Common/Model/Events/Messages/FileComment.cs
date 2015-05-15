@@ -8,7 +8,7 @@ namespace Tab.Slack.Common.Model.Events.Messages
     public class FileComment : MessageBase
     {
         public File File { get; set; }
-        public string Comment { get; set; }
+        public ItemComment Comment { get; set; }
     }
 }
 

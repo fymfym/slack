@@ -12,6 +12,6 @@ namespace Tab.Slack.Common.Model
         public string Channel { get; set; }
         public File File { get; set; }
         public MessageBase Message { get; set; }
-        public string Comment { get; set; }
+        public ItemComment Comment { get; set; }
     }
 }

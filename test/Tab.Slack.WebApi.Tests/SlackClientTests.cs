@@ -300,6 +300,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/files.delete?file=foo", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void FileInfoShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""file"":{""id"":""foo""}}");
+
+            var result = context.SlackClient.FileInfo("foo", 30);
+
+            context.VerifyOk(result);
+            Assert.Equal("/files.info?file=foo&count=30&page=1", context.RequestMade.Resource);
+            Assert.Equal("foo", result.File.Id);
+        }
+
         internal class TestContext
         {
             internal ISlackClient SlackClient { get; set; }

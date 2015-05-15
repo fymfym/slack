@@ -233,6 +233,18 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public FileResponse FileInfo(string fileId, int commentsCount = 100, int pageNumber = 1)
+        {
+            var apiPath = BuildApiPath("/files.info", 
+                                       file => fileId, 
+                                       count => commentsCount.ToString(), 
+                                       page => pageNumber.ToString()
+                                      );
+            var response = ExecuteAndDeserializeRequest<FileResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
