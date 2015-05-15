@@ -277,6 +277,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("bar", result.Text);
         }
 
+        [Fact]
+        public void EmojiListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""emoji"":{""foo"":""bar""}}");
+
+            var result = context.SlackClient.EmojiList();
+
+            context.VerifyOk(result);
+            Assert.Equal("/emoji.list", context.RequestMade.Resource);
+            Assert.Equal("bar", result.Emoji["foo"]);
+        }
+
         internal class TestContext
         {
             internal ISlackClient SlackClient { get; set; }

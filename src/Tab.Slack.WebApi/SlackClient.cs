@@ -218,6 +218,13 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public EmojiResponse EmojiList()
+        {
+            var response = ExecuteAndDeserializeRequest<EmojiResponse>("/emoji.list");
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
