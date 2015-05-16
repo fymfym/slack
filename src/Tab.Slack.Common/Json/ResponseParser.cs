@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Common.Model.Events.Messages;
+using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.Common.Json
 {
@@ -31,7 +32,39 @@ namespace Tab.Slack.Common.Json
             return JsonConvert.SerializeObject(message, Formatting.None, this.serializerSettings);
         }
 
-        public T DeserializeEvent<T>(string content) where T : EventMessageBase
+        public IEnumerable<MessageBase> RemapMessagesToConcreteTypes(IEnumerable<MessageBase> messages)
+        {
+            if (messages == null)
+                throw new ArgumentNullException(nameof(messages));
+
+            foreach (var baseMessage in messages)
+            {
+                yield return RemapMessageToConcreteType(baseMessage);
+            }
+        }
+
+        public MessageBase RemapMessageToConcreteType(MessageBase baseMessage)
+        {
+            if (baseMessage == null)
+                throw new ArgumentNullException(nameof(baseMessage));
+
+            var concreteMessage = ParseEvent<MessageSubType>(
+                                        baseMessage.UnmatchedAdditionalJsonData,
+                                        baseMessage.Subtype.ToString().ToDelimitedString('_')
+                                      ) as MessageBase;
+
+            concreteMessage.Channel = baseMessage.Channel;
+            concreteMessage.Subtype = baseMessage.Subtype;
+            concreteMessage.Team = baseMessage.Team;
+            concreteMessage.Ts = baseMessage.Ts;
+            concreteMessage.Type = baseMessage.Type;
+            concreteMessage.Text = baseMessage.Text;
+            concreteMessage.User = baseMessage.User;
+
+            return concreteMessage;
+        }
+
+        public T Deserialize<T>(string content)
         {
             if (content == null)
                 throw new ArgumentNullException(nameof(content));
@@ -57,7 +90,7 @@ namespace Tab.Slack.Common.Json
             var enumValue = UnderscoreEnumTypeConverter.FindMatchingName<T>(typeKey);
             var typeName = typeof(T).AssemblyQualifiedName.Replace(typeof(T).Name, enumValue);
 
-            return jsonObject.ToObject(Type.GetType(typeName), this.jsonSerializer) as EventMessageBase;
+            return (jsonObject ?? new JObject()).ToObject(Type.GetType(typeName), this.jsonSerializer) as EventMessageBase;
         }
     }
 }

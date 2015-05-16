@@ -43,7 +43,7 @@ namespace Tab.Slack.Common.Model
         public bool PublicUrlShared { get; set; }
         public List<string> Channels { get; set; }
         public List<string> Groups { get; set; }
-        public string InitialComment { get; set; }
+        public ItemComment InitialComment { get; set; }
         public int NumStars { get; set; }
         public bool IsStarred { get; set; }
     }
