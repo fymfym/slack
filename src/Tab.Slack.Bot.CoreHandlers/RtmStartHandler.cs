@@ -8,7 +8,7 @@ using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Bot.Integration;
 using Tab.Slack.Common.Model;
 
-namespace Tab.Slack.Bot.Handlers
+namespace Tab.Slack.Bot.CoreHandlers
 {
     [Export(typeof(IMessageHandler))]
     public class RtmStartHandler : MessageHandlerBase, IMessageHandler

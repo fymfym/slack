@@ -7,7 +7,7 @@ namespace Tab.Slack.Common.Model.Events
 {
     public class BotChanged : EventMessageBase
     {
-        public SlackBot Bot { get; set; }
+        public BotModel Bot { get; set; }
     }
 }
 
