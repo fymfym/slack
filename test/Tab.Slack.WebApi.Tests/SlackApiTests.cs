@@ -14,14 +14,14 @@ using Xunit;
 
 namespace Tab.Slack.WebApi.Tests
 {
-    public class SlackClientTests
+    public class SlackApiTests
     {
         [Fact]
         public void RtmStartShouldReturnEvent()
         {
             var context = SetupTestContext(@"{""ok"":true,""url"":""https://www.google.com/""}");
             
-            var result = context.SlackClient.RtmStart();
+            var result = context.SlackApi.RtmStart();
 
             context.MockRestClient.Verify();
             Assert.Equal(EventType.RtmStart, result.Type);
@@ -34,7 +34,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""args"":{""arg1"":""test""}}");
 
-            var result = context.SlackClient.ApiTest(null, "test");
+            var result = context.SlackApi.ApiTest(null, "test");
 
             context.VerifyOk(result);
             Assert.StartsWith("/api.test?arg1=test", context.RequestMade.Resource);
@@ -46,7 +46,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""user_id"":""test""}");
 
-            var result = context.SlackClient.AuthTest();
+            var result = context.SlackApi.AuthTest();
 
             context.VerifyOk(result);
             Assert.Equal("/auth.test", context.RequestMade.Resource);
@@ -58,7 +58,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true}");
 
-            var result = context.SlackClient.ChannelArchive("CHANID");
+            var result = context.SlackApi.ChannelArchive("CHANID");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.archive?channel=CHANID", context.RequestMade.Resource);
@@ -69,7 +69,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
 
-            var result = context.SlackClient.ChannelCreate("foo");
+            var result = context.SlackApi.ChannelCreate("foo");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.create?name=foo", context.RequestMade.Resource);
@@ -81,7 +81,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
 
-            var result = context.SlackClient.ChannelJoin("foo");
+            var result = context.SlackApi.ChannelJoin("foo");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.join?name=foo", context.RequestMade.Resource);
@@ -93,7 +93,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""messages"":[{""type"":""message"",""text"":""hello""},{""type"":""message"",""subtype"":""me_message"",""text"":""me""}]}");
 
-            var result = context.SlackClient.ChannelHistory("foo", messageCount: 44);
+            var result = context.SlackApi.ChannelHistory("foo", messageCount: 44);
 
             context.VerifyOk(result);
             Assert.Equal("/channels.history?channel=foo&inclusive=0&count=44", context.RequestMade.Resource);
@@ -109,7 +109,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
 
-            var result = context.SlackClient.ChannelInfo("foo");
+            var result = context.SlackApi.ChannelInfo("foo");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.info?channel=foo", context.RequestMade.Resource);
@@ -121,7 +121,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
 
-            var result = context.SlackClient.ChannelInvite("foo", "uid");
+            var result = context.SlackApi.ChannelInvite("foo", "uid");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.invite?channel=foo&user=uid", context.RequestMade.Resource);
@@ -133,7 +133,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true}");
 
-            var result = context.SlackClient.ChannelKick("CHANID", "UID");
+            var result = context.SlackApi.ChannelKick("CHANID", "UID");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.kick?channel=CHANID&user=UID", context.RequestMade.Resource);
@@ -144,7 +144,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""not_in_channel"":true}");
 
-            var result = context.SlackClient.ChannelLeave("CHANID");
+            var result = context.SlackApi.ChannelLeave("CHANID");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.leave?channel=CHANID", context.RequestMade.Resource);
@@ -156,7 +156,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channels"":[{""id"":""CHANID""}]}");
 
-            var result = context.SlackClient.ChannelsList();
+            var result = context.SlackApi.ChannelList();
 
             context.VerifyOk(result);
             Assert.Equal("/channels.list?exclude_archived=0", context.RequestMade.Resource);
@@ -168,7 +168,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true}");
 
-            var result = context.SlackClient.ChannelMark("CHANID","1111.2222");
+            var result = context.SlackApi.ChannelMark("CHANID","1111.2222");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.mark?channel=CHANID&ts=1111.2222", context.RequestMade.Resource);
@@ -179,7 +179,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
 
-            var result = context.SlackClient.ChannelRename("foo", "uid");
+            var result = context.SlackApi.ChannelRename("foo", "uid");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.rename?channel=foo&name=uid", context.RequestMade.Resource);
@@ -191,7 +191,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""purpose"":""hello""}");
 
-            var result = context.SlackClient.ChannelSetPurpose("foo", "hello");
+            var result = context.SlackApi.ChannelSetPurpose("foo", "hello");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.setPurpose?channel=foo&purpose=hello", context.RequestMade.Resource);
@@ -203,7 +203,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""topic"":""hello""}");
 
-            var result = context.SlackClient.ChannelSetTopic("foo", "hello");
+            var result = context.SlackApi.ChannelSetTopic("foo", "hello");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.setTopic?channel=foo&topic=hello", context.RequestMade.Resource);
@@ -215,7 +215,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true}");
 
-            var result = context.SlackClient.ChannelUnarchive("foo");
+            var result = context.SlackApi.ChannelUnarchive("foo");
 
             context.VerifyOk(result);
             Assert.Equal("/channels.unarchive?channel=foo", context.RequestMade.Resource);
@@ -226,7 +226,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":""foo"",""ts"":""1111.2222""}");
 
-            var result = context.SlackClient.ChatDelete("foo", "1111.2222");
+            var result = context.SlackApi.ChatDelete("foo", "1111.2222");
 
             context.VerifyOk(result);
             Assert.Equal("/chat.delete?channel=foo&ts=1111.2222", context.RequestMade.Resource);
@@ -257,7 +257,7 @@ namespace Tab.Slack.WebApi.Tests
                 }
             };
 
-            var result = context.SlackClient.ChatPostMessage(request);
+            var result = context.SlackApi.ChatPostMessage(request);
 
             context.VerifyOk(result);
             Assert.Equal("/chat.postMessage", context.RequestMade.Resource);
@@ -269,7 +269,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""channel"":""foo"",""text"":""bar""}");
 
-            var result = context.SlackClient.ChatUpdate("foo", "1111.2222", "bar");
+            var result = context.SlackApi.ChatUpdate("foo", "1111.2222", "bar");
 
             context.VerifyOk(result);
             Assert.Equal("/chat.update?channel=foo&ts=1111.2222&text=bar", context.RequestMade.Resource);
@@ -282,7 +282,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""emoji"":{""foo"":""bar""}}");
 
-            var result = context.SlackClient.EmojiList();
+            var result = context.SlackApi.EmojiList();
 
             context.VerifyOk(result);
             Assert.Equal("/emoji.list", context.RequestMade.Resource);
@@ -294,7 +294,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true}");
 
-            var result = context.SlackClient.FileDelete("foo");
+            var result = context.SlackApi.FileDelete("foo");
 
             context.VerifyOk(result);
             Assert.Equal("/files.delete?file=foo", context.RequestMade.Resource);
@@ -305,7 +305,7 @@ namespace Tab.Slack.WebApi.Tests
         {
             var context = SetupTestContext(@"{""ok"":true,""file"":{""id"":""foo""}}");
 
-            var result = context.SlackClient.FileInfo("foo", 30);
+            var result = context.SlackApi.FileInfo("foo", 30);
 
             context.VerifyOk(result);
             Assert.Equal("/files.info?file=foo&count=30&page=1", context.RequestMade.Resource);
@@ -318,7 +318,7 @@ namespace Tab.Slack.WebApi.Tests
             var context = SetupTestContext(@"{""ok"":true,""files"":[{""id"":""foo""}]}");
 
             var request = new FilesListRequest { Types = "all" };
-            var result = context.SlackClient.FileList(request);
+            var result = context.SlackApi.FileList(request);
 
             context.VerifyOk(result);
             Assert.Equal("/files.list", context.RequestMade.Resource);
@@ -326,9 +326,27 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("foo", result.Files[0].Id);
         }
 
+        [Fact]
+        public void FileUploadShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""file"":{""id"":""foo""}}");
+
+            var request = new FileUploadRequest {
+                Filename = "hello.txt",
+                FileData = Encoding.ASCII.GetBytes("hello world")
+            };
+
+            var result = context.SlackApi.FileUpload(request);
+
+            context.VerifyOk(result);
+            Assert.Equal("/files.upload", context.RequestMade.Resource);
+            Assert.Equal("hello.txt", context.RequestMade.Files[0].FileName);
+            Assert.Equal("foo", result.File.Id);
+        }
+
         internal class TestContext
         {
-            internal ISlackClient SlackClient { get; set; }
+            internal ISlackApi SlackApi { get; set; }
             internal IRestRequest RequestMade { get; set; }
             internal Mock<IRestClient> MockRestClient { get; set; }
             internal string Content { get; set; }
@@ -346,7 +364,7 @@ namespace Tab.Slack.WebApi.Tests
             context.MockRestClient = SetupMockRestClient(content, r => context.RequestMade = r);
             context.Content = content;
 
-            context.SlackClient = new SlackClient("mockkey")
+            context.SlackApi = new SlackApi("mockkey")
             {
                 RestClient = context.MockRestClient.Object
             };

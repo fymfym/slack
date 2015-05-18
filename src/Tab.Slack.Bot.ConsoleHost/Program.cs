@@ -20,7 +20,7 @@ namespace Tab.Slack.Bot.ConsoleHost
         {
             var mefContainer = BootstrapMefContainer();
             var iocContainer = BootstrapIocContainer(mefContainer);
-
+            
             // TODO: implement connection retries and error handling
             using (var slackClient = iocContainer.GetInstance<IBotClient>())
             {
@@ -56,8 +56,8 @@ namespace Tab.Slack.Bot.ConsoleHost
             var config = EstablishConfig();
             iocContainer.Register<Config>(() => config);
 
-            var slackClient = new SlackClient(config.ApiKey);
-            iocContainer.Register<ISlackClient>(() => slackClient);
+            var slackApi = new SlackApi(config.ApiKey);
+            iocContainer.Register<ISlackApi>(() => slackApi);
 
             return iocContainer;
         }

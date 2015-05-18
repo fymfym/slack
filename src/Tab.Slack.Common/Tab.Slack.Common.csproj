@@ -53,6 +53,7 @@
     <Compile Include="Model\Attachment.cs" />
     <Compile Include="Model\ItemComment.cs" />
     <Compile Include="Model\PagingSettings.cs" />
+    <Compile Include="Model\Requests\FilesUploadRequest.cs" />
     <Compile Include="Model\Requests\FilesListRequest.cs" />
     <Compile Include="Model\Requests\ParseMode.cs" />
     <Compile Include="Model\Requests\PostMessageRequest.cs" />

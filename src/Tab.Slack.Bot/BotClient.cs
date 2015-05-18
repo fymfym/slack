@@ -22,12 +22,12 @@ namespace Tab.Slack.Bot
         private readonly IBotServices slackService;
         private readonly Config clientConfig;
         private readonly IResponseParser responseParser;
-        private readonly ISlackClient webApiClient;
+        private readonly ISlackApi webApiClient;
 
         // TODO: we don't have enough constructor args - WE NEED MOAR!!!
         public BotClient(Config clientConfig, IEnumerable<IMessageHandler> messageHandlers,
             IBotState slackState, IBotServices slackService, IResponseParser responseParser,
-            ISlackClient slackRestClient)
+            ISlackApi slackRestClient)
         {
             if (clientConfig == null)
                 throw new ArgumentNullException(nameof(clientConfig));
