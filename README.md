@@ -6,9 +6,7 @@ Projects:
 
 ## Getting Started
 
-### SlackBot
-Using SlackBot is as simple as passing in your bot's API key:  
-
+### SlackBot  
 ```cs
 using (var slackBot = SlackBot.Create("bot-api-key", "plugins-path"))
 {
@@ -16,16 +14,16 @@ using (var slackBot = SlackBot.Create("bot-api-key", "plugins-path"))
 }
 ```
 
-### SlackApi
-Using the SlackApi is even easier:
-
+### SlackApi  
 ```cs
 var slackApi = new SlackApi("api-key");
 ```
 
 ### Things to note  
 - You can run SlackBot without specifying a plugin path, but it won't do much  
-- Core bot state is provided via Tab.Slack.Bot.CoreHandlers - these also provide the best guidance for how you can create your own plugin message handlers  
+- Core bot state is provided via Tab.Slack.Bot.CoreHandlers - these also provide the best guidance for how you can create your own plugin message handlers
+- In order to use the core handlers, simply reference the Nuget package and drop the Tab.Slack.Bot.CoreHandlers.dll into your plugin path  
+- You can test the core handlers have been picked up properly by sending your bot a direct message "ping" - the bot should respond with "pong" 
 
 ## Todo
 - Flesh out the slack rest client code to handle full set of methods  
