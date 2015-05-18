@@ -15,14 +15,14 @@ using Tab.Slack.Common.Model.Responses;
 namespace Tab.Slack.WebApi
 {
     // TODO: read up on this strange "Single Responsibility Principle" people talk of
-    public class SlackClient : ISlackClient
+    public class SlackApi : ISlackApi
     {
         private readonly string apiKey;
 
         public IRestClient RestClient { get; set; } = new RestClient("https://slack.com/api");
         public IResponseParser ResponseParser { get; set; } = new ResponseParser();
 
-        public SlackClient(string apiKey)
+        public SlackApi(string apiKey)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentNullException(nameof(apiKey));
@@ -145,7 +145,7 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
-        public ChannelsResponse ChannelsList(bool excludeArchived = false)
+        public ChannelsResponse ChannelList(bool excludeArchived = false)
         {
             var apiPath = BuildApiPath("/channels.list", exclude_archived => excludeArchived ? "1" : "0");
             var response = ExecuteAndDeserializeRequest<ChannelsResponse>(apiPath);
@@ -253,6 +253,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public FileResponse FileUpload(FileUploadRequest request)
+        {
+            var requestParams = BuildRequestParams(request);
+            var response = ExecuteAndDeserializeRequest<FileResponse>("/files.upload", requestParams, file: request);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
@@ -263,6 +271,10 @@ namespace Tab.Slack.WebApi
 
             foreach (var paramProp in publicProps)
             {
+                // TODO: maybe easier to whitelist types instead of blacklist
+                if (paramProp.PropertyType.IsAssignableFrom(typeof(byte[])))
+                    continue;
+
                 var key = paramProp.Name.ToDelimitedString('_');
                 object value = paramProp.GetMethod.Invoke(requestParamsObject, null);
 
@@ -305,19 +317,22 @@ namespace Tab.Slack.WebApi
             return $"{apiPath}?" + string.Join("&", queryParams);
         }
 
-        private T ExecuteAndDeserializeRequest<T>(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST)
+        private T ExecuteAndDeserializeRequest<T>(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST, FileUploadRequest file = null)
         {
-            var response = ExecuteRequest(apiPath, parameters, method);
+            var response = ExecuteRequest(apiPath, parameters, method, file);
             var result = this.ResponseParser.Deserialize<T>(response.Content);
 
             return result;
         }
 
-        private IRestResponse ExecuteRequest(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST)
+        private IRestResponse ExecuteRequest(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST, FileUploadRequest file = null)
         {
             var request = new RestRequest(apiPath, method);
             request.AddParameter("token", this.apiKey);
 
+            if (file != null)
+                request.AddFile("file", file.FileData, file.Filename);
+            
             if (parameters != null)
             {
                 foreach (var parameter in parameters)

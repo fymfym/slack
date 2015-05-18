@@ -5,7 +5,7 @@ using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.WebApi
 {
-    public interface ISlackClient
+    public interface ISlackApi
     {
         IResponseParser ResponseParser { get; set; }
 
@@ -21,7 +21,7 @@ namespace Tab.Slack.WebApi
         ChannelResponse ChannelJoin(string channelName);
         ResponseBase ChannelKick(string channelId, string userId);
         LeaveChannelResponse ChannelLeave(string channelId);
-        ChannelsResponse ChannelsList(bool excludeArchived = false);
+        ChannelsResponse ChannelList(bool excludeArchived = false);
         ResponseBase ChannelMark(string channelId, string timestamp);
         ChannelResponse ChannelRename(string channelId, string channelName);
         PurposeResponse ChannelSetPurpose(string channelId, string channelPurpose);
@@ -34,5 +34,6 @@ namespace Tab.Slack.WebApi
         ResponseBase FileDelete(string fileId);
         FileResponse FileInfo(string fileId, int commentsCount = 100, int pageNumber = 1);
         FilesResponse FileList(FilesListRequest request);
+        FileResponse FileUpload(FileUploadRequest request);
     }
 }

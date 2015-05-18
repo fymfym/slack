@@ -44,8 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISlackClient.cs" />
-    <Compile Include="SlackClient.cs" />
+    <Compile Include="ISlackApi.cs" />
+    <Compile Include="SlackApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
