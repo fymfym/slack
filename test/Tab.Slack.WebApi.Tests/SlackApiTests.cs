@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Tab.Slack.WebApi.Tests
 {
+    // TODO: refactor this mess
     public class SlackApiTests
     {
         [Fact]
@@ -342,6 +343,184 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/files.upload", context.RequestMade.Resource);
             Assert.Equal("hello.txt", context.RequestMade.Files[0].FileName);
             Assert.Equal("foo", result.File.Id);
+        }
+
+        [Fact]
+        public void GroupArchiveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.GroupArchive("GROUPID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.archive?channel=GROUPID", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void GroupCloseShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.GroupClose("GROUPID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.close?channel=GROUPID", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void GroupCreateShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""group"":{""name"":""foo""}}");
+
+            var result = context.SlackApi.GroupCreate("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.create?name=foo", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Group.Name);
+        }
+
+        [Fact]
+        public void GroupCreateChildShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""group"":{""name"":""foo""}}");
+
+            var result = context.SlackApi.GroupCreateChild("GROUPID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.createChild?channel=GROUPID", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Group.Name);
+        }
+
+        [Fact]
+        public void GroupHistoryShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""messages"":[{""type"":""message"",""text"":""hello""},{""type"":""message"",""subtype"":""me_message"",""text"":""me""}]}");
+
+            var result = context.SlackApi.GroupHistory("foo", messageCount: 44);
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.history?channel=foo&inclusive=0&count=44", context.RequestMade.Resource);
+            Assert.IsType<PlainMessage>(result.Messages[0]);
+            Assert.Equal(MessageSubType.PlainMessage, result.Messages[0].Subtype);
+            Assert.Equal("hello", result.Messages[0].Text);
+            Assert.IsType<MeMessage>(result.Messages[1]);
+            Assert.Equal(MessageSubType.MeMessage, result.Messages[1].Subtype);
+        }
+
+        [Fact]
+        public void GroupInfoShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""group"":{""name"":""foo""}}");
+
+            var result = context.SlackApi.GroupInfo("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.info?channel=foo", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Group.Name);
+        }
+
+        [Fact]
+        public void GroupInviteShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""group"":{""name"":""foo""}}");
+
+            var result = context.SlackApi.GroupInvite("foo", "uid");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.invite?channel=foo&user=uid", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Group.Name);
+        }
+
+        [Fact]
+        public void GroupKickShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.GroupKick("GROUPID", "UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.kick?channel=GROUPID&user=UID", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void GroupLeaveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.GroupLeave("CHANID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.leave?channel=CHANID", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void GroupListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""groups"":[{""id"":""GROUPID""}]}");
+
+            var result = context.SlackApi.GroupList();
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.list?exclude_archived=0", context.RequestMade.Resource);
+            Assert.Equal("GROUPID", result.Groups[0].Id);
+        }
+
+        [Fact]
+        public void GroupMarkShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.GroupMark("GROUPID", "1111.2222");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.mark?channel=GROUPID&ts=1111.2222", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void GroupRenameShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""name"":""foo""}}");
+
+            var result = context.SlackApi.GroupRename("foo", "uid");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.rename?channel=foo&name=uid", context.RequestMade.Resource);
+            Assert.Equal("foo", result.Channel.Name);
+        }
+
+        [Fact]
+        public void GroupSetPurposeShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""purpose"":""hello""}");
+
+            var result = context.SlackApi.GroupSetPurpose("foo", "hello");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.setPurpose?channel=foo&purpose=hello", context.RequestMade.Resource);
+            Assert.Equal("hello", result.Purpose);
+        }
+
+        [Fact]
+        public void GroupSetTopicShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""topic"":""hello""}");
+
+            var result = context.SlackApi.GroupSetTopic("foo", "hello");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.setTopic?channel=foo&topic=hello", context.RequestMade.Resource);
+            Assert.Equal("hello", result.Topic);
+        }
+
+        [Fact]
+        public void GroupUnarchiveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.GroupUnarchive("foo");
+
+            context.VerifyOk(result);
+            Assert.Equal("/groups.unarchive?channel=foo", context.RequestMade.Resource);
         }
 
         internal class TestContext

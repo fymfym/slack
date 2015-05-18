@@ -35,5 +35,22 @@ namespace Tab.Slack.WebApi
         FileResponse FileInfo(string fileId, int commentsCount = 100, int pageNumber = 1);
         FilesResponse FileList(FilesListRequest request);
         FileResponse FileUpload(FileUploadRequest request);
+        ResponseBase GroupArchive(string groupId);
+        CloseResponse GroupClose(string groupId);
+        GroupResponse GroupCreate(string groupName);
+        GroupResponse GroupCreateChild(string groupId);
+        MessagesResponse GroupHistory(string groupId, string latestTs = null,
+            string oldestTs = null, bool isInclusive = false, int messageCount = 100);
+        GroupResponse GroupInfo(string groupId);
+        GroupResponse GroupInvite(string groupId, string userId);
+        ResponseBase GroupKick(string groupId, string userId);
+        ResponseBase GroupLeave(string groupId);
+        GroupsResponse GroupList(bool excludeArchived = false);
+        ResponseBase GroupMark(string groupId, string timestamp);
+        ResponseBase GroupOpen(string groupId);
+        ChannelResponse GroupRename(string groupId, string groupName);
+        PurposeResponse GroupSetPurpose(string groupId, string groupPurpose);
+        TopicResponse GroupSetTopic(string groupId, string groupTopic);
+        ResponseBase GroupUnarchive(string groupId);
     }
 }

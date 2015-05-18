@@ -25,6 +25,7 @@ namespace Tab.Slack.Common.Model
 
         public bool IsArchived { get; set; }
         public bool IsGeneral { get; set; }
+        public bool IsGroup { get; set; }
 
         /// <summary>
         /// A list of user ids for all users in this channel (includes any disabled accounts that were in this channel when they were disabled).
