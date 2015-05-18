@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>0.1.1-alpha</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.githubusercontent.com/robladbrook/slack/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/robladbrook/slack</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Very alpha.</releaseNotes>
+    <copyright>Copyright The App Business 2015</copyright>
+    <tags></tags>
+  </metadata>
+</package>
