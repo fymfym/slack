@@ -261,6 +261,147 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ResponseBase GroupArchive(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.archive", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public CloseResponse GroupClose(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.close", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<CloseResponse>(apiPath);
+
+            return response;
+        }
+
+        public GroupResponse GroupCreate(string groupName)
+        {
+            var apiPath = BuildApiPath("/groups.create", name => groupName);
+            var response = ExecuteAndDeserializeRequest<GroupResponse>(apiPath);
+
+            return response;
+        }
+
+        public GroupResponse GroupCreateChild(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.createChild", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<GroupResponse>(apiPath);
+
+            return response;
+        }
+
+        public MessagesResponse GroupHistory(string groupId, string latestTs = null,
+            string oldestTs = null, bool isInclusive = false, int messageCount = 100)
+        {
+            var apiPath = BuildApiPath("/groups.history",
+                                        channel => groupId,
+                                        latest => latestTs,
+                                        oldest => oldestTs,
+                                        inclusive => isInclusive ? "1" : "0",
+                                        count => messageCount.ToString());
+
+            var response = ExecuteAndDeserializeRequest<MessagesResponse>(apiPath);
+
+            if (response.Messages != null)
+            {
+                response.Messages = this.ResponseParser.RemapMessagesToConcreteTypes(response.Messages)
+                                                       .ToList();
+            }
+
+            return response;
+        }
+
+        public GroupResponse GroupInfo(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.info", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<GroupResponse>(apiPath);
+
+            return response;
+        }
+
+        public GroupResponse GroupInvite(string groupId, string userId)
+        {
+            var apiPath = BuildApiPath("/groups.invite", channel => groupId, user => userId);
+            var response = ExecuteAndDeserializeRequest<GroupResponse>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase GroupKick(string groupId, string userId)
+        {
+            var apiPath = BuildApiPath("/groups.kick", channel => groupId, user => userId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase GroupLeave(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.leave", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public GroupsResponse GroupList(bool excludeArchived = false)
+        {
+            var apiPath = BuildApiPath("/groups.list", exclude_archived => excludeArchived ? "1" : "0");
+            var response = ExecuteAndDeserializeRequest<GroupsResponse>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase GroupMark(string groupId, string timestamp)
+        {
+            var apiPath = BuildApiPath("/groups.mark", channel => groupId, ts => timestamp);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase GroupOpen(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.open", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public ChannelResponse GroupRename(string groupId, string groupName)
+        {
+            var apiPath = BuildApiPath("/groups.rename", channel => groupId, name => groupName);
+            var response = ExecuteAndDeserializeRequest<ChannelResponse>(apiPath);
+
+            return response;
+        }
+
+        public PurposeResponse GroupSetPurpose(string groupId, string groupPurpose)
+        {
+            var apiPath = BuildApiPath("/groups.setPurpose", channel => groupId, purpose => groupPurpose);
+            var response = ExecuteAndDeserializeRequest<PurposeResponse>(apiPath);
+
+            return response;
+        }
+
+        public TopicResponse GroupSetTopic(string groupId, string groupTopic)
+        {
+            var apiPath = BuildApiPath("/groups.setTopic", channel => groupId, topic => groupTopic);
+            var response = ExecuteAndDeserializeRequest<TopicResponse>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase GroupUnarchive(string groupId)
+        {
+            var apiPath = BuildApiPath("/groups.unarchive", channel => groupId);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
