@@ -1,15 +1,37 @@
 # Slack RTM Bot and Web API Client
 
-An initial start.
-
-Project:
-- The Slack RTM (WebSocket) Bot is designed for anyone to extend via extremely simple plugins.
+Projects:  
+- The Slack RTM (WebSocket) Bot is designed for anyone to extend via extremely simple plugins.  
 - The Slack Web API client library provides a simple way to integrate your code with Slack.
 
-Todo:
-- Flesh out the slack rest client code to handle full set of methods
-- Sort out default bot handlers
-- Add error/connection handling to bot
-- Documentation / examples
-- Sort out dire test naming
+## Getting Started
+
+### SlackBot
+Using SlackBot is as simple as passing in your bot's API key:  
+
+```cs
+using (var slackBot = SlackBot.Create("bot-api-key", "plugins-path"))
+{
+    slackBot.Start();
+}
+```
+
+### SlackApi
+Using the SlackApi is even easier:
+
+```cs
+var slackApi = new SlackApi("api-key");
+```
+
+### Things to note  
+- You can run SlackBot without specifying a plugin path, but it won't do much  
+- Core bot state is provided via Tab.Slack.Bot.CoreHandlers - these also provide the best guidance for how you can create your own plugin message handlers  
+
+## Todo
+- Flesh out the slack rest client code to handle full set of methods  
+- Sort out default bot handlers  
+- Add error/connection handling to bot  
+- Logging  
+- Documentation / examples  
+- Sort out dire test naming and layout  
 - Add some integration tests - potentially via a manual runner
