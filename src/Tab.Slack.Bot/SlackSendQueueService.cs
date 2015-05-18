@@ -16,7 +16,13 @@ namespace Tab.Slack.Bot
         private long outgoingMessageId = 0;
         private readonly BlockingCollection<OutputMessage> outputMessageQueue;
 
-        public SlackSendQueueService(IProducerConsumerCollection<OutputMessage> collection = null)
+        public SlackSendQueueService()
+            : this(null)
+        {
+
+        }
+
+        public SlackSendQueueService(IProducerConsumerCollection<OutputMessage> collection)
         {
             if (collection == null)
                 this.outputMessageQueue = new BlockingCollection<OutputMessage>();
