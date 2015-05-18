@@ -9,6 +9,7 @@ using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Bot.Integration;
 using WebSocket4Net;
 using Tab.Slack.WebApi;
+using SuperSocket.ClientEngine;
 
 namespace Tab.Slack.Bot
 {
@@ -87,6 +88,7 @@ namespace Tab.Slack.Bot
 
             using (var ws = new WebSocket(rtmStartResponse.Url))
             {
+                ws.Error += OnError;
                 ws.Opened += OnOpened;
                 ws.Closed += OnClosed;
                 ws.MessageReceived += OnMessageReceived;
@@ -94,6 +96,11 @@ namespace Tab.Slack.Bot
 
                 ProcessSendQueue(ws);
             }
+        }
+
+        private void OnError(object sender, ErrorEventArgs e)
+        {
+            Console.WriteLine(e.Exception.ToString());
         }
 
         private void OnClosed(object sender, EventArgs e)
