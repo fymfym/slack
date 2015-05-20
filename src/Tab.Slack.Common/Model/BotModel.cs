@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tab.Slack.Common.Model
 {
-    public class SlackBot : FlexibleJsonModel
+    public class BotModel : FlexibleJsonModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

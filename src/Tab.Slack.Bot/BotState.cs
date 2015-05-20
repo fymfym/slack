@@ -10,7 +10,6 @@ using Tab.Slack.Common.Model;
 namespace Tab.Slack.Bot
 {
     // TODO: make thread safe
-
     [Export(typeof(IBotState))]
     public class BotState : IBotState
     {
@@ -22,7 +21,7 @@ namespace Tab.Slack.Bot
 
         public TeamData Team { get; set; }
 
-        public List<SlackBot> Bots { get; set; }
+        public List<BotModel> Bots { get; set; }
         public List<User> Users { get; set; }
         public List<Channel> Channels { get; set; }
         public List<Group> Groups { get; set; }

@@ -26,7 +26,7 @@ namespace Tab.Slack.Common.Model
         
         public TeamData Team { get; set; }
 
-        public List<SlackBot> Bots { get; set; }
+        public List<BotModel> Bots { get; set; }
         public List<User> Users { get; set; }
         public List<Channel> Channels { get; set; }
         public List<Group> Groups { get; set; }

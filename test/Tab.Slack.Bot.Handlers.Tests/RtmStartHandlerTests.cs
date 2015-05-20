@@ -3,16 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Tab.Slack.Bot;
-using Tab.Slack.Bot.Handlers;
-using Tab.Slack.Bot.Integration;
 using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Common.Model.Events.Messages;
 using Xunit;
 
-namespace Tab.Slack.Bot.Handlers.Tests
+namespace Tab.Slack.Bot.CoreHandlers.Tests
 {
     public class RtmStartHandlerTests
     {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Tab.Slack.Common.Json;
-using Tab.Slack.Common.Model;
 using Tab.Slack.Common.Model.Events;
 using Tab.Slack.Bot.Integration;
 using WebSocket4Net;
@@ -13,49 +12,34 @@ using SuperSocket.ClientEngine;
 
 namespace Tab.Slack.Bot
 {
-    public class BotClient : IBotClient
+    public class SlackBot : ISlackBot
     {
         private bool started;
+        private string apiKey;
         private CancellationTokenSource cancellationTokenSource;
-        private readonly IEnumerable<IMessageHandler> messageHandlers;
-        private readonly IBotState slackState;
-        private readonly IBotServices slackService;
-        private readonly Config clientConfig;
-        private readonly IResponseParser responseParser;
-        private readonly ISlackApi webApiClient;
 
-        // TODO: we don't have enough constructor args - WE NEED MOAR!!!
-        public BotClient(Config clientConfig, IEnumerable<IMessageHandler> messageHandlers,
-            IBotState slackState, IBotServices slackService, IResponseParser responseParser,
-            ISlackApi slackRestClient)
+        public IEnumerable<IMessageHandler> MessageHandlers { get; set; }
+        public IBotState SlackState { get; set; }
+        public IBotServices SlackService { get; set; }
+        public IResponseParser ResponseParser { get; set; }
+        public ISlackApi SlackApi { get; set; }
+
+        private SlackBot(string apiKey)
         {
-            if (clientConfig == null)
-                throw new ArgumentNullException(nameof(clientConfig));
+            this.apiKey = apiKey;
+        }
 
-            if (string.IsNullOrWhiteSpace(clientConfig.ApiKey))
-                throw new FormatException($"{nameof(clientConfig.ApiKey)}: is missing");
-            
-            if (messageHandlers == null)
-                throw new ArgumentNullException(nameof(messageHandlers));
+        public static ISlackBot CreateWithoutDependencies(string apiKey)
+        {
+            return new SlackBot(apiKey);
+        }
 
-            if (slackState == null)
-                throw new ArgumentNullException(nameof(slackState));
+        public static ISlackBot Create(string apiKey, string pluginDirectoryPath = null)
+        {
+            ISlackBot slackBot = new SlackBot(apiKey);
+            slackBot = Bootstrap.BuildSlackBot(slackBot, apiKey, pluginDirectoryPath);
 
-            if (slackService == null)
-                throw new ArgumentNullException(nameof(slackService));
-
-            if (responseParser == null)
-                throw new ArgumentNullException(nameof(responseParser));
-
-            if (slackRestClient == null)
-                throw new ArgumentNullException(nameof(slackRestClient));
-
-            this.clientConfig = clientConfig;
-            this.messageHandlers = messageHandlers.OrderByDescending(m => m.Priority).ToArray();
-            this.slackState = slackState;
-            this.slackService = slackService;
-            this.responseParser = responseParser;
-            this.webApiClient = slackRestClient;
+            return slackBot;
         }
 
         public void Start()
@@ -78,7 +62,7 @@ namespace Tab.Slack.Bot
             
             this.cancellationTokenSource = cancellationTokenSource;
 
-            var rtmStartResponse = this.webApiClient.RtmStart();
+            var rtmStartResponse = this.SlackApi.RtmStart();
             
             // TODO: handle
             if (rtmStartResponse == null || !rtmStartResponse.Ok)
@@ -105,7 +89,7 @@ namespace Tab.Slack.Bot
 
         private void OnClosed(object sender, EventArgs e)
         {
-            this.slackState.Connected = false;
+            this.SlackState.Connected = false;
 
             if (this.cancellationTokenSource != null && cancellationTokenSource.Token.CanBeCanceled)
                 this.cancellationTokenSource.Cancel();
@@ -113,23 +97,30 @@ namespace Tab.Slack.Bot
 
         private void OnOpened(object sender, EventArgs e)
         {
-            this.slackState.Connected = true;
+            this.SlackState.Connected = true;
         }
 
         private void ProcessSendQueue(WebSocket webSocket)
         {
-            var blockingSendQueue = this.slackService.GetBlockingOutputEnumerable(this.cancellationTokenSource.Token);
+            var blockingSendQueue = this.SlackService.GetBlockingOutputEnumerable(this.cancellationTokenSource.Token);
 
-            foreach (var message in blockingSendQueue)
+            try
             {
-                Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {message.Text}");
-                webSocket.Send(this.responseParser.SerializeMessage(message));
+                foreach (var message in blockingSendQueue)
+                {
+                    Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {message.Text}");
+                    webSocket.Send(this.ResponseParser.SerializeMessage(message));
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // safe to ignore and exit
             }
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs args)
         {
-            var eventMessage = this.responseParser.DeserializeEvent(args.Message);
+            var eventMessage = this.ResponseParser.DeserializeEvent(args.Message);
 
             // todo: handle
             if (eventMessage == null)
@@ -143,8 +134,11 @@ namespace Tab.Slack.Bot
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
 
+            if (this.MessageHandlers == null)
+                return;
+
             Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Message: {message.GetType().Name}");
-            var interestedHandlers = this.messageHandlers.Where(h => h.CanHandle(message));
+            var interestedHandlers = this.MessageHandlers.Where(h => h.CanHandle(message));
 
             foreach (var handler in interestedHandlers)
             {
@@ -159,6 +153,18 @@ namespace Tab.Slack.Bot
         {
             if (this.cancellationTokenSource != null && cancellationTokenSource.Token.CanBeCanceled)
                 cancellationTokenSource.Cancel();
+
+            if (this.SlackService != null)
+            {
+                try
+                {
+                    this.SlackService.Dispose();
+                }
+                finally
+                {
+                    this.SlackService = null;
+                }
+            }
         }
     }
 }

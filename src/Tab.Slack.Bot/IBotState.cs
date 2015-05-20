@@ -17,7 +17,7 @@ namespace Tab.Slack.Bot
 
         TeamData Team { get; set; }
 
-        List<SlackBot> Bots { get; set; }
+        List<BotModel> Bots { get; set; }
         List<User> Users { get; set; }
         List<Channel> Channels { get; set; }
         List<Group> Groups { get; set; }

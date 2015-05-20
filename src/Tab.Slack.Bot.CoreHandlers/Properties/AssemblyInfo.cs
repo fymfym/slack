@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Slack Bot Handlers")]
+[assembly: AssemblyTitle("Slack Bot Core Handlers")]
 [assembly: AssemblyDescription("Set of common/core handlers for Slack Bot")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rob Ladbrook (The App Business)")]
-[assembly: AssemblyProduct("Tab.Slack.Bot.Handlers")]
+[assembly: AssemblyProduct("Tab.Slack.Bot.CoreHandlers")]
 [assembly: AssemblyCopyright("Copyright © The App Business 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.1")]
+[assembly: AssemblyVersion("0.1.2")]

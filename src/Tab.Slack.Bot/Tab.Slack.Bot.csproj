@@ -45,16 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="Integration\EventMessageExtensions.cs" />
     <Compile Include="Integration\HandlerPriority.cs" />
     <Compile Include="Integration\IMessageHandler.cs" />
     <Compile Include="Integration\MessageHandlerBase.cs" />
     <Compile Include="Integration\ProcessingChainResult.cs" />
-    <Compile Include="IBotClient.cs" />
+    <Compile Include="ISlackBot.cs" />
     <Compile Include="IBotServices.cs" />
     <Compile Include="IBotState.cs" />
-    <Compile Include="BotClient.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="SlackBot.cs" />
     <Compile Include="SlackSendQueueService.cs" />
     <Compile Include="BotState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

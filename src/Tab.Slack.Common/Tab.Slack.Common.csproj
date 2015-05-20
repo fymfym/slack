@@ -35,7 +35,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -74,7 +73,7 @@
     <Compile Include="Model\Responses\ResponseBase.cs" />
     <Compile Include="Model\Responses\TopicResponse.cs" />
     <Compile Include="Model\Responses\ChatUpdateResponse.cs" />
-    <Compile Include="Model\SlackBot.cs" />
+    <Compile Include="Model\BotModel.cs" />
     <Compile Include="Model\BotIcons.cs" />
     <Compile Include="Model\Channel.cs" />
     <Compile Include="Model\DirectMessageChannel.cs" />
