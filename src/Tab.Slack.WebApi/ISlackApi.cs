@@ -52,5 +52,11 @@ namespace Tab.Slack.WebApi
         PurposeResponse GroupSetPurpose(string groupId, string groupPurpose);
         TopicResponse GroupSetTopic(string groupId, string groupTopic);
         ResponseBase GroupUnarchive(string groupId);
+        CloseResponse ImClose(string imId);
+        MessagesResponse ImHistory(string imId, string latestTs = null,
+            string oldestTs = null, bool isInclusive = false, int messageCount = 100);
+        ImsResponse ImList(bool excludeArchived = false);
+        ResponseBase ImMark(string imId, string timestamp);
+        ImOpenResponse ImOpen(string userId);
     }
 }

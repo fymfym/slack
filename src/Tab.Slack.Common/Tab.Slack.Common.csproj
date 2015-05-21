@@ -58,6 +58,8 @@
     <Compile Include="Model\Requests\PostMessageRequest.cs" />
     <Compile Include="Model\Responses\AuthTestResponse.cs" />
     <Compile Include="Model\Responses\CloseResponse.cs" />
+    <Compile Include="Model\Responses\ImOpenResponse.cs" />
+    <Compile Include="Model\Responses\ImsResponse.cs" />
     <Compile Include="Model\Responses\GroupsResponse.cs" />
     <Compile Include="Model\Responses\GroupResponse.cs" />
     <Compile Include="Model\Responses\ChannelsResponse.cs" />

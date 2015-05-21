@@ -523,6 +523,56 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/groups.unarchive?channel=foo", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void ImCloseShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.ImClose("IMID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/im.close?channel=IMID", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void ImHistoryShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""messages"":[{""type"":""message"",""text"":""hello""},{""type"":""message"",""subtype"":""me_message"",""text"":""me""}]}");
+
+            var result = context.SlackApi.ImHistory("foo", messageCount: 44);
+
+            context.VerifyOk(result);
+            Assert.Equal("/im.history?channel=foo&inclusive=0&count=44", context.RequestMade.Resource);
+            Assert.IsType<PlainMessage>(result.Messages[0]);
+            Assert.Equal(MessageSubType.PlainMessage, result.Messages[0].Subtype);
+            Assert.Equal("hello", result.Messages[0].Text);
+            Assert.IsType<MeMessage>(result.Messages[1]);
+            Assert.Equal(MessageSubType.MeMessage, result.Messages[1].Subtype);
+        }
+
+        [Fact]
+        public void ImListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""ims"":[{""id"":""IMID""}]}");
+
+            var result = context.SlackApi.ImList();
+
+            context.VerifyOk(result);
+            Assert.Equal("/im.list?exclude_archived=0", context.RequestMade.Resource);
+            Assert.Equal("IMID", result.Ims[0].Id);
+        }
+
+        [Fact]
+        public void ImMarkShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.ImMark("IMID", "1111.2222");
+
+            context.VerifyOk(result);
+            Assert.Equal("/im.mark?channel=IMID&ts=1111.2222", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }
@@ -535,6 +585,18 @@ namespace Tab.Slack.WebApi.Tests
                 this.MockRestClient.Verify();
                 Assert.True(response.Ok);
             }
+        }
+
+        [Fact]
+        public void ImOpenShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""id"":""IMID""}}");
+
+            var result = context.SlackApi.ImOpen("UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/im.open?user=UID", context.RequestMade.Resource);
+            Assert.Equal("IMID", result.Channel.Id);
         }
 
         private TestContext SetupTestContext(string content)

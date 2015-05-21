@@ -402,6 +402,59 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public CloseResponse ImClose(string imId)
+        {
+            var apiPath = BuildApiPath("/im.close", channel => imId);
+            var response = ExecuteAndDeserializeRequest<CloseResponse>(apiPath);
+
+            return response;
+        }
+
+        public MessagesResponse ImHistory(string imId, string latestTs = null,
+            string oldestTs = null, bool isInclusive = false, int messageCount = 100)
+        {
+            var apiPath = BuildApiPath("/im.history",
+                                        channel => imId,
+                                        latest => latestTs,
+                                        oldest => oldestTs,
+                                        inclusive => isInclusive ? "1" : "0",
+                                        count => messageCount.ToString());
+
+            var response = ExecuteAndDeserializeRequest<MessagesResponse>(apiPath);
+
+            if (response.Messages != null)
+            {
+                response.Messages = this.ResponseParser.RemapMessagesToConcreteTypes(response.Messages)
+                                                       .ToList();
+            }
+
+            return response;
+        }
+
+        public ImsResponse ImList(bool excludeArchived = false)
+        {
+            var apiPath = BuildApiPath("/im.list", exclude_archived => excludeArchived ? "1" : "0");
+            var response = ExecuteAndDeserializeRequest<ImsResponse>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase ImMark(string imId, string timestamp)
+        {
+            var apiPath = BuildApiPath("/im.mark", channel => imId, ts => timestamp);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public ImOpenResponse ImOpen(string userId)
+        {
+            var apiPath = BuildApiPath("/im.open", user => userId);
+            var response = ExecuteAndDeserializeRequest<ImOpenResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
