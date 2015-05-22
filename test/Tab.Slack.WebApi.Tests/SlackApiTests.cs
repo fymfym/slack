@@ -573,6 +573,30 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("/im.mark?channel=IMID&ts=1111.2222", context.RequestMade.Resource);
         }
 
+        [Fact]
+        public void ImOpenShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""channel"":{""id"":""IMID""}}");
+
+            var result = context.SlackApi.ImOpen("UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/im.open?user=UID", context.RequestMade.Resource);
+            Assert.Equal("IMID", result.Channel.Id);
+        }
+
+        [Fact]
+        public void OauthAccessShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""access_token"":""xyz"",""scope"":""read""}");
+
+            var result = context.SlackApi.OauthAccess("CLIENTID", "SECRET", "XXX");
+
+            Assert.NotNull(result);
+            Assert.Equal("/oauth.access?client_id=CLIENTID&client_secret=SECRET&code=XXX", context.RequestMade.Resource);
+            Assert.Equal("xyz", result.AccessToken);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }
@@ -586,19 +610,7 @@ namespace Tab.Slack.WebApi.Tests
                 Assert.True(response.Ok);
             }
         }
-
-        [Fact]
-        public void ImOpenShouldReturnResponse()
-        {
-            var context = SetupTestContext(@"{""ok"":true,""channel"":{""id"":""IMID""}}");
-
-            var result = context.SlackApi.ImOpen("UID");
-
-            context.VerifyOk(result);
-            Assert.Equal("/im.open?user=UID", context.RequestMade.Resource);
-            Assert.Equal("IMID", result.Channel.Id);
-        }
-
+        
         private TestContext SetupTestContext(string content)
         {
             var context = new TestContext(); 
