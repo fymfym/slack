@@ -58,5 +58,6 @@ namespace Tab.Slack.WebApi
         ImsResponse ImList(bool excludeArchived = false);
         ResponseBase ImMark(string imId, string timestamp);
         ImOpenResponse ImOpen(string userId);
+        OauthAccessResponse OauthAccess(string clientId, string clientSecret, string callbackCode, string redirectUri = null);
     }
 }

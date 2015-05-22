@@ -455,6 +455,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public OauthAccessResponse OauthAccess(string clientId, string clientSecret, string callbackCode, string redirectUri = null)
+        {
+            var apiPath = BuildApiPath("/oauth.access", client_id => clientId, client_secret => clientSecret, code => callbackCode, redirect_uri => redirectUri);
+            var response = ExecuteAndDeserializeRequest<OauthAccessResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
