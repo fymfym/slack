@@ -463,6 +463,72 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public SearchResponse SearchAll(string queryString, SearchSortType? sortType = null,
+            SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null, 
+            int? pageNumber = null)
+        {
+            string highlighted = null;
+
+            if (isHighlighted.HasValue)
+                highlighted = isHighlighted.Value ? "1" : "0";
+
+            var apiPath = BuildApiPath("/search.all",
+                                        query => queryString,
+                                        sort => sortType,
+                                        sort_dir => sortDir,
+                                        highlight => highlighted,
+                                        count => messageCount,
+                                        page => pageNumber);
+
+            var response = ExecuteAndDeserializeRequest<SearchResponse>(apiPath);
+
+            return response;
+        }
+
+        public SearchResponse SearchFiles(string queryString, SearchSortType? sortType = null,
+            SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
+            int? pageNumber = null)
+        {
+            string highlighted = null;
+
+            if (isHighlighted.HasValue)
+                highlighted = isHighlighted.Value ? "1" : "0";
+
+            var apiPath = BuildApiPath("/search.files",
+                                        query => queryString,
+                                        sort => sortType,
+                                        sort_dir => sortDir,
+                                        highlight => highlighted,
+                                        count => messageCount,
+                                        page => pageNumber);
+
+            var response = ExecuteAndDeserializeRequest<SearchResponse>(apiPath);
+
+            return response;
+        }
+
+        public SearchResponse SearchMessages(string queryString, SearchSortType? sortType = null,
+            SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
+            int? pageNumber = null)
+        {
+            string highlighted = null;
+
+            if (isHighlighted.HasValue)
+                highlighted = isHighlighted.Value ? "1" : "0";
+
+            var apiPath = BuildApiPath("/search.messages",
+                                        query => queryString,
+                                        sort => sortType,
+                                        sort_dir => sortDir,
+                                        highlight => highlighted,
+                                        count => messageCount,
+                                        page => pageNumber);
+
+            var response = ExecuteAndDeserializeRequest<SearchResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
@@ -498,7 +564,7 @@ namespace Tab.Slack.WebApi
             return requestParams;
         }
 
-        private string BuildApiPath(string apiPath, params Expression<Func<string, string>>[] queryParamParts)
+        private string BuildApiPath(string apiPath, params Expression<Func<string, object>>[] queryParamParts)
         {
             if (queryParamParts == null)
                 return apiPath;
@@ -513,7 +579,7 @@ namespace Tab.Slack.WebApi
                 if (value == null)
                     continue;
 
-                queryParams.Add($"{key}={Uri.EscapeDataString(value)}");
+                queryParams.Add($"{key}={Uri.EscapeDataString(value.ToString())}");
             }
 
             return $"{apiPath}?" + string.Join("&", queryParams);
@@ -522,6 +588,9 @@ namespace Tab.Slack.WebApi
         private T ExecuteAndDeserializeRequest<T>(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST, FileUploadRequest file = null)
         {
             var response = ExecuteRequest(apiPath, parameters, method, file);
+
+            // TODO: handle error response
+
             var result = this.ResponseParser.Deserialize<T>(response.Content);
 
             return result;
