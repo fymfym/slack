@@ -56,6 +56,8 @@
     <Compile Include="Model\Requests\FilesListRequest.cs" />
     <Compile Include="Model\Requests\ParseMode.cs" />
     <Compile Include="Model\Requests\PostMessageRequest.cs" />
+    <Compile Include="Model\Requests\SearchSortDirection.cs" />
+    <Compile Include="Model\Requests\SearchSortType.cs" />
     <Compile Include="Model\Responses\AuthTestResponse.cs" />
     <Compile Include="Model\Responses\CloseResponse.cs" />
     <Compile Include="Model\Responses\ImOpenResponse.cs" />
@@ -74,6 +76,11 @@
     <Compile Include="Model\Responses\OauthAccessResponse.cs" />
     <Compile Include="Model\Responses\PurposeResponse.cs" />
     <Compile Include="Model\Responses\ResponseBase.cs" />
+    <Compile Include="Model\Responses\SearchChannel.cs" />
+    <Compile Include="Model\Responses\SearchFilesResponse.cs" />
+    <Compile Include="Model\Responses\SearchMessageMatch.cs" />
+    <Compile Include="Model\Responses\SearchMessagesResponse.cs" />
+    <Compile Include="Model\Responses\SearchResponse.cs" />
     <Compile Include="Model\Responses\TopicResponse.cs" />
     <Compile Include="Model\Responses\ChatUpdateResponse.cs" />
     <Compile Include="Model\BotModel.cs" />

@@ -59,5 +59,14 @@ namespace Tab.Slack.WebApi
         ResponseBase ImMark(string imId, string timestamp);
         ImOpenResponse ImOpen(string userId);
         OauthAccessResponse OauthAccess(string clientId, string clientSecret, string callbackCode, string redirectUri = null);
+        SearchResponse SearchAll(string queryString, SearchSortType? sortType = null,
+            SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
+            int? pageNumber = null);
+        SearchResponse SearchFiles(string queryString, SearchSortType? sortType = null,
+            SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
+            int? pageNumber = null);
+        SearchResponse SearchMessages(string queryString, SearchSortType? sortType = null,
+            SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
+            int? pageNumber = null);
     }
 }
