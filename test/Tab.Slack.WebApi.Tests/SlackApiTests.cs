@@ -635,6 +635,64 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("TID", result.Team.Id);
         }
 
+        [Fact]
+        public void UsersGetPresenceShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""presence"":""away""}");
+
+            var result = context.SlackApi.UsersGetPresence("UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/users.getPresence?user=UID", context.RequestMade.Resource);
+            Assert.Equal("away", result.Presence);
+        }
+
+        [Fact]
+        public void UsersInfoShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""user"":{""id"":""UID""}}");
+
+            var result = context.SlackApi.UsersInfo("UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/users.info?user=UID", context.RequestMade.Resource);
+            Assert.Equal("UID", result.User.Id);
+        }
+
+        [Fact]
+        public void UsersListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""members"":[{""id"":""UID""}]}");
+
+            var result = context.SlackApi.UsersList();
+
+            context.VerifyOk(result);
+            Assert.Equal("/users.list", context.RequestMade.Resource);
+            Assert.Equal("UID", result.Members[0].Id);
+        }
+
+        [Fact]
+        public void UsersSetActiveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.UsersSetActive();
+
+            context.VerifyOk(result);
+            Assert.Equal("/users.setActive", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void UsersSetPresenceShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.UsersSetPresence("away");
+
+            context.VerifyOk(result);
+            Assert.Equal("/users.setPresence?presence=away", context.RequestMade.Resource);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }

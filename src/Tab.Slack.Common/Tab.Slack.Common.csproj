@@ -74,6 +74,7 @@
     <Compile Include="Model\Responses\MessageResponse.cs" />
     <Compile Include="Model\Responses\MessagesResponse.cs" />
     <Compile Include="Model\Responses\OauthAccessResponse.cs" />
+    <Compile Include="Model\Responses\PresenceResponse.cs" />
     <Compile Include="Model\Responses\PurposeResponse.cs" />
     <Compile Include="Model\Responses\ResponseBase.cs" />
     <Compile Include="Model\Responses\SearchChannel.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Model\OutputMessage.cs" />
     <Compile Include="Model\ProfileData.cs" />
     <Compile Include="Model\Purpose.cs" />
+    <Compile Include="Model\Responses\UsersResponse.cs" />
+    <Compile Include="Model\Responses\UserResponse.cs" />
     <Compile Include="Model\RtmStartResponse.cs" />
     <Compile Include="Model\SelfBotData.cs" />
     <Compile Include="Model\TeamData.cs" />

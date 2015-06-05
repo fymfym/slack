@@ -72,5 +72,10 @@ namespace Tab.Slack.WebApi
         StarsResponse StarsList(string userId = null, int? messageCount = null, int? pageNumber = null);
         TeamAccessLogs TeamAccessLogs(int? messageCount = null, int? pageNumber = null);
         TeamResponse TeamInfo();
+        PresenceResponse UsersGetPresence(string userId);
+        UserResponse UsersInfo(string userId);
+        UsersResponse UsersList();
+        ResponseBase UsersSetActive();
+        ResponseBase UsersSetPresence(string presenceValue = "auto");
     }
 }
