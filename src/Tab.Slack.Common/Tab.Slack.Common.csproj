@@ -84,6 +84,9 @@
     <Compile Include="Model\Responses\StarItemResponse.cs" />
     <Compile Include="Model\Responses\StarItemType.cs" />
     <Compile Include="Model\Responses\StarsResponse.cs" />
+    <Compile Include="Model\Responses\TeamAccessLog.cs" />
+    <Compile Include="Model\Responses\TeamAccessLogs.cs" />
+    <Compile Include="Model\Responses\TeamResponse.cs" />
     <Compile Include="Model\Responses\TopicResponse.cs" />
     <Compile Include="Model\Responses\ChatUpdateResponse.cs" />
     <Compile Include="Model\BotModel.cs" />
