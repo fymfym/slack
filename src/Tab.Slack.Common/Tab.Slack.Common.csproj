@@ -190,6 +190,7 @@
     <Compile Include="Model\OutputMessage.cs" />
     <Compile Include="Model\ProfileData.cs" />
     <Compile Include="Model\Purpose.cs" />
+    <Compile Include="Model\Responses\UserResponse.cs" />
     <Compile Include="Model\RtmStartResponse.cs" />
     <Compile Include="Model\SelfBotData.cs" />
     <Compile Include="Model\TeamData.cs" />

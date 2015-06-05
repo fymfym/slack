@@ -564,6 +564,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public UserResponse UsersInfo(string userId)
+        {
+            var apiPath = BuildApiPath("/users.info", user => userId);
+            var response = ExecuteAndDeserializeRequest<UserResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

@@ -73,5 +73,6 @@ namespace Tab.Slack.WebApi
         TeamAccessLogs TeamAccessLogs(int? messageCount = null, int? pageNumber = null);
         TeamResponse TeamInfo();
         PresenceResponse UsersGetPresence(string userId);
+        UserResponse UsersInfo(string userId);
     }
 }
