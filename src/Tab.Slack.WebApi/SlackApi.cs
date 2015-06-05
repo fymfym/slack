@@ -572,6 +572,28 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public UsersResponse UsersList()
+        {
+            var response = ExecuteAndDeserializeRequest<UsersResponse>("/users.list");
+
+            return response;
+        }
+
+        public ResponseBase UsersSetActive()
+        {
+            var response = ExecuteAndDeserializeRequest<ResponseBase>("/users.setActive");
+
+            return response;
+        }
+
+        public ResponseBase UsersSetPresence(string presenceValue = "auto")
+        {
+            var apiPath = BuildApiPath("/users.setPresence", presence => presenceValue);
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

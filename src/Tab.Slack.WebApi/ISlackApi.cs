@@ -74,5 +74,8 @@ namespace Tab.Slack.WebApi
         TeamResponse TeamInfo();
         PresenceResponse UsersGetPresence(string userId);
         UserResponse UsersInfo(string userId);
+        UsersResponse UsersList();
+        ResponseBase UsersSetActive();
+        ResponseBase UsersSetPresence(string presenceValue = "auto");
     }
 }
