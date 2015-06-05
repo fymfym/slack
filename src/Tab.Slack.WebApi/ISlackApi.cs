@@ -70,5 +70,6 @@ namespace Tab.Slack.WebApi
             int? pageNumber = null);
 
         StarsResponse StarsList(string userId = null, int? messageCount = null, int? pageNumber = null);
+        TeamAccessLogs TeamAccessLogs(int? messageCount = null, int? pageNumber = null);
     }
 }

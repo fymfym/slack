@@ -541,6 +541,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public TeamAccessLogs TeamAccessLogs(int? messageCount = null, int? pageNumber = null)
+        {
+            var apiPath = BuildApiPath("/team.accessLogs", count => messageCount, page => pageNumber);
+            var response = ExecuteAndDeserializeRequest<TeamAccessLogs>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

@@ -610,6 +610,19 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("hi", result.Items[0].Message.Text);
         }
 
+        [Fact]
+        public void TeamAccessLogsShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""logins"":[{""username"":""bob""}]}");
+
+            var result = context.SlackApi.TeamAccessLogs();
+
+            context.VerifyOk(result);
+            Assert.Equal("/team.accessLogs?", context.RequestMade.Resource);
+            Assert.Equal(1, result.Logins.Count);
+            Assert.Equal("bob", result.Logins[0].Username);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }
