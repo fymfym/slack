@@ -549,6 +549,13 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public TeamResponse TeamInfo()
+        {
+            var response = ExecuteAndDeserializeRequest<TeamResponse>("/team.info");
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

@@ -623,6 +623,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("bob", result.Logins[0].Username);
         }
 
+        [Fact]
+        public void TeamInfoShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""team"":{""id"":""TID""}}");
+
+            var result = context.SlackApi.TeamInfo();
+
+            context.VerifyOk(result);
+            Assert.Equal("/team.info", context.RequestMade.Resource);
+            Assert.Equal("TID", result.Team.Id);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }
