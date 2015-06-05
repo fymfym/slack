@@ -529,6 +529,18 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public StarsResponse StarsList(string userId = null, int? messageCount = null, int? pageNumber = null)
+        {
+            var apiPath = BuildApiPath("/stars.list",
+                                        user => userId,
+                                        count => messageCount,
+                                        page => pageNumber);
+
+            var response = ExecuteAndDeserializeRequest<StarsResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)
