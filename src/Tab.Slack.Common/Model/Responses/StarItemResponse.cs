@@ -2,7 +2,7 @@
 
 namespace Tab.Slack.Common.Model.Responses
 {
-    public class StarItemResponse
+    public class StarItemResponse : FlexibleJsonModel
     {
         public StarItemType Type { get; set; }
         public string Channel { get; set; }

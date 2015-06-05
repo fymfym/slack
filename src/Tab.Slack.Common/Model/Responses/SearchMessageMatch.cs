@@ -1,6 +1,6 @@
 ﻿namespace Tab.Slack.Common.Model.Responses
 {
-    public class SearchMessageMatch
+    public class SearchMessageMatch : FlexibleJsonModel
     {
         public string Type { get; set; }
         public SearchChannel Channel { get; set; }

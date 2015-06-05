@@ -1,6 +1,6 @@
 ﻿namespace Tab.Slack.Common.Model.Responses
 {
-    public class TeamAccessLog
+    public class TeamAccessLog : FlexibleJsonModel
     {
         public string UserId { get; set; }
         public string Username { get; set; }
