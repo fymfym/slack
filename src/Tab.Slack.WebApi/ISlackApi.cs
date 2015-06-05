@@ -68,5 +68,7 @@ namespace Tab.Slack.WebApi
         SearchResponse SearchMessages(string queryString, SearchSortType? sortType = null,
             SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
             int? pageNumber = null);
+
+        StarsResponse StarsList(string userId = null, int? messageCount = null, int? pageNumber = null);
     }
 }

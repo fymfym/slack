@@ -81,6 +81,9 @@
     <Compile Include="Model\Responses\SearchMessageMatch.cs" />
     <Compile Include="Model\Responses\SearchMessagesResponse.cs" />
     <Compile Include="Model\Responses\SearchResponse.cs" />
+    <Compile Include="Model\Responses\StarItemResponse.cs" />
+    <Compile Include="Model\Responses\StarItemType.cs" />
+    <Compile Include="Model\Responses\StarsResponse.cs" />
     <Compile Include="Model\Responses\TopicResponse.cs" />
     <Compile Include="Model\Responses\ChatUpdateResponse.cs" />
     <Compile Include="Model\BotModel.cs" />

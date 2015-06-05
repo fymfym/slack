@@ -597,6 +597,19 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("xyz", result.AccessToken);
         }
 
+        [Fact]
+        public void StarsListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""items"":[{""type"":""message"",""message"":{""text"":""hi""}}]}");
+
+            var result = context.SlackApi.StarsList();
+
+            context.VerifyOk(result);
+            Assert.Equal("/stars.list?", context.RequestMade.Resource);
+            Assert.Equal(1, result.Items.Count);
+            Assert.Equal("hi", result.Items[0].Message.Text);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }
