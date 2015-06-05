@@ -74,6 +74,7 @@
     <Compile Include="Model\Responses\MessageResponse.cs" />
     <Compile Include="Model\Responses\MessagesResponse.cs" />
     <Compile Include="Model\Responses\OauthAccessResponse.cs" />
+    <Compile Include="Model\Responses\PresenceResponse.cs" />
     <Compile Include="Model\Responses\PurposeResponse.cs" />
     <Compile Include="Model\Responses\ResponseBase.cs" />
     <Compile Include="Model\Responses\SearchChannel.cs" />

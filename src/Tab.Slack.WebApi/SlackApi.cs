@@ -556,6 +556,14 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public PresenceResponse UsersGetPresence(string userId)
+        {
+            var apiPath = BuildApiPath("/users.getPresence", user => userId);
+            var response = ExecuteAndDeserializeRequest<PresenceResponse>(apiPath);
+
+            return response;
+        }
+
         private Dictionary<string, string> BuildRequestParams<T>(T requestParamsObject)
         {
             if (requestParamsObject == null)

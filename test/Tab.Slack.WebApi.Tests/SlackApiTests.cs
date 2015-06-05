@@ -635,6 +635,18 @@ namespace Tab.Slack.WebApi.Tests
             Assert.Equal("TID", result.Team.Id);
         }
 
+        [Fact]
+        public void UsersGetPresenceShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""presence"":""away""}");
+
+            var result = context.SlackApi.UsersGetPresence("UID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/users.getPresence?user=UID", context.RequestMade.Resource);
+            Assert.Equal("away", result.Presence);
+        }
+
         internal class TestContext
         {
             internal ISlackApi SlackApi { get; set; }
