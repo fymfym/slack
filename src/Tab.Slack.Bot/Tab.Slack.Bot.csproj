@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="CoreHandlers\PingHandler.cs" />
+    <Compile Include="CoreHandlers\BotHandler.cs" />
     <Compile Include="CoreHandlers\PresenceHandler.cs" />
     <Compile Include="CoreHandlers\RtmStartHandler.cs" />
     <Compile Include="Integration\EventMessageExtensions.cs" />
