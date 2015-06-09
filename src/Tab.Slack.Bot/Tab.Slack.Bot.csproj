@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="CoreHandlers\PingHandler.cs" />
+    <Compile Include="CoreHandlers\PresenceHandler.cs" />
+    <Compile Include="CoreHandlers\RtmStartHandler.cs" />
     <Compile Include="Integration\EventMessageExtensions.cs" />
     <Compile Include="Integration\HandlerPriority.cs" />
     <Compile Include="Integration\IMessageHandler.cs" />

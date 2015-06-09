@@ -12,10 +12,12 @@ namespace Tab.Slack.Bot
 {
     internal class Bootstrap
     {
-        internal static ISlackBot BuildSlackBot(ISlackBot slackBot, string apiKey, string pluginDirectoryPath)
+        internal static ISlackBot BuildSlackBot(ISlackBot slackBot, string apiKey, string pluginDirectoryPath, bool includeCoreHandlers = true)
         {
-            var slackBotCatalog = new AssemblyCatalog(typeof(ISlackBot).Assembly);
-            var aggregateCatalog = new AggregateCatalog(slackBotCatalog);
+            var aggregateCatalog = new AggregateCatalog();
+
+            if (includeCoreHandlers)
+                aggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(ISlackBot).Assembly));
 
             if (!string.IsNullOrWhiteSpace(pluginDirectoryPath))
                 aggregateCatalog.Catalogs.Add(new DirectoryCatalog(pluginDirectoryPath));

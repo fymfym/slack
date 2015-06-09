@@ -20,13 +20,13 @@ var slackApi = new SlackApi("api-key");
 ```
 
 ### Things to note  
-- You can run SlackBot without specifying a plugin path, but it won't do much  
+- You can run SlackBot without specifying a plugin path  
 - Core bot state is provided via Tab.Slack.Bot.CoreHandlers - these also provide the best guidance for how you can create your own plugin message handlers
-- In order to use the core handlers, simply reference the Nuget package and drop the Tab.Slack.Bot.CoreHandlers.dll into your plugin path  
-- You can test the core handlers have been picked up properly by sending your bot a direct message "ping" - the bot should respond with "pong" 
+- Core handlers are loaded by default, but you can pass a flag to disable them loading if so desired    
+- You can test the bot is running with core handlers properly by sending your bot a direct message "ping" - the bot should respond with "pong" 
 
 ## Todo
-- Flesh out the slack rest client code to handle full set of methods  
+- ~~Flesh out the slack rest client code to handle full set of methods~~  
 - Sort out default bot handlers  
 - Add error/connection handling to bot  
 - Logging  
