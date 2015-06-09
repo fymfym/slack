@@ -34,10 +34,10 @@ namespace Tab.Slack.Bot
             return new SlackBot(apiKey);
         }
 
-        public static ISlackBot Create(string apiKey, string pluginDirectoryPath = null)
+        public static ISlackBot Create(string apiKey, string pluginDirectoryPath = null, bool includeCoreHandlers = true)
         {
             ISlackBot slackBot = new SlackBot(apiKey);
-            slackBot = Bootstrap.BuildSlackBot(slackBot, apiKey, pluginDirectoryPath);
+            slackBot = Bootstrap.BuildSlackBot(slackBot, apiKey, pluginDirectoryPath, includeCoreHandlers);
 
             return slackBot;
         }
