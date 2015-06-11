@@ -27,7 +27,7 @@ var slackApi = new SlackApi("api-key");
 
 ## Todo
 - ~~Flesh out the slack rest client code to handle full set of methods~~  
-- Sort out default bot handlers  
+- ~~Sort out default bot handlers~~  
 - Add error/connection handling to bot  
 - Logging  
 - Documentation / examples  
