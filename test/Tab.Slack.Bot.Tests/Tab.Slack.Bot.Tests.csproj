@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BotClientTests.cs" />
+    <Compile Include="CoreHandlers\ImHandlerTests.cs" />
     <Compile Include="CoreHandlers\ChannelHandlerTests.cs" />
     <Compile Include="CoreHandlers\PingHandlerTests.cs" />
     <Compile Include="CoreHandlers\BotHandlerTests.cs" />
