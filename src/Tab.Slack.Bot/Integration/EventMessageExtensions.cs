@@ -71,14 +71,14 @@ namespace Tab.Slack.Bot.Integration
             return (messageBase.Text ?? "").StartsWith($"<@{botState.Self.Id}>:");
         }
 
-        public static bool MatchesText(this EventMessageBase message, string pattern)
+        public static bool MatchesText(this EventMessageBase message, string pattern, RegexOptions options = RegexOptions.None)
         {
             if (!IsActivePlainMessage(message))
                 return false;
 
             var messageBase = CastTo<MessageBase>(message);
 
-            return Regex.IsMatch(messageBase.Text, pattern);
+            return Regex.IsMatch(messageBase.Text, pattern, options);
         }
     }
 }
