@@ -8,7 +8,7 @@ namespace Tab.Slack.Common.Model.Events
     public class ImCreated : EventMessageBase
     {
         public string User { get; set; }
-        public Channel Channel { get; set; }
+        public DirectMessageChannel Channel { get; set; }
     }
 }
 
