@@ -142,10 +142,17 @@ namespace Tab.Slack.Bot
 
             foreach (var handler in interestedHandlers)
             {
-                var result = await handler.HandleMessageAsync(message);
-                
-                if (result == ProcessingChainResult.Stop)
-                    break;
+                try
+                {
+                    var result = await handler.HandleMessageAsync(message);
+
+                    if (result == ProcessingChainResult.Stop)
+                        break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{handler.GetType().Name} threw exception when handling message: {ex}");
+                }
             }
         }
 
