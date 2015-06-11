@@ -28,7 +28,7 @@ namespace Tab.Slack.Bot.Tests
 
             cancellationTokenSource.Cancel();
 
-            Thread.Sleep(10);
+            Thread.Sleep(50);
             Assert.True(task.IsCompleted);
         }
 
