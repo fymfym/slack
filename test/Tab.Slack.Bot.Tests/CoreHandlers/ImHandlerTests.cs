@@ -37,7 +37,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
         {
             var ims = new List<DirectMessageChannel>
             {
-                new DirectMessageChannel { Id = "CHANID1" },
+                new DirectMessageChannel { Id = "CHANID1", IsOpen = true },
                 new DirectMessageChannel { Id = "CHANID2" }
             };
 
@@ -51,8 +51,8 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
 
             RunHandler(message, mockState);
 
-            Assert.Equal(1, ims.Count);
-            Assert.Equal("CHANID2", ims[0].Id);
+            Assert.Equal(2, ims.Count);
+            Assert.True(ims.All(i => i.IsOpen == false));
         }
 
         [Fact]

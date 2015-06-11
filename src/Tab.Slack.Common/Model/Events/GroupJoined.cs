@@ -7,7 +7,7 @@ namespace Tab.Slack.Common.Model.Events
 {
     public class GroupJoined : EventMessageBase
     {
-        public Channel Channel { get; set; }
+        public Group Channel { get; set; }
     }
 }
 

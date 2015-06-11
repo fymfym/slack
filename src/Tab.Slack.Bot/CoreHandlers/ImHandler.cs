@@ -17,7 +17,8 @@ namespace Tab.Slack.Bot.CoreHandlers
         {
             return message.IsOneOf(EventType.ImClose, 
                                    EventType.ImCreated,
-                                   EventType.ImMarked);
+                                   EventType.ImMarked,
+                                   EventType.ImOpen);
         }
 
         public Task<ProcessingChainResult> HandleMessageAsync(EventMessageBase message)
@@ -30,6 +31,8 @@ namespace Tab.Slack.Bot.CoreHandlers
                     ImCreated(message as ImCreated); break;
                 case EventType.ImMarked:
                     ImMarked(message as ImMarked); break;
+                case EventType.ImOpen:
+                    ImOpen(message as ImOpen); break;
             }
 
             return Task.FromResult(ProcessingChainResult.Continue);
@@ -47,10 +50,22 @@ namespace Tab.Slack.Bot.CoreHandlers
 
         private void ImClose(ImClose message)
         {
-            var existingImIndex = base.BotState.Ims.FindIndex(i => i.Id == message.Channel);
+            var im = base.BotState.Ims.FirstOrDefault(i => i.Id == message.Channel);
 
-            if (existingImIndex >= 0)
-                base.BotState.Ims.RemoveAt(existingImIndex);
+            if (im == null)
+                return;
+
+            im.IsOpen = false;
+        }
+
+        private void ImOpen(ImOpen message)
+        {
+            var im = base.BotState.Ims.FirstOrDefault(i => i.Id == message.Channel);
+
+            if (im == null)
+                return;
+
+            im.IsOpen = true;
         }
 
         private void ImMarked(ImMarked message)
