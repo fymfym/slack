@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Tab.Slack.Bot.ConsoleHost
 {
@@ -12,10 +13,41 @@ namespace Tab.Slack.Bot.ConsoleHost
             var apiKey = ConfigurationManager.AppSettings["slackbot.apikey"];
             var pluginDir = ConfigurationManager.AppSettings["slackbot.plugindir"];
 
-            using (var slackBot = SlackBot.Create(apiKey, pluginDir))
+            var slackBot = SlackBot.Create(apiKey, pluginDir);
+
+            slackBot.Start();
+
+            var stopRequest = false;
+
+            while (stopRequest == false)
             {
-                slackBot.Start();
+                char command = Console.ReadKey(true).KeyChar;
+
+                if (command == 'q')
+                {
+                    Console.WriteLine("Quitting...");
+                    stopRequest = true;
+                }
+
+                if (command == 'r')
+                {
+                    Console.WriteLine("Restarting...");
+                    slackBot.Stop();
+                    slackBot.Start();
+                }
+
+                if (command == 's')
+                {
+                    Console.WriteLine("Stopping...");
+                    slackBot.Stop();
+                    stopRequest = true;
+                }
             }
+
+            Console.WriteLine("Disposing...");
+            slackBot.Dispose();
+
+            Console.WriteLine("Finished.");
         }
     }
 }
