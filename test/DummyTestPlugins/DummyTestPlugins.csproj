@@ -2,13 +2,13 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A84C7A78-AFA9-42C6-9919-8A52EE119CF2}</ProjectGuid>
+    <ProjectGuid>{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tab.Slack.Bot</RootNamespace>
-    <AssemblyName>Tab.Slack.Bot</AssemblyName>
+    <RootNamespace>DummyTestPlugins</RootNamespace>
+    <AssemblyName>DummyTestPlugins</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -43,50 +39,29 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebSocket4Net, Version=0.12.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebSocket4Net.0.12\lib\net45\WebSocket4Net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreHandlers\GroupHandler.cs" />
-    <Compile Include="CoreHandlers\TeamHandler.cs" />
-    <Compile Include="CoreHandlers\ImHandler.cs" />
-    <Compile Include="CoreHandlers\ChannelHandler.cs" />
-    <Compile Include="CoreHandlers\PingHandler.cs" />
-    <Compile Include="CoreHandlers\BotHandler.cs" />
-    <Compile Include="CoreHandlers\PresenceHandler.cs" />
-    <Compile Include="CoreHandlers\RtmStartHandler.cs" />
-    <Compile Include="Integration\EventMessageExtensions.cs" />
-    <Compile Include="Integration\HandlerPriority.cs" />
-    <Compile Include="Integration\IMessageHandler.cs" />
-    <Compile Include="Integration\MessageHandlerBase.cs" />
-    <Compile Include="Integration\ProcessingChainResult.cs" />
-    <Compile Include="ISlackBot.cs" />
-    <Compile Include="IBotServices.cs" />
-    <Compile Include="IBotState.cs" />
-    <Compile Include="ISlackBotBuilder.cs" />
-    <Compile Include="SlackBot.cs" />
-    <Compile Include="SlackBotBuilder.cs" />
-    <Compile Include="SlackSendQueueService.cs" />
-    <Compile Include="BotState.cs" />
+    <Compile Include="TestPlugin2.cs" />
+    <Compile Include="TestPlugin1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tab.Slack.Common\Tab.Slack.Common.csproj">
+    <ProjectReference Include="..\..\src\Tab.Slack.Bot\Tab.Slack.Bot.csproj">
+      <Project>{a84c7a78-afa9-42c6-9919-8a52ee119cf2}</Project>
+      <Name>Tab.Slack.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Tab.Slack.Common\Tab.Slack.Common.csproj">
       <Project>{1d8a8d58-958e-4789-9a26-6ffa4ba79ae6}</Project>
       <Name>Tab.Slack.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tab.Slack.WebApi\Tab.Slack.WebApi.csproj">
-      <Project>{4129750b-42b2-4981-96a5-26a09e8796cf}</Project>
-      <Name>Tab.Slack.WebApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Tab.Slack.Bot.nuspec" />
+    <Content Include="Dll\build-dll-goes-in-here.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(ProjectDir)Dll\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

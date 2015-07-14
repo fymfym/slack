@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Common.Tests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.WebApi.Tests", "test\Tab.Slack.WebApi.Tests\Tab.Slack.WebApi.Tests.csproj", "{10D7C3B4-D69A-4A74-8E5D-469551FA090F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyTestPlugins", "test\DummyTestPlugins\DummyTestPlugins.csproj", "{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{10D7C3B4-D69A-4A74-8E5D-469551FA090F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10D7C3B4-D69A-4A74-8E5D-469551FA090F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10D7C3B4-D69A-4A74-8E5D-469551FA090F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,5 +73,6 @@ Global
 		{D2AD3595-BA1E-4454-A109-50108DBD9C71} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
 		{7DE2F29E-8FF6-45A6-9027-E9B8CFE27F0B} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
 		{10D7C3B4-D69A-4A74-8E5D-469551FA090F} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
+		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
 	EndGlobalSection
 EndGlobal

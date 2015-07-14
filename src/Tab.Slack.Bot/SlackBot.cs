@@ -10,6 +10,7 @@ using WebSocket4Net;
 using Tab.Slack.WebApi;
 using SuperSocket.ClientEngine;
 using System.Threading.Tasks;
+using System.ComponentModel.Composition;
 
 namespace Tab.Slack.Bot
 {
@@ -20,11 +21,17 @@ namespace Tab.Slack.Bot
         private CancellationTokenSource cancellationTokenSource;
         private WebSocket slackSocket;
 
+        [ImportMany]
         public IEnumerable<IMessageHandler> MessageHandlers { get; set; }
+        [Import]
         public IBotState SlackState { get; set; }
+        [Import]
         public IBotServices SlackService { get; set; }
+        [Import]
         public IResponseParser ResponseParser { get; set; }
+        [Import]
         public ISlackApi SlackApi { get; set; }
+
         public bool AutoReconnect { get; set; } = true;
 
         private SlackBot(string apiKey)
@@ -32,17 +39,9 @@ namespace Tab.Slack.Bot
             this.apiKey = apiKey;
         }
 
-        public static ISlackBot CreateWithoutDependencies(string apiKey)
+        public static ISlackBotBuilder Build(string apiKey)
         {
-            return new SlackBot(apiKey);
-        }
-
-        public static ISlackBot Create(string apiKey, string pluginDirectoryPath = null, bool includeCoreHandlers = true)
-        {
-            ISlackBot slackBot = new SlackBot(apiKey);
-            slackBot = Bootstrap.BuildSlackBot(slackBot, apiKey, pluginDirectoryPath, includeCoreHandlers);
-
-            return slackBot;
+            return new SlackBotBuilder(new SlackBot(apiKey), apiKey);
         }
 
         public Task Start()

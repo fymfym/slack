@@ -75,6 +75,7 @@
     <Compile Include="CoreHandlers\RtmStartHandlerTests.cs" />
     <Compile Include="Integration\EventMessageExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlackBotBuilderTests.cs" />
     <Compile Include="SlackSendQueueServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,10 @@
     <ProjectReference Include="..\..\src\Tab.Slack.Common\Tab.Slack.Common.csproj">
       <Project>{1d8a8d58-958e-4789-9a26-6ffa4ba79ae6}</Project>
       <Name>Tab.Slack.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DummyTestPlugins\DummyTestPlugins.csproj">
+      <Project>{7d983fe7-84c2-4a93-bc6b-3fe48e1fced3}</Project>
+      <Name>DummyTestPlugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
