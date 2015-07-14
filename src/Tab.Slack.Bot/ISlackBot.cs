@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Tab.Slack.Bot.Integration;
 using Tab.Slack.Common.Json;
 using Tab.Slack.WebApi;
@@ -15,7 +16,7 @@ namespace Tab.Slack.Bot
         IResponseParser ResponseParser { get; set; }
         ISlackApi SlackApi { get; set; }
 
-        void Start();
-        void Start(CancellationTokenSource cancellationTokenSource);
+        Task Start();
+        void Stop();
     }
 }

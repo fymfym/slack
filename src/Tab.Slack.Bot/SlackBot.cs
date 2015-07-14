@@ -9,6 +9,7 @@ using Tab.Slack.Bot.Integration;
 using WebSocket4Net;
 using Tab.Slack.WebApi;
 using SuperSocket.ClientEngine;
+using System.Threading.Tasks;
 
 namespace Tab.Slack.Bot
 {
@@ -17,12 +18,14 @@ namespace Tab.Slack.Bot
         private bool started;
         private string apiKey;
         private CancellationTokenSource cancellationTokenSource;
+        private WebSocket slackSocket;
 
         public IEnumerable<IMessageHandler> MessageHandlers { get; set; }
         public IBotState SlackState { get; set; }
         public IBotServices SlackService { get; set; }
         public IResponseParser ResponseParser { get; set; }
         public ISlackApi SlackApi { get; set; }
+        public bool AutoReconnect { get; set; } = true;
 
         private SlackBot(string apiKey)
         {
@@ -42,57 +45,98 @@ namespace Tab.Slack.Bot
             return slackBot;
         }
 
-        public void Start()
-        {
-            using (var cancellationSource = new CancellationTokenSource())
-            {
-                Start(cancellationSource);
-            }
-        }
-
-        public void Start(CancellationTokenSource cancellationTokenSource)
+        public Task Start()
         {
             if (this.started)
                 throw new InvalidOperationException("Client can only be started once");
 
+            this.cancellationTokenSource = new CancellationTokenSource();
+
+            return StartInternal();
+        }
+
+        private Task StartInternal()
+        {
             this.started = true;
-
-            if (cancellationTokenSource == null)
-                throw new ArgumentNullException(nameof(cancellationTokenSource));
-            
-            this.cancellationTokenSource = cancellationTokenSource;
-
             var rtmStartResponse = this.SlackApi.RtmStart();
             
-            // TODO: handle
             if (rtmStartResponse == null || !rtmStartResponse.Ok)
-                return;
+                throw new Exception($"Failed to establish RTM session. {rtmStartResponse?.Error}");
             
             OfferMessageToHandlersAsync(rtmStartResponse);
 
-            using (var ws = new WebSocket(rtmStartResponse.Url))
-            {
-                ws.Error += OnError;
-                ws.Opened += OnOpened;
-                ws.Closed += OnClosed;
-                ws.MessageReceived += OnMessageReceived;
-                ws.Open();
+            this.slackSocket = new WebSocket(rtmStartResponse.Url);
+            this.slackSocket.Error += OnError;
+            this.slackSocket.Opened += OnOpened;
+            this.slackSocket.Closed += OnClosed;
+            this.slackSocket.MessageReceived += OnMessageReceived;
+            this.slackSocket.Open();
 
-                ProcessSendQueue(ws);
+            return ProcessSendQueue(this.slackSocket);
+        }
+
+        public void Stop()
+        {
+            try
+            {
+                if (this.cancellationTokenSource != null && cancellationTokenSource.Token.CanBeCanceled)
+                {
+                    this.cancellationTokenSource.Cancel();
+                    this.cancellationTokenSource.Dispose();
+                }
+                
             }
+            catch { }
+            finally
+            {
+                this.cancellationTokenSource = null;
+            }
+
+            Disconnect();
+            this.started = false;
+        }
+
+        private void Disconnect()
+        {
+            if (this.slackSocket != null)
+            {
+                try
+                {
+                    this.slackSocket.Dispose();
+                }
+                catch { }
+                finally
+                {
+                    this.slackSocket = null;
+                }
+            }
+
+            this.SlackState.Connected = false;
         }
 
         private void OnError(object sender, ErrorEventArgs e)
         {
             Console.WriteLine(e.Exception.ToString());
+            Stop();
+            TryReconnect();
         }
 
         private void OnClosed(object sender, EventArgs e)
         {
-            this.SlackState.Connected = false;
+            Stop();
+            TryReconnect();
+        }
 
-            if (this.cancellationTokenSource != null && cancellationTokenSource.Token.CanBeCanceled)
-                this.cancellationTokenSource.Cancel();
+        private void TryReconnect()
+        {
+            if (this.AutoReconnect)
+            {
+                // todo: handle rate limiting etc
+                Console.WriteLine("Attempting reconnect...");
+                Thread.Sleep(30000);
+                
+                Start();
+            }
         }
 
         private void OnOpened(object sender, EventArgs e)
@@ -100,22 +144,25 @@ namespace Tab.Slack.Bot
             this.SlackState.Connected = true;
         }
 
-        private void ProcessSendQueue(WebSocket webSocket)
+        private Task ProcessSendQueue(WebSocket webSocket)
         {
-            var blockingSendQueue = this.SlackService.GetBlockingOutputEnumerable(this.cancellationTokenSource.Token);
+            return Task.Factory.StartNew(() =>
+            {
+                var blockingSendQueue = this.SlackService.GetBlockingOutputEnumerable(this.cancellationTokenSource.Token);
 
-            try
-            {
-                foreach (var message in blockingSendQueue)
+                try
                 {
-                    Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {message.Text}");
-                    webSocket.Send(this.ResponseParser.SerializeMessage(message));
+                    foreach (var message in blockingSendQueue)
+                    {
+                        Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {message.Text}");
+                        webSocket.Send(this.ResponseParser.SerializeMessage(message));
+                    }
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                // safe to ignore and exit
-            }
+                catch (OperationCanceledException)
+                {
+                    // safe to ignore and exit
+                }
+            }, this.cancellationTokenSource.Token);
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs args)
@@ -158,18 +205,22 @@ namespace Tab.Slack.Bot
 
         public void Dispose()
         {
-            if (this.cancellationTokenSource != null && cancellationTokenSource.Token.CanBeCanceled)
-                cancellationTokenSource.Cancel();
-
-            if (this.SlackService != null)
+            try
             {
-                try
+                Stop();
+            }
+            finally
+            {
+                if (this.SlackService != null)
                 {
-                    this.SlackService.Dispose();
-                }
-                finally
-                {
-                    this.SlackService = null;
+                    try
+                    {
+                        this.SlackService.Dispose();
+                    }
+                    finally
+                    {
+                        this.SlackService = null;
+                    }
                 }
             }
         }
