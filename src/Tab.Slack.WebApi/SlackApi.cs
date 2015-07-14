@@ -17,7 +17,7 @@ namespace Tab.Slack.WebApi
     // TODO: read up on this strange "Single Responsibility Principle" people talk of
     public class SlackApi : ISlackApi
     {
-        private readonly string apiKey;
+        public string ApiKey { get; set; }
 
         public IRestClient RestClient { get; set; } = new RestClient("https://slack.com/api");
         public IResponseParser ResponseParser { get; set; } = new ResponseParser();
@@ -27,7 +27,7 @@ namespace Tab.Slack.WebApi
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentNullException(nameof(apiKey));
 
-            this.apiKey = apiKey;
+            this.ApiKey = apiKey;
         }
 
         public RtmStartResponse RtmStart()
@@ -664,7 +664,7 @@ namespace Tab.Slack.WebApi
         private IRestResponse ExecuteRequest(string apiPath, Dictionary<string, string> parameters = null, Method method = Method.POST, FileUploadRequest file = null)
         {
             var request = new RestRequest(apiPath, method);
-            request.AddParameter("token", this.apiKey);
+            request.AddParameter("token", this.ApiKey);
 
             if (file != null)
                 request.AddFile("file", file.FileData, file.Filename);

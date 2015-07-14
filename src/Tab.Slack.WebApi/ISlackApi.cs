@@ -8,6 +8,7 @@ namespace Tab.Slack.WebApi
     public interface ISlackApi
     {
         IResponseParser ResponseParser { get; set; }
+        string ApiKey { get; set; }
 
         RtmStartResponse RtmStart();
         ApiTestResponse ApiTest(string error = null, params string[] args);
