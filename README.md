@@ -8,10 +8,8 @@ Projects:
 
 ### SlackBot  
 ```cs
-using (var slackBot = SlackBot.Create("bot-api-key", "plugins-path"))
-{
-    slackBot.Start();
-}
+var slackBot = SlackBot.Create("bot-api-key", "plugins-path");
+slackBot.Start();
 ```
 
 ### SlackApi  
