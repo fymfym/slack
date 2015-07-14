@@ -19,7 +19,7 @@ namespace Tab.Slack.Bot
         private List<Type> pluginTypes = new List<Type>();
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private List<string> pluginPaths = new List<string>();
-        private bool includeCoreHandlers;
+        private bool includeCoreHandlers = true;
 
         internal SlackBotBuilder(ISlackBot slackBot, string apiKey)
         {
@@ -52,9 +52,9 @@ namespace Tab.Slack.Bot
             return slackBot;
         }
 
-        public ISlackBotBuilder WithCoreHandlers()
+        public ISlackBotBuilder WithoutCoreHandlers()
         {
-            this.includeCoreHandlers = true;
+            this.includeCoreHandlers = false;
             return this;
         }
 

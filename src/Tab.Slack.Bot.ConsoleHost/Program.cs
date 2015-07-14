@@ -12,9 +12,7 @@ namespace Tab.Slack.Bot.ConsoleHost
         {
             var apiKey = ConfigurationManager.AppSettings["slackbot.apikey"];
 
-            var slackBot = SlackBot.Build(apiKey)
-                                   .WithCoreHandlers()
-                                   .Instantiate();
+            var slackBot = SlackBot.Build(apiKey).Instantiate();
 
             slackBot.Start();
 
