@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>0.1.2-alpha</version>
+    <version>0.2.0-alpha</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/robladbrook/slack</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Very alpha.</releaseNotes>
+    <releaseNotes>Alpha, but approaching RC.</releaseNotes>
     <copyright>Copyright The App Business 2015</copyright>
   </metadata>
 </package>
