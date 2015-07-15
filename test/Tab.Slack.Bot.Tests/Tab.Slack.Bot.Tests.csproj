@@ -69,7 +69,7 @@
     <Compile Include="CoreHandlers\ImHandlerTests.cs" />
     <Compile Include="CoreHandlers\ChannelHandlerTests.cs" />
     <Compile Include="CoreHandlers\TeamHandlerTests.cs" />
-    <Compile Include="CoreHandlers\PingHandlerTests.cs" />
+    <Compile Include="CoreHandlers\UserPingHandlerTests.cs" />
     <Compile Include="CoreHandlers\BotHandlerTests.cs" />
     <Compile Include="CoreHandlers\PresenceHandlerTests.cs" />
     <Compile Include="CoreHandlers\RtmStartHandlerTests.cs" />

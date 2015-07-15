@@ -53,7 +53,7 @@
     <Compile Include="CoreHandlers\TeamHandler.cs" />
     <Compile Include="CoreHandlers\ImHandler.cs" />
     <Compile Include="CoreHandlers\ChannelHandler.cs" />
-    <Compile Include="CoreHandlers\PingHandler.cs" />
+    <Compile Include="CoreHandlers\UserPingHandler.cs" />
     <Compile Include="CoreHandlers\BotHandler.cs" />
     <Compile Include="CoreHandlers\PresenceHandler.cs" />
     <Compile Include="CoreHandlers\RtmStartHandler.cs" />

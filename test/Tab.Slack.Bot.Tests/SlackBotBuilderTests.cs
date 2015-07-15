@@ -41,14 +41,14 @@ namespace Tab.Slack.Bot.Tests
         {
             var slackBot = SlackBot.Build("xxx")
                                    .WithoutCoreHandlers()
-                                   .WithPlugin<PingHandler>()
+                                   .WithPlugin<UserPingHandler>()
                                    .Instantiate();
 
             Assert.NotNull(slackBot);
             Assert.True(slackBot.MessageHandlers.Count() == 1);
             Assert.NotNull(slackBot.SlackService);
 
-            Assert.True(slackBot.MessageHandlers.First().GetType() == typeof(PingHandler));
+            Assert.True(slackBot.MessageHandlers.First().GetType() == typeof(UserPingHandler));
         }
 
         [Fact]

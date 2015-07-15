@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Tab.Slack.Bot.CoreHandlers.Tests
 {
-    public class PingHandlerTests
+    public class UserPingHandlerTests
     {
         [Fact]
         public void CanHandlePingMessages()
@@ -29,7 +29,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                 Text = "<@BOTID>: ping"
             };
 
-            var handler = new PingHandler();
+            var handler = new UserPingHandler();
             handler.BotState = mockState.Object;
 
             var result = handler.CanHandle(message);
@@ -53,7 +53,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                 Text = "<@BOTID>: pingdom"
             };
 
-            var handler = new PingHandler();
+            var handler = new UserPingHandler();
             handler.BotState = mockState.Object;
 
             var result = handler.CanHandle(message);
@@ -80,7 +80,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                 Text = "ping"
             };
 
-            var handler = new PingHandler();
+            var handler = new UserPingHandler();
             handler.BotState = mockState.Object;
 
             var result = handler.CanHandle(message);
@@ -117,7 +117,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                 User = "USERID"
             };
 
-            var handler = new PingHandler();
+            var handler = new UserPingHandler();
             handler.BotState = mockState.Object;
             handler.BotServices = mockService.Object;
 
@@ -162,7 +162,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                 User = "USERID"
             };
 
-            var handler = new PingHandler();
+            var handler = new UserPingHandler();
             handler.BotState = mockState.Object;
             handler.BotServices = mockService.Object;
 

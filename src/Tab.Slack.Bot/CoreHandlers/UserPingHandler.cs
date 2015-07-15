@@ -11,7 +11,7 @@ using Tab.Slack.Bot.Integration;
 namespace Tab.Slack.Bot.CoreHandlers
 {
     [Export(typeof(IMessageHandler))]
-    public class PingHandler : MessageHandlerBase, IMessageHandler
+    public class UserPingHandler : MessageHandlerBase, IMessageHandler
     {
         public bool CanHandle(EventMessageBase message)
         {
