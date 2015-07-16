@@ -11,6 +11,7 @@ using Tab.Slack.WebApi;
 using SuperSocket.ClientEngine;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
+using Tab.Slack.Common.Model;
 
 namespace Tab.Slack.Bot
 {
@@ -153,8 +154,7 @@ namespace Tab.Slack.Bot
                 {
                     foreach (var message in blockingSendQueue)
                     {
-                        Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {this.ResponseParser.SerializeMessage(message)}");
-                        webSocket.Send(this.ResponseParser.SerializeMessage(message));
+                        CheckAndSendMessage(message, webSocket);
                     }
                 }
                 catch (OperationCanceledException)
@@ -162,6 +162,22 @@ namespace Tab.Slack.Bot
                     // safe to ignore and exit
                 }
             }, this.cancellationTokenSource.Token);
+        }
+
+        private void CheckAndSendMessage(OutputMessage message, WebSocket webSocket)
+        {
+            var serializedMessage = this.ResponseParser.SerializeMessage(message);
+            var maxByteCount = Encoding.UTF8.GetMaxByteCount(serializedMessage.Length) + 2;
+
+            if (maxByteCount > 16000)
+            {
+                // todo: log - slack doesn't allow messages over 16Kb
+                return;
+            }
+
+            webSocket.Send(serializedMessage);
+
+            Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {serializedMessage}");
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs args)
