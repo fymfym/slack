@@ -21,7 +21,8 @@ var slackApi = new SlackApi("api-key");
 ### Things to note  
 - You can run SlackBot without any plugins, but it obviously won't do much  
 - Core bot state is provided via Tab.Slack.Bot.CoreHandlers - these also provide the best guidance for how you can create your own plugin message handlers  
-- Core handlers are loaded by default, but you can build the bot using `WithoutCoreHandlers()` to disable them loading if so desired    
+- Core handlers are loaded by default, but you can build the bot using `WithoutCoreHandlers()` to disable them loading if so desired  
+- You can specify individual core handlers using something like `WithoutCoreHandlers().WithPlugin<RtmStartHandler>()` for example   
 - You can test the bot is running with core handlers properly by sending your bot a direct message "ping" - the bot should respond with "pong" 
 
 ## Todo
