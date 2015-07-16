@@ -16,7 +16,7 @@ namespace Tab.Slack.Common.Tests.Json
         [Fact]
         public void SerializeValidMessage()
         {
-            var message = new OutputMessage(1, "CHANID", "MSG");
+            var message = new OutputMessage { Id = 1, Channel = "CHANID", Text = "MSG" };
 
             var parser = new ResponseParser();
             var result = parser.SerializeMessage(message);

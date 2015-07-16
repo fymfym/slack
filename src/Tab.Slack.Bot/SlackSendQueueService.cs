@@ -36,8 +36,16 @@ namespace Tab.Slack.Bot
             if (string.IsNullOrWhiteSpace(text))
                 throw new ArgumentNullException(nameof(text));
 
-            var messageId = Interlocked.Increment(ref this.outgoingMessageId);
-            this.outputMessageQueue.Add(new OutputMessage(messageId, channel, text));
+            SendRawMessage(new OutputMessage { Channel = channel, Text = text });
+        }
+
+        public void SendRawMessage(OutputMessage message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            message.Id = Interlocked.Increment(ref this.outgoingMessageId);
+            this.outputMessageQueue.Add(message);
         }
 
         public IEnumerable<OutputMessage> GetBlockingOutputEnumerable(CancellationToken cancellationToken)

@@ -64,6 +64,7 @@ namespace Tab.Slack.Common.Model.Events
         BotChanged,
         AccountsChanged,
         TeamMigrationStarted,
-        RtmStart
+        RtmStart,
+        Pong
     }
 }

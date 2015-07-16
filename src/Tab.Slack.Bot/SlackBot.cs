@@ -153,7 +153,7 @@ namespace Tab.Slack.Bot
                 {
                     foreach (var message in blockingSendQueue)
                     {
-                        Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {message.Text}");
+                        Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {this.ResponseParser.SerializeMessage(message)}");
                         webSocket.Send(this.ResponseParser.SerializeMessage(message));
                     }
                 }
@@ -184,7 +184,7 @@ namespace Tab.Slack.Bot
                 return;
 
             Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Message: {message.GetType().Name}");
-            var interestedHandlers = this.MessageHandlers.Where(h => h.CanHandle(message));
+            var interestedHandlers = this.MessageHandlers.Where(h => SafelyHandles(h, message));
 
             foreach (var handler in interestedHandlers)
             {
@@ -222,6 +222,22 @@ namespace Tab.Slack.Bot
                     }
                 }
             }
+        }
+
+        private bool SafelyHandles(IMessageHandler handler, EventMessageBase message)
+        {
+            var handles = false;
+
+            try
+            {
+                handles = handler.CanHandle(message);
+            }
+            catch
+            {
+                // todo: logging
+            }
+
+            return handles;
         }
     }
 }

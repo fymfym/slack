@@ -53,7 +53,27 @@ namespace Tab.Slack.Bot.Tests
         }
 
         [Fact]
-        public void SendMessageInrementsMessageId()
+        public void SendRawMessageEnqueuesItem()
+        {
+            OutputMessage sentMessage = null;
+
+            var mockSource = new Mock<IProducerConsumerCollection<OutputMessage>>();
+            mockSource.Setup(x => x.TryAdd(It.IsAny<OutputMessage>()))
+                      .Callback<OutputMessage>(o => sentMessage = o)
+                      .Returns(true)
+                      .Verifiable();
+
+            var queueService = new SlackSendQueueService(mockSource.Object);
+
+            queueService.SendRawMessage(new OutputMessage { Channel = "channel", Text = "message" });
+
+            mockSource.Verify();
+            Assert.Equal("channel", sentMessage.Channel);
+            Assert.Equal("message", sentMessage.Text);
+        }
+
+        [Fact]
+        public void SendRawMessageInrementsMessageId()
         {
             var sentMessages = new List<OutputMessage>();
 
@@ -64,9 +84,9 @@ namespace Tab.Slack.Bot.Tests
 
             var queueService = new SlackSendQueueService(mockSource.Object);
 
-            queueService.SendMessage("channel", "message1");
-            queueService.SendMessage("channel", "message2");
-            queueService.SendMessage("channel", "message3");
+            queueService.SendRawMessage(new OutputMessage());
+            queueService.SendRawMessage(new OutputMessage());
+            queueService.SendRawMessage(new OutputMessage());
 
             Assert.Equal(3, sentMessages.Count);
             Assert.Equal(1, sentMessages[0].Id);
