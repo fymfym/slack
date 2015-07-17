@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackOffRetryTests.cs" />
     <Compile Include="BotClientTests.cs" />
     <Compile Include="CoreHandlers\GroupHandlerTests.cs" />
     <Compile Include="CoreHandlers\ImHandlerTests.cs" />

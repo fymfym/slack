@@ -116,6 +116,9 @@ namespace Tab.Slack.Bot
 
             if (mefContainer.GetExportedValueOrDefault<ISlackApi>() == null)
                 mefContainer.ComposeExportedValue<ISlackApi>(new SlackApi(this.apiKey));
+
+            if (mefContainer.GetExportedValueOrDefault<IBackOffStrategy>() == null)
+                mefContainer.ComposeExportedValue<IBackOffStrategy>(new BackOffRetry());
         }
     }
 }

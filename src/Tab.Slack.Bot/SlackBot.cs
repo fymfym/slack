@@ -21,7 +21,7 @@ namespace Tab.Slack.Bot
         private string apiKey;
         private CancellationTokenSource cancellationTokenSource;
         private WebSocket slackSocket;
-
+        
         [ImportMany]
         public IEnumerable<IMessageHandler> MessageHandlers { get; set; }
         [Import]
@@ -32,6 +32,8 @@ namespace Tab.Slack.Bot
         public IResponseParser ResponseParser { get; set; }
         [Import]
         public ISlackApi SlackApi { get; set; }
+        [Import]
+        public IBackOffStrategy BackOffStrategy { get; set; }
 
         public bool AutoReconnect { get; set; } = true;
 
@@ -131,9 +133,8 @@ namespace Tab.Slack.Bot
         {
             if (this.AutoReconnect)
             {
-                // todo: handle rate limiting etc
                 Console.WriteLine("Attempting reconnect...");
-                Thread.Sleep(30000);
+                this.BackOffStrategy.BlockingRetry();
                 
                 Start();
             }
