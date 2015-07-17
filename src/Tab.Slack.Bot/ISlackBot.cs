@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace Tab.Slack.Bot
         IBotServices SlackService { get; set; }
         IResponseParser ResponseParser { get; set; }
         ISlackApi SlackApi { get; set; }
+        IBackOffStrategy BackOffStrategy { get; set; }
+        ILog Logger { get; set; }
 
         Task Start();
         void Stop();

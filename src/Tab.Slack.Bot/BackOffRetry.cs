@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -14,6 +15,9 @@ namespace Tab.Slack.Bot
     {
         private Stopwatch stopwatch;
         private int backOffStage = 0;
+
+        [Import]
+        internal ILog Logger { get; set; }
 
         public List<int> BackOffStages { get; set; } = new List<int>
         {
@@ -33,7 +37,9 @@ namespace Tab.Slack.Bot
             if (retryWait == 0)
                 return;
 
-            Console.WriteLine($"Sleep: {retryWait}");
+            if (this.Logger != null)
+                this.Logger.Info($"Retry triggered, sleeping for {retryWait}ms");
+
             Thread.Sleep(retryWait);
         }
 
@@ -49,7 +55,8 @@ namespace Tab.Slack.Bot
             if (isAtMaxStage)
                 stageTime *= 2;
 
-            //Console.WriteLine($"{timeElapsedSinceLastRetry} > {stageTime} {isAtMaxStage} {nextStage}");
+            if (this.Logger != null)
+                this.Logger.Debug($"GetRetryTime(): {timeElapsedSinceLastRetry} > {stageTime}, {isAtMaxStage}, {nextStage}");
 
             if (timeElapsedSinceLastRetry > stageTime)
             {

@@ -12,6 +12,7 @@ using SuperSocket.ClientEngine;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using Tab.Slack.Common.Model;
+using log4net;
 
 namespace Tab.Slack.Bot
 {
@@ -34,6 +35,8 @@ namespace Tab.Slack.Bot
         public ISlackApi SlackApi { get; set; }
         [Import]
         public IBackOffStrategy BackOffStrategy { get; set; }
+        [Import]
+        public ILog Logger { get; set; }
 
         public bool AutoReconnect { get; set; } = true;
 
@@ -60,6 +63,17 @@ namespace Tab.Slack.Bot
         private Task StartInternal()
         {
             this.started = true;
+
+            if (this.Logger.IsDebugEnabled)
+            {
+                this.Logger.Info("Starting up bot");
+
+                foreach (var handler in this.MessageHandlers)
+                {
+                    this.Logger.Info($"Loaded handler: {handler.GetType().Name}");
+                }
+            }
+
             var rtmStartResponse = this.SlackApi.RtmStart();
             
             if (rtmStartResponse == null || !rtmStartResponse.Ok)
@@ -118,13 +132,14 @@ namespace Tab.Slack.Bot
 
         private void OnError(object sender, ErrorEventArgs e)
         {
-            Console.WriteLine(e.Exception.ToString());
+            this.Logger.Error("Websocket error", e.Exception);
             Stop();
             TryReconnect();
         }
 
         private void OnClosed(object sender, EventArgs e)
         {
+            this.Logger.Warn("Websocket closed connection");
             Stop();
             TryReconnect();
         }
@@ -133,7 +148,7 @@ namespace Tab.Slack.Bot
         {
             if (this.AutoReconnect)
             {
-                Console.WriteLine("Attempting reconnect...");
+                this.Logger.Warn("Attempting reconnect...");
                 this.BackOffStrategy.BlockingRetry();
                 
                 Start();
@@ -168,21 +183,22 @@ namespace Tab.Slack.Bot
         private void CheckAndSendMessage(OutputMessage message, WebSocket webSocket)
         {
             var serializedMessage = this.ResponseParser.SerializeMessage(message);
-            var maxByteCount = Encoding.UTF8.GetMaxByteCount(serializedMessage.Length) + 2;
+            var maxByteCount = Encoding.UTF8.GetByteCount(serializedMessage) + 2;
 
             if (maxByteCount > 16000)
             {
-                // todo: log - slack doesn't allow messages over 16Kb
+                this.Logger.Error($"Message exceeded 16kb size limit and was ignored: {serializedMessage.Substring(0, 16000)}");
                 return;
             }
 
             webSocket.Send(serializedMessage);
 
-            Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Output: {serializedMessage}");
+            this.Logger.Debug($"Output: {serializedMessage}");
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs args)
         {
+            this.Logger.Debug($"Input: {args.Message}");
             var eventMessage = this.ResponseParser.DeserializeEvent(args.Message);
 
             // todo: handle
@@ -200,13 +216,13 @@ namespace Tab.Slack.Bot
             if (this.MessageHandlers == null)
                 return;
 
-            Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Message: {message.GetType().Name}");
             var interestedHandlers = this.MessageHandlers.Where(h => SafelyHandles(h, message));
 
             foreach (var handler in interestedHandlers)
             {
                 try
                 {
+                    this.Logger.Debug($"{handler.GetType().Name} handling: {message.Type}");
                     var result = await handler.HandleMessageAsync(message);
 
                     if (result == ProcessingChainResult.Stop)
@@ -214,7 +230,7 @@ namespace Tab.Slack.Bot
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{handler.GetType().Name} threw exception when handling message: {ex}");
+                    this.Logger.Error($"{handler.GetType().Name} threw exception when handling message", ex);
                 }
             }
         }

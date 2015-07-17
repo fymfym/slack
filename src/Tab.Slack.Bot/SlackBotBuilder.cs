@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
@@ -40,15 +41,8 @@ namespace Tab.Slack.Bot
 
             // TODO: use SortedList instead?
             if (slackBot.MessageHandlers != null)
-            {
                 slackBot.MessageHandlers = slackBot.MessageHandlers.OrderByDescending(m => m.Priority).ToArray();
 
-                foreach (var handler in slackBot.MessageHandlers)
-                {
-                    Console.WriteLine($"- message handler registered: {handler.GetType().Name}");
-                }
-            }
-            
             return slackBot;
         }
 
@@ -119,6 +113,9 @@ namespace Tab.Slack.Bot
 
             if (mefContainer.GetExportedValueOrDefault<IBackOffStrategy>() == null)
                 mefContainer.ComposeExportedValue<IBackOffStrategy>(new BackOffRetry());
+
+            if (mefContainer.GetExportedValueOrDefault<ILog>() == null)
+                mefContainer.ComposeExportedValue<ILog>(LogManager.GetLogger(typeof(ISlackBot)));
         }
     }
 }

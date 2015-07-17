@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -18,5 +19,8 @@ namespace Tab.Slack.Bot.Integration
 
         [Import]
         public IBotServices BotServices { get; set; }
+
+        [Import]
+        public ILog Logger { get; set; }
     }
 }
