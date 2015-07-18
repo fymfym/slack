@@ -30,6 +30,8 @@ var slackApi = new SlackApi("api-key");
 - ~~Sort out default bot handlers~~  
 - ~~Add error/connection handling to bot~~  
 - ~~Logging~~  
+- Improve match extensions / logic  
+- Add parsing code to translate IDs to names  
 - Documentation / examples  
 - Sort out dire test naming and layout  
 - Add some integration tests - potentially via a manual runner
