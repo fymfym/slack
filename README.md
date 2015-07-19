@@ -35,4 +35,6 @@ var slackApi = new SlackApi("api-key");
 - Documentation / examples  
 - Sort out dire test naming and layout  
 - Add some integration tests - potentially via a manual runner
-- Add plugin config manager
+- Add plugin config manager  
+- Sort out Docker/Mono CI  
+
