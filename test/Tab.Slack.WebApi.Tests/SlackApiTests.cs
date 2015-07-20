@@ -598,6 +598,53 @@ namespace Tab.Slack.WebApi.Tests
         }
 
         [Fact]
+        public void ReactionAddShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.ReactionAdd("ok", channelId: "CHANID", ts: "123.123");
+
+            context.VerifyOk(result);
+            Assert.Equal("/reactions.add?name=ok&channel=CHANID&timestamp=123.123", context.RequestMade.Resource);
+        }
+
+        [Fact]
+        public void ReactionGetShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""type"":""message"",""channel"":""CHANID"",""message"":{""reactions"":[{""name"":""ok"",""count"":1,""users"":[""U1""]}]}}");
+
+            var result = context.SlackApi.ReactionGet(channelId: "CHANID", ts: "123.123");
+
+            context.VerifyOk(result);
+            Assert.Equal("/reactions.get?channel=CHANID&timestamp=123.123", context.RequestMade.Resource);
+            Assert.Equal("CHANID", result.Channel);
+            Assert.Equal("ok", result.Message.Reactions[0].Name);
+        }
+
+        [Fact]
+        public void ReactionListShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true,""items"":[{""type"":""file"",""reactions"":[{""name"":""ok""}]}],""paging"":{""count"":1}}");
+
+            var result = context.SlackApi.ReactionList(userId: "USERID");
+
+            context.VerifyOk(result);
+            Assert.Equal("/reactions.list?user=USERID", context.RequestMade.Resource);
+            Assert.Equal("ok", result.Items[0].Reactions[0].Name);
+        }
+
+        [Fact]
+        public void ReactionRemoveShouldReturnResponse()
+        {
+            var context = SetupTestContext(@"{""ok"":true}");
+
+            var result = context.SlackApi.ReactionRemove("ok", channelId: "CHANID", ts: "123.123");
+
+            context.VerifyOk(result);
+            Assert.Equal("/reactions.remove?name=ok&channel=CHANID&timestamp=123.123", context.RequestMade.Resource);
+        }
+
+        [Fact]
         public void StarsListShouldReturnResponse()
         {
             var context = SetupTestContext(@"{""ok"":true,""items"":[{""type"":""message"",""message"":{""text"":""hi""}}]}");

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tab.Slack.Common.Model.Responses;
 
 namespace Tab.Slack.Common.Model
 {
     // todo: a bit of a catch-all class - needs rethinking
-    public class ReactionItem : FlexibleJsonModel
+    public class ReactionItem : ResponseBase
     {
         public string Channel { get; set; }
         public string Ts { get; set; }
@@ -15,6 +16,6 @@ namespace Tab.Slack.Common.Model
         public ReactionMessage Message { get; set; }
         public File File { get; set; }
         public ItemComment Comment { get; set; }
-        public List<ReactionItem> Reactions { get; set; }
+        public List<Reaction> Reactions { get; set; }
     }
 }

@@ -463,6 +463,61 @@ namespace Tab.Slack.WebApi
             return response;
         }
 
+        public ResponseBase ReactionAdd(string reaction, string fileId = null, string commentId = null, string channelId = null, string ts = null)
+        {
+            var apiPath = BuildApiPath("/reactions.add",
+                                        name => reaction,
+                                        file => fileId,
+                                        file_comment => commentId,
+                                        channel => channelId,
+                                        timestamp => ts);
+
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
+        public ReactionItem ReactionGet(string fileId = null, string commentId = null, string channelId = null, string ts = null, bool? fullResults = null)
+        {
+            var apiPath = BuildApiPath("/reactions.get",
+                                        file => fileId,
+                                        file_comment => commentId,
+                                        channel => channelId,
+                                        timestamp => ts,
+                                        full => fullResults);
+
+            var response = ExecuteAndDeserializeRequest<ReactionItem>(apiPath);
+
+            return response;
+        }
+
+        public ReactionListResponse ReactionList(string userId = null, bool? fullResults = null, int? reactionCount = null, int? pageNumber = null)
+        {
+            var apiPath = BuildApiPath("/reactions.list",
+                                        user => userId,
+                                        full => fullResults,
+                                        page => pageNumber,
+                                        count => reactionCount);
+
+            var response = ExecuteAndDeserializeRequest<ReactionListResponse>(apiPath);
+
+            return response;
+        }
+
+        public ResponseBase ReactionRemove(string reaction, string fileId = null, string commentId = null, string channelId = null, string ts = null)
+        {
+            var apiPath = BuildApiPath("/reactions.remove",
+                                        name => reaction,
+                                        file => fileId,
+                                        file_comment => commentId,
+                                        channel => channelId,
+                                        timestamp => ts);
+
+            var response = ExecuteAndDeserializeRequest<ResponseBase>(apiPath);
+
+            return response;
+        }
+
         public SearchResponse SearchAll(string queryString, SearchSortType? sortType = null,
             SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null, 
             int? pageNumber = null)

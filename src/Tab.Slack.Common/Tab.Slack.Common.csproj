@@ -90,6 +90,7 @@
     <Compile Include="Model\Responses\SearchFilesResponse.cs" />
     <Compile Include="Model\Responses\SearchMessageMatch.cs" />
     <Compile Include="Model\Responses\SearchMessagesResponse.cs" />
+    <Compile Include="Model\Responses\ReactionListResponse.cs" />
     <Compile Include="Model\Responses\SearchResponse.cs" />
     <Compile Include="Model\Responses\StarItemResponse.cs" />
     <Compile Include="Model\Responses\StarItemType.cs" />

@@ -6,6 +6,6 @@ namespace Tab.Slack.Common.Model
     // todo: this class is a hack (I blame Slack's inconsistent schema) - needs rethinking 
     public class ReactionMessage : MessageBase
     {
-        public List<ReactionItem> Reactions { get; set; }
+        public List<Reaction> Reactions { get; set; }
     }
 }

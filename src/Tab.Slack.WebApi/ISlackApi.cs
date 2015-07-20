@@ -60,6 +60,10 @@ namespace Tab.Slack.WebApi
         ResponseBase ImMark(string imId, string timestamp);
         ImOpenResponse ImOpen(string userId);
         OauthAccessResponse OauthAccess(string clientId, string clientSecret, string callbackCode, string redirectUri = null);
+        ResponseBase ReactionAdd(string reaction, string fileId = null, string commentId = null, string channelId = null, string ts = null);
+        ReactionItem ReactionGet(string fileId = null, string commentId = null, string channelId = null, string ts = null, bool? fullResults = null);
+        ReactionListResponse ReactionList(string userId = null, bool? fullResults = null, int? reactionCount = null, int? pageNumber = null);
+        ResponseBase ReactionRemove(string reaction, string fileId = null, string commentId = null, string channelId = null, string ts = null);
         SearchResponse SearchAll(string queryString, SearchSortType? sortType = null,
             SortDirection? sortDir = null, bool? isHighlighted = null, int? messageCount = null,
             int? pageNumber = null);
