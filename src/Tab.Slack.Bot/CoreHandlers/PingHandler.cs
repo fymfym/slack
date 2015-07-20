@@ -16,7 +16,7 @@ namespace Tab.Slack.Bot.CoreHandlers
     public class PingHandler : MessageHandlerBase, IMessageHandler
     {
         private Timer pingTimer;
-        private int pingFrequencyMs = 8000;
+        private int pingFrequencyMs = 30000;
 
         public int PingFrequencyMs
         {
@@ -62,9 +62,10 @@ namespace Tab.Slack.Bot.CoreHandlers
                 if (this.BotState.Connected)
                     this.BotServices.SendRawMessage(new OutputMessage { Type = "ping" });
             }
-            catch
+            catch (Exception ex)
             {
-                // todo: logging
+                if (base.Logger != null)
+                    base.Logger.Error("Failed to send ping", ex);
             }
         }
     }

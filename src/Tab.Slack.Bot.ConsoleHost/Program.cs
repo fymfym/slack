@@ -12,42 +12,29 @@ namespace Tab.Slack.Bot.ConsoleHost
         {
             var apiKey = ConfigurationManager.AppSettings["slackbot.apikey"];
 
-            var slackBot = SlackBot.Build(apiKey).Instantiate();
-            slackBot.StrictProtocolWarnings = true;
-
-            slackBot.Start();
-
-            var stopRequest = false;
-
-            while (stopRequest == false)
+            using (var slackBot = SlackBot.Build(apiKey).Instantiate())
             {
-                char command = Console.ReadKey(true).KeyChar;
+                slackBot.Start();
 
-                if (command == 'q')
+                while (true)
                 {
-                    Console.WriteLine("Quitting...");
-                    stopRequest = true;
-                }
+                    char command = Console.ReadKey(true).KeyChar;
 
-                if (command == 'r')
-                {
-                    Console.WriteLine("Restarting...");
-                    slackBot.Stop();
-                    slackBot.Start();
-                }
+                    if (command == 'q')
+                    {
+                        Console.WriteLine("Quitting...");
+                        slackBot.Stop();
+                        return;
+                    }
 
-                if (command == 's')
-                {
-                    Console.WriteLine("Stopping...");
-                    slackBot.Stop();
-                    stopRequest = true;
+                    if (command == 'r')
+                    {
+                        Console.WriteLine("Restarting...");
+                        slackBot.Stop();
+                        slackBot.Start();
+                    }
                 }
             }
-
-            Console.WriteLine("Disposing...");
-            slackBot.Dispose();
-
-            Console.WriteLine("Finished.");
         }
     }
 }

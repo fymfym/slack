@@ -67,7 +67,7 @@ namespace Tab.Slack.Bot
         {
             this.started = true;
 
-            if (this.Logger.IsDebugEnabled)
+            if (this.Logger.IsInfoEnabled)
             {
                 this.Logger.Info("Starting up bot");
 
@@ -82,7 +82,7 @@ namespace Tab.Slack.Bot
             if (rtmStartResponse == null || !rtmStartResponse.Ok)
                 throw new Exception($"Failed to establish RTM session. {rtmStartResponse?.Error}");
             
-            OfferMessageToHandlersAsync(rtmStartResponse);
+            OfferMessageToHandlersAsync(rtmStartResponse, nameof(rtmStartResponse));
 
             this.slackSocket = new WebSocket(rtmStartResponse.Url);
             this.slackSocket.Error += OnError;
@@ -213,7 +213,7 @@ namespace Tab.Slack.Bot
             if (this.StrictProtocolWarnings)
                 CheckModelForProtocolErrors(eventMessage, eventMessage.Type.ToString());
 
-            OfferMessageToHandlersAsync(eventMessage);
+            OfferMessageToHandlersAsync(eventMessage, args.Message);
         }
 
         // todo: this doesn't belong here
@@ -250,7 +250,7 @@ namespace Tab.Slack.Bot
             }
         }
 
-        private async void OfferMessageToHandlersAsync(EventMessageBase message)
+        private async void OfferMessageToHandlersAsync(EventMessageBase message, string originalMessage)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
@@ -258,7 +258,7 @@ namespace Tab.Slack.Bot
             if (this.MessageHandlers == null)
                 return;
 
-            var interestedHandlers = this.MessageHandlers.Where(h => SafelyHandles(h, message));
+            var interestedHandlers = this.MessageHandlers.Where(h => SafelyHandles(h, message, originalMessage));
 
             foreach (var handler in interestedHandlers)
             {
@@ -272,7 +272,7 @@ namespace Tab.Slack.Bot
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.Error($"{handler.GetType().Name} threw exception when handling message", ex);
+                    this.Logger.Error($"{handler.GetType().Name} threw exception when handling message: {originalMessage}", ex);
                 }
             }
         }
@@ -299,7 +299,7 @@ namespace Tab.Slack.Bot
             }
         }
 
-        private bool SafelyHandles(IMessageHandler handler, EventMessageBase message)
+        private bool SafelyHandles(IMessageHandler handler, EventMessageBase message, string originalMessage)
         {
             var handles = false;
 
@@ -307,9 +307,9 @@ namespace Tab.Slack.Bot
             {
                 handles = handler.CanHandle(message);
             }
-            catch
+            catch (Exception ex)
             {
-                // todo: logging
+                this.Logger.Error($"{handler.GetType().Name} threw exception in CanHandle() with message: {originalMessage}", ex);
             }
 
             return handles;
