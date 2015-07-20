@@ -19,6 +19,9 @@ namespace Tab.Slack.Bot
         IBackOffStrategy BackOffStrategy { get; set; }
         ILog Logger { get; set; }
 
+        bool AutoReconnect { get; set; }
+        bool StrictProtocolWarnings { get; set; }
+
         Task Start();
         void Stop();
     }

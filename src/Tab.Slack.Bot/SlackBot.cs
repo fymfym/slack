@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using Tab.Slack.Common.Model;
 using log4net;
+using System.Reflection;
+using System.Collections;
 
 namespace Tab.Slack.Bot
 {
@@ -39,6 +41,7 @@ namespace Tab.Slack.Bot
         public ILog Logger { get; set; }
 
         public bool AutoReconnect { get; set; } = true;
+        public bool StrictProtocolWarnings { get; set; }
 
         private SlackBot(string apiKey)
         {
@@ -201,11 +204,50 @@ namespace Tab.Slack.Bot
             this.Logger.Debug($"Input: {args.Message}");
             var eventMessage = this.ResponseParser.DeserializeEvent(args.Message);
 
-            // todo: handle
             if (eventMessage == null)
+            {
+                this.Logger.Warn($"Failed to parse received message: {args.Message}");
                 return;
+            }
+
+            if (this.StrictProtocolWarnings)
+                CheckModelForProtocolErrors(eventMessage, eventMessage.Type.ToString());
 
             OfferMessageToHandlersAsync(eventMessage);
+        }
+
+        // todo: this doesn't belong here
+        private void CheckModelForProtocolErrors(FlexibleJsonModel model, string path)
+        {
+            if (model == null)
+                return;
+
+            if (model.UnmatchedAdditionalJsonData != null && model.UnmatchedAdditionalJsonData.HasValues)
+                this.Logger.Warn($"Unmatched Model Data <{path}>: {model.UnmatchedAdditionalJsonData.ToString()}");
+
+            foreach (var prop in model.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (prop.PropertyType.IsGenericType &&
+                    typeof(FlexibleJsonModel).IsAssignableFrom(prop.PropertyType.GetGenericArguments()[0]) &&
+                    typeof(IEnumerable).IsAssignableFrom(prop.PropertyType)
+                    ) 
+                {
+                    var values = prop.GetValue(model) as IEnumerable;
+
+                    if (values != null)
+                    {
+                        foreach (var item in values)
+                        {
+                            CheckModelForProtocolErrors(item as FlexibleJsonModel, $"{path}.{prop.Name}[]");
+                        }
+                    }
+                }
+                else if (typeof(FlexibleJsonModel).IsAssignableFrom(prop.PropertyType))
+                {
+                    var value = prop.GetValue(model);
+                    CheckModelForProtocolErrors(value as FlexibleJsonModel, $"{path}.{prop.Name}");
+                }
+            }
         }
 
         private async void OfferMessageToHandlersAsync(EventMessageBase message)
