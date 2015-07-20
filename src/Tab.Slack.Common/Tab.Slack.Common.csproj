@@ -52,9 +52,15 @@
     <Compile Include="Model\Attachment.cs" />
     <Compile Include="Model\Events\MessageError.cs" />
     <Compile Include="Model\Events\MessageAck.cs" />
+    <Compile Include="Model\Events\ReactionRemoved.cs" />
+    <Compile Include="Model\Events\ReactionAdded.cs" />
     <Compile Include="Model\Events\Pong.cs" />
+    <Compile Include="Model\Reaction.cs" />
     <Compile Include="Model\ItemComment.cs" />
     <Compile Include="Model\PagingSettings.cs" />
+    <Compile Include="Model\ReactionItem.cs" />
+    <Compile Include="Model\ReactionMessage.cs" />
+    <Compile Include="Model\ReactionType.cs" />
     <Compile Include="Model\Requests\FilesUploadRequest.cs" />
     <Compile Include="Model\Requests\FilesListRequest.cs" />
     <Compile Include="Model\Requests\ParseMode.cs" />

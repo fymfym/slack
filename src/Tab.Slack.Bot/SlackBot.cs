@@ -210,6 +210,8 @@ namespace Tab.Slack.Bot
                 return;
             }
 
+            this.Logger.Debug($"Parsed input as: {eventMessage.Type}");
+
             if (this.StrictProtocolWarnings)
                 CheckModelForProtocolErrors(eventMessage, eventMessage.Type.ToString());
 
