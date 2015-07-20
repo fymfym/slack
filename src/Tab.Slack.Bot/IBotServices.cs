@@ -9,8 +9,8 @@ namespace Tab.Slack.Bot
 {
     public interface IBotServices : IDisposable
     {
-        void SendMessage(string channel, string text);
-        void SendRawMessage(OutputMessage message);
+        long SendMessage(string channel, string text);
+        long SendRawMessage(OutputMessage message);
         IEnumerable<OutputMessage> GetBlockingOutputEnumerable(CancellationToken cancellationToken);
     }
 }

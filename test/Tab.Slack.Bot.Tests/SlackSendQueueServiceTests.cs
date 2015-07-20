@@ -45,11 +45,12 @@ namespace Tab.Slack.Bot.Tests
 
             var queueService = new SlackSendQueueService(mockSource.Object);
 
-            queueService.SendMessage("channel", "message");
+            var messageId = queueService.SendMessage("channel", "message");
 
             mockSource.Verify();
             Assert.Equal("channel", sentMessage.Channel);
             Assert.Equal("message", sentMessage.Text);
+            Assert.Equal(sentMessage.Id, messageId);
         }
 
         [Fact]
@@ -65,11 +66,12 @@ namespace Tab.Slack.Bot.Tests
 
             var queueService = new SlackSendQueueService(mockSource.Object);
 
-            queueService.SendRawMessage(new OutputMessage { Channel = "channel", Text = "message" });
+            var messageId = queueService.SendRawMessage(new OutputMessage { Channel = "channel", Text = "message" });
 
             mockSource.Verify();
             Assert.Equal("channel", sentMessage.Channel);
             Assert.Equal("message", sentMessage.Text);
+            Assert.Equal(sentMessage.Id, messageId);
         }
 
         [Fact]

@@ -78,9 +78,33 @@ namespace Tab.Slack.Common.Json
             EventMessageBase eventMessage = null;
 
             if ((string)jsonObject["type"] == "message")
+            {
                 eventMessage = ParseEvent<MessageSubType>(jsonObject, (string)jsonObject["subtype"] ?? "plain_message");
-            else
+            }
+            else if (!string.IsNullOrWhiteSpace((string)jsonObject["type"]))
+            {
                 eventMessage = ParseEvent<EventType>(jsonObject, (string)jsonObject["type"]);
+            }
+            else
+            {
+                eventMessage = ParseMessageResponse(jsonObject);
+            }
+
+            return eventMessage;
+        }
+
+        private EventMessageBase ParseMessageResponse(JObject jsonObject)
+        {
+            EventMessageBase eventMessage = null;
+            var properties = jsonObject.Properties();
+
+            if (properties.Any(p => p.Name == "ok") && properties.Any(p => p.Name == "reply_to"))
+            {
+                if ((bool)jsonObject["ok"])
+                    eventMessage = jsonObject.ToObject<MessageAck>(this.jsonSerializer);
+                else
+                    eventMessage = jsonObject.ToObject<MessageError>(this.jsonSerializer);
+            }
 
             return eventMessage;
         }

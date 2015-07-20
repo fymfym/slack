@@ -28,7 +28,7 @@ namespace Tab.Slack.Bot
                 this.outputMessageQueue = new BlockingCollection<OutputMessage>(collection);
         }
 
-        public void SendMessage(string channel, string text)
+        public long SendMessage(string channel, string text)
         {
             if (string.IsNullOrWhiteSpace(channel))
                 throw new ArgumentNullException(nameof(channel));
@@ -36,16 +36,18 @@ namespace Tab.Slack.Bot
             if (string.IsNullOrWhiteSpace(text))
                 throw new ArgumentNullException(nameof(text));
 
-            SendRawMessage(new OutputMessage { Channel = channel, Text = text });
+            return SendRawMessage(new OutputMessage { Channel = channel, Text = text });
         }
 
-        public void SendRawMessage(OutputMessage message)
+        public long SendRawMessage(OutputMessage message)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
 
             message.Id = Interlocked.Increment(ref this.outgoingMessageId);
             this.outputMessageQueue.Add(message);
+
+            return message.Id;
         }
 
         public IEnumerable<OutputMessage> GetBlockingOutputEnumerable(CancellationToken cancellationToken)

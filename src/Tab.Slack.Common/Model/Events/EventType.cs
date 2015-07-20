@@ -53,6 +53,8 @@ namespace Tab.Slack.Common.Model.Events
         TeamJoin,
         StarAdded,
         StarRemoved,
+        MessageAck,
+        MessageError,
         EmojiChanged,
         CommandsChanged,
         TeamPlanChange,

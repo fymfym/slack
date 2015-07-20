@@ -106,6 +106,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                            channelResult = c;
                            messageResult = m;
                        })
+                       .Returns(1)
                        .Verifiable();
 
             var message = new PlainMessage
@@ -151,6 +152,7 @@ namespace Tab.Slack.Bot.CoreHandlers.Tests
                            channelResult = c;
                            messageResult = m;
                        })
+                       .Returns(1)
                        .Verifiable();
 
             var message = new PlainMessage
