@@ -37,4 +37,5 @@ var slackApi = new SlackApi("api-key");
 - Add some integration tests - potentially via a manual runner
 - Add plugin config manager  
 - Sort out Docker/Mono CI  
+- Consider swapping out MEF with event based model and DI instead  
 
