@@ -38,4 +38,5 @@ var slackApi = new SlackApi("api-key");
 - Add plugin config manager  
 - Sort out Docker/Mono CI  
 - Consider swapping out MEF with event based model and DI instead  
+- Add those little status icon thingys to github page  
 
