@@ -78,9 +78,12 @@ namespace Tab.Slack.Bot
             }
 
             var rtmStartResponse = this.SlackApi.RtmStart();
-            
+
             if (rtmStartResponse == null || !rtmStartResponse.Ok)
-                throw new Exception($"Failed to establish RTM session. {rtmStartResponse?.Error}");
+            {
+                this.Logger.Error($"Failed to establish RTM session. {rtmStartResponse?.Error}");
+                TryReconnect();
+            }
             
             OfferMessageToHandlersAsync(rtmStartResponse, nameof(rtmStartResponse));
 
@@ -136,19 +139,19 @@ namespace Tab.Slack.Bot
         private void OnError(object sender, ErrorEventArgs e)
         {
             this.Logger.Error("Websocket error", e.Exception);
-            Stop();
             TryReconnect();
         }
 
         private void OnClosed(object sender, EventArgs e)
         {
             this.Logger.Warn("Websocket closed connection");
-            Stop();
             TryReconnect();
         }
 
         private void TryReconnect()
         {
+            Stop();
+
             if (this.AutoReconnect)
             {
                 this.Logger.Warn("Attempting reconnect...");
