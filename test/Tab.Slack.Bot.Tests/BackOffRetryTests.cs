@@ -63,7 +63,7 @@ namespace Tab.Slack.Bot.Tests
         public void StaysAtMaxStageAfterRepeatedRetries()
         {
             var backoff = new BackOffRetry();
-            backoff.BackOffStages = new List<int> { 0, 0, 0, 500 };
+            backoff.BackOffStages = new List<int> { 300, 300, 300, 1000 };
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -75,7 +75,7 @@ namespace Tab.Slack.Bot.Tests
             backoff.BlockingRetry();
 
             var timeTaken = stopwatch.ElapsedMilliseconds;
-            Assert.InRange(timeTaken, 800, 1200);
+            Assert.InRange(timeTaken, 2200, 3000);
         }
     }
 }
