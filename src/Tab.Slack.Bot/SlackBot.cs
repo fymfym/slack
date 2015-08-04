@@ -77,7 +77,7 @@ namespace Tab.Slack.Bot
                 }
             }
 
-            var rtmStartResponse = this.SlackApi.RtmStart();
+            var rtmStartResponse = this.SlackApi.Rtm.Start();
 
             if (rtmStartResponse == null || !rtmStartResponse.Ok)
             {

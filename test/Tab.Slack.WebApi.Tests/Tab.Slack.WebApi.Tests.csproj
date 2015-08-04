@@ -64,6 +64,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiTestBase.cs" />
+    <Compile Include="FileApiTests.cs" />
+    <Compile Include="EmojiApiTests.cs" />
+    <Compile Include="ChatApiTests.cs" />
+    <Compile Include="ChannelApiTests.cs" />
+    <Compile Include="AuthApiTests.cs" />
+    <Compile Include="RtmApiTests.cs" />
+    <Compile Include="ApiApiTests.cs" />
     <Compile Include="SlackApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

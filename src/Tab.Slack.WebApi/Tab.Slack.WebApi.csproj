@@ -44,7 +44,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelsApi.cs" />
+    <Compile Include="ApiApi.cs" />
+    <Compile Include="AuthApi.cs" />
+    <Compile Include="IChannelsApi.cs" />
+    <Compile Include="ChatApi.cs" />
+    <Compile Include="FilesApi.cs" />
+    <Compile Include="GroupsApi.cs" />
+    <Compile Include="IApiApi.cs" />
+    <Compile Include="IAuthApi.cs" />
+    <Compile Include="EmojiApi.cs" />
+    <Compile Include="IEmojiApi.cs" />
+    <Compile Include="StarsApi.cs" />
+    <Compile Include="IStarsApi.cs" />
+    <Compile Include="OauthApi.cs" />
+    <Compile Include="IOauthApi.cs" />
+    <Compile Include="RtmApi.cs" />
+    <Compile Include="IRtmApi.cs" />
+    <Compile Include="ImApi.cs" />
+    <Compile Include="UsersApi.cs" />
+    <Compile Include="TeamApi.cs" />
+    <Compile Include="SearchApi.cs" />
+    <Compile Include="ReactionsApi.cs" />
+    <Compile Include="IRequestHandler.cs" />
+    <Compile Include="IUsersApi.cs" />
+    <Compile Include="ITeamApi.cs" />
+    <Compile Include="ISearchApi.cs" />
+    <Compile Include="IReactionsApi.cs" />
+    <Compile Include="IImApi.cs" />
+    <Compile Include="IGroupsApi.cs" />
+    <Compile Include="IFilesApi.cs" />
+    <Compile Include="IChatApi.cs" />
     <Compile Include="ISlackApi.cs" />
+    <Compile Include="HttpMethod.cs" />
+    <Compile Include="RestSharpRequestHandler.cs" />
     <Compile Include="SlackApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
