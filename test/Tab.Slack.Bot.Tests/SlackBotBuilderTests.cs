@@ -14,7 +14,7 @@ namespace Tab.Slack.Bot.Tests
         [Fact]
         public void InstantiateBasicInstance()
         {
-            var slackBot = SlackBot.Build("xxx")
+            var slackBot = SlackBot.Create("xxx")
                                    .WithoutCoreHandlers()
                                    .Instantiate();
 
@@ -26,7 +26,7 @@ namespace Tab.Slack.Bot.Tests
         [Fact]
         public void InstantiateInstanceWithCoreHandlers()
         {
-            var slackBot = SlackBot.Build("xxx")
+            var slackBot = SlackBot.Create("xxx")
                                    .Instantiate();
 
             Assert.NotNull(slackBot);
@@ -39,7 +39,7 @@ namespace Tab.Slack.Bot.Tests
         [Fact]
         public void InstantiateInstanceWithTypePlugin()
         {
-            var slackBot = SlackBot.Build("xxx")
+            var slackBot = SlackBot.Create("xxx")
                                    .WithoutCoreHandlers()
                                    .WithPlugin<UserPingHandler>()
                                    .Instantiate();
@@ -54,7 +54,7 @@ namespace Tab.Slack.Bot.Tests
         [Fact]
         public void InstantiateInstanceWithAssemblyPlugin()
         {
-            var slackBot = SlackBot.Build("xxx")
+            var slackBot = SlackBot.Create("xxx")
                                    .WithoutCoreHandlers()
                                    .WithPluginAssembly(typeof(TestPlugin1).Assembly)
                                    .Instantiate();
@@ -70,7 +70,7 @@ namespace Tab.Slack.Bot.Tests
         [Fact]
         public void InstantiateInstanceWithPluginPath()
         {
-            var slackBot = SlackBot.Build("xxx")
+            var slackBot = SlackBot.Create("xxx")
                                    .WithoutCoreHandlers()
                                    .WithPluginPath("../../../DummyTestPlugins/Dll/")
                                    .Instantiate();

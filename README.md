@@ -8,14 +8,14 @@ Projects:
 
 ### SlackBot  
 ```cs
-var slackBot = SlackBot.Build("bot-api-key").Instantiate();
+var slackBot = SlackBot.Create("bot-api-key").Instantiate();
 
 slackBot.Start();
 ```
 
 ### SlackApi  
 ```cs
-var slackApi = new SlackApi("api-key");
+var slackApi = SlackApi.Create("api-key");
 ```
 
 ### Things to note  
@@ -26,17 +26,21 @@ var slackApi = new SlackApi("api-key");
 - You can test the bot is running with core handlers properly by sending your bot a direct message "ping" - the bot should respond with "pong" 
 
 ## Todo
-- ~~Flesh out the slack rest client code to handle full set of methods~~  
-- ~~Sort out default bot handlers~~  
-- ~~Add error/connection handling to bot~~  
-- ~~Logging~~  
-- Improve match extensions / logic  
-- Add parsing code to translate IDs to names  
-- Documentation / examples  
-- Sort out dire test naming and layout  
-- Add some integration tests - potentially via a manual runner
-- Add plugin config manager  
-- Sort out Docker/Mono CI  
-- Consider swapping out MEF with event based model and DI instead  
-- Add those little status icon thingys to github page  
+- [x] Flesh out the slack rest client code to handle full set of methods  
+- [x] Sort out default bot handlers  
+- [x] Add error/connection handling to bot  
+- [x] Logging  
+- [ ] Improve match extensions / logic  
+- [ ] Add parsing code to translate IDs to names  
+- [ ] Documentation / examples  
+- [ ] Sort out dire test naming and layout (partially done)  
+- [ ] Add some integration tests - potentially via a manual runner
+- [ ] Add plugin config manager (with config file support for initial seeding)  
+- [ ] Sort out Docker/Mono CI  
+- [ ] Consider swapping out MEF with event based model and DI instead  
+- [ ] Add those little status icon thingys to github page  
+- [ ] Add scripting support (from @jachin84)  
+- [ ] Add auth config and control (from @jachin84)  
+- [ ] Add support for webhooks (from @jachin84)  
+- [ ] Create Docker/AMI/ARM images for instant virtualised deployments (from @jachin84)  
 

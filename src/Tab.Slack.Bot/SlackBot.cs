@@ -48,7 +48,7 @@ namespace Tab.Slack.Bot
             this.apiKey = apiKey;
         }
 
-        public static ISlackBotBuilder Build(string apiKey)
+        public static ISlackBotBuilder Create(string apiKey)
         {
             return new SlackBotBuilder(new SlackBot(apiKey), apiKey);
         }
