@@ -75,8 +75,14 @@ namespace Tab.Slack.WebApi
                 if (value == null)
                     continue;
 
+                if (value is bool || value is bool?)
+                    value = value.ToString().ToLower();
+
                 queryParams.Add($"{key}={Uri.EscapeDataString(value.ToString())}");
             }
+
+            if (queryParams.Count < 1)
+                return apiPath;
 
             return $"{apiPath}?" + string.Join("&", queryParams);
         }

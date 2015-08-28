@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Tab.Slack.WebApi.Tests
 {
-    public class ChannelApiTests : ApiTestBase
+    public class ChannelsApiTests : ApiTestBase
     {
         [Fact]
         public void ChannelArchiveShouldCallCorrectEndpoint()

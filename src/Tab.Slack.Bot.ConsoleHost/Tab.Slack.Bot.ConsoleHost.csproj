@@ -55,10 +55,6 @@
       <Project>{1d8a8d58-958e-4789-9a26-6ffa4ba79ae6}</Project>
       <Name>Tab.Slack.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tab.Slack.Bot.CoreHandlers\Tab.Slack.Bot.CoreHandlers.csproj">
-      <Project>{61c738e6-0db3-478e-b335-9b2950728e67}</Project>
-      <Name>Tab.Slack.Bot.CoreHandlers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tab.Slack.Bot\Tab.Slack.Bot.csproj">
       <Project>{a84c7a78-afa9-42c6-9919-8a52ee119cf2}</Project>
       <Name>Tab.Slack.Bot</Name>

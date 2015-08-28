@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Tab.Slack.WebApi.Tests
 {
-    public class FileApiTests : ApiTestBase
+    public class FilesApiTests : ApiTestBase
     {
         [Fact]
         public void FileDeleteShouldCallCorrectEndpoint()
