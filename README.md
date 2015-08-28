@@ -39,8 +39,8 @@ var slackApi = SlackApi.Create("api-key");
 - [ ] Sort out Docker/Mono CI  
 - [ ] Consider swapping out MEF with event based model and DI instead  
 - [ ] Add those little status icon thingys to github page  
-- [ ] Add scripting support (from @jachin84)  
+- [ ] Add scripting support (from @jachin84) - consider using Jint/ClearScript/PSHost/ScriptCS  
 - [ ] Add auth config and control (from @jachin84)  
-- [ ] Add support for webhooks (from @jachin84)  
+- [ ] Add support for webhooks (from @jachin84) - consider using Nancy  
 - [ ] Create Docker/AMI/ARM images for instant virtualised deployments (from @jachin84)  
 
