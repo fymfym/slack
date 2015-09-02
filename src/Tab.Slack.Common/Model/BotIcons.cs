@@ -2,6 +2,7 @@
 {
     public class BotIcons : FlexibleJsonModel
     {
-        public string Image48 { get; set; }
+        // TODO: check JSON parser for handling underscores in names
+        public string Image_48 { get; set; }
     }
 }

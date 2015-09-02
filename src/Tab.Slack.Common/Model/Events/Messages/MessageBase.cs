@@ -1,4 +1,6 @@
-﻿namespace Tab.Slack.Common.Model.Events.Messages
+﻿using System.Collections.Generic;
+
+namespace Tab.Slack.Common.Model.Events.Messages
 {
     public class MessageBase : EventMessageBase
     {
@@ -8,5 +10,7 @@
         public string User { get; set; }
         public string Channel { get; set; }
         public string Team { get; set; }
+        public List<Attachment> Attachments { get; set; }
+        public bool Mrkdwn { get; set; }
     }
 }

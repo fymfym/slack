@@ -10,7 +10,6 @@ namespace Tab.Slack.Common.Model.Events.Messages
         public string BotId { get; set; }
         public string Username { get; set; }
         public BotIcons Icons { get; set; }
-        public List<Attachment> Attachments { get; set; }
     }
 }
 

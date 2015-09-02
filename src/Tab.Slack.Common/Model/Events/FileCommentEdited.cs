@@ -9,6 +9,7 @@ namespace Tab.Slack.Common.Model.Events
     {
         public File File { get; set; }
         public ItemComment Comment { get; set; }
+        public string EventTs { get; set; }
     }
 }
 
