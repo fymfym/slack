@@ -216,45 +216,16 @@ namespace Tab.Slack.Bot
             this.Logger.Debug($"Parsed input as: {eventMessage.Type}");
 
             if (this.StrictProtocolWarnings)
-                CheckModelForProtocolErrors(eventMessage, eventMessage.Type.ToString());
+            {
+                foreach (var unmatchedEntry in eventMessage.WalkUnmatchedData())
+                {
+                    this.Logger.Warn(unmatchedEntry);
+                }
+            }
 
             OfferMessageToHandlersAsync(eventMessage, args.Message);
         }
-
-        // todo: this doesn't belong here
-        private void CheckModelForProtocolErrors(FlexibleJsonModel model, string path)
-        {
-            if (model == null)
-                return;
-
-            if (model.UnmatchedAdditionalJsonData != null && model.UnmatchedAdditionalJsonData.HasValues)
-                this.Logger.Warn($"Unmatched Model Data <{path}>: {model.UnmatchedAdditionalJsonData.ToString()}");
-
-            foreach (var prop in model.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                if (prop.PropertyType.IsGenericType &&
-                    typeof(FlexibleJsonModel).IsAssignableFrom(prop.PropertyType.GetGenericArguments()[0]) &&
-                    typeof(IEnumerable).IsAssignableFrom(prop.PropertyType)
-                    ) 
-                {
-                    var values = prop.GetValue(model) as IEnumerable;
-
-                    if (values != null)
-                    {
-                        foreach (var item in values)
-                        {
-                            CheckModelForProtocolErrors(item as FlexibleJsonModel, $"{path}.{prop.Name}[]");
-                        }
-                    }
-                }
-                else if (typeof(FlexibleJsonModel).IsAssignableFrom(prop.PropertyType))
-                {
-                    var value = prop.GetValue(model);
-                    CheckModelForProtocolErrors(value as FlexibleJsonModel, $"{path}.{prop.Name}");
-                }
-            }
-        }
-
+        
         private async void OfferMessageToHandlersAsync(EventMessageBase message, string originalMessage)
         {
             if (message == null)
