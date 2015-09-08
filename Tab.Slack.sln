@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Common", "src\Tab.Slack.Common\Tab.Slack.Common.csproj", "{1D8A8D58-958E-4789-9A26-6FFA4BA79AE6}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.WebApi.Tests", "test\Tab.Slack.WebApi.Tests\Tab.Slack.WebApi.Tests.csproj", "{10D7C3B4-D69A-4A74-8E5D-469551FA090F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyTestPlugins", "test\DummyTestPlugins\DummyTestPlugins.csproj", "{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tab.Slack.Integration.Tests", "test\Tab.Slack.Integration.Tests\Tab.Slack.Integration.Tests.csproj", "{5C619210-088F-497F-9797-B3DA6AA86F2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C619210-088F-497F-9797-B3DA6AA86F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C619210-088F-497F-9797-B3DA6AA86F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C619210-088F-497F-9797-B3DA6AA86F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C619210-088F-497F-9797-B3DA6AA86F2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +80,6 @@ Global
 		{7DE2F29E-8FF6-45A6-9027-E9B8CFE27F0B} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
 		{10D7C3B4-D69A-4A74-8E5D-469551FA090F} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
 		{7D983FE7-84C2-4A93-BC6B-3FE48E1FCED3} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
+		{5C619210-088F-497F-9797-B3DA6AA86F2B} = {D8C1D2C6-C1BE-4AF5-BEE6-E34370E5B3FE}
 	EndGlobalSection
 EndGlobal
