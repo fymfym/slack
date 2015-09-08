@@ -13,7 +13,7 @@ namespace Tab.Slack.WebApi.Tests
 {
     public abstract class ApiTestBase
     {
-        public Mock<IRequestHandler> ExecRequestMock<T>(string endpoint) where T : new()
+        public Mock<IRequestHandler> ExecRequestMock<T>(string endpoint, T instance = null) where T : class, new()
         {
             var requestHandlerMock = new Mock<IRequestHandler>();
 
@@ -23,7 +23,7 @@ namespace Tab.Slack.WebApi.Tests
                                               It.IsAny<HttpMethod>(),
                                               It.IsAny<FileUploadRequest>()))
                               .Callback<string, Dictionary<string, string>, HttpMethod, FileUploadRequest>((e,_1,_2,_3) => CheckEndpointCall(endpoint, e))
-                              .Returns(new T())
+                              .Returns(instance ?? new T())
                               .Verifiable();
 
             return requestHandlerMock;

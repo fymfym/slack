@@ -32,7 +32,9 @@ namespace Tab.Slack.WebApi
         {
             var requestParams = this.request.BuildRequestParams(request);
             var response = this.request.ExecuteAndDeserializeRequest<MessageResponse>("/chat.postMessage", requestParams);
-            response.Message = this.request.ResponseParser.RemapMessageToConcreteType(response.Message);
+
+            if (response.Ok)
+                response.Message = this.request.ResponseParser.RemapMessageToConcreteType(response.Message);
 
             return response;
         }

@@ -31,7 +31,7 @@ namespace Tab.Slack.WebApi.Tests
         [Fact]
         public void ChatPostMessageShouldCallCorrectEndpoint()
         {
-            var requestHandlerMock = ExecRequestMock<MessageResponse>("/chat.postMessage");
+            var requestHandlerMock = ExecRequestMock<MessageResponse>("/chat.postMessage", new MessageResponse { Ok = true });
             var responseParserMock = new Mock<IResponseParser>();
 
             responseParserMock.Setup(r => r.RemapMessageToConcreteType(It.IsAny<MessageBase>()))
