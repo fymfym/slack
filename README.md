@@ -43,4 +43,5 @@ var slackApi = SlackApi.Create("api-key");
 - [ ] Add auth config and control (from @jachin84)  
 - [ ] Add support for webhooks (from @jachin84) - consider using Nancy  
 - [ ] Create Docker/AMI/ARM images for instant virtualised deployments (from @jachin84)  
+- [ ] Handle Retry-After header (https://api.slack.com/docs/rate-limits)  
 
