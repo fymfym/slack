@@ -61,7 +61,7 @@ Scenario: Mark a group as read
 	When I call groups.mark with:
 	| Argument  | Value        |
 	| groupid   | TestGroup:id |
-	| timestamp | <NOW>        |
+	| timestamp | <TSNOW>      |
 	Then I should receive an ok response matching:
 	| ResponsePath | RegEx |
 	| xx           | xx    |

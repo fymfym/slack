@@ -51,7 +51,7 @@ namespace Tab.Slack.Integration.Tests.Steps
             var apiContextInstance = ObjectReflector.GetPropertyValue(webApi, apiContext);
 
             var methodArguments = new Dictionary<string, string>();
-            methodArguments[argumentName] = value;
+            methodArguments[argumentName] = ParseIfFormatValue(value);
 
             CallWebApi(apiContextInstance, apiMethod, methodArguments);
         }
@@ -66,26 +66,12 @@ namespace Tab.Slack.Integration.Tests.Steps
             
             foreach (var row in table.Rows)
             {
-                methodArguments[row["Argument"]] = row["Value"];
+                methodArguments[row["Argument"]] = ParseIfFormatValue(row["Value"]);
             }
 
             CallWebApi(apiContextInstance, apiMethod, methodArguments);    
         }
-
-        private void CallWebApi(object apiContextInstance, string apiMethod, Dictionary<string, string> methodArguments)
-        {
-            // these are "live" integration tests intended to be run once overnight
-            // so try not to get rate limited
-            Thread.Sleep(2000); 
-            var result = ObjectReflector.ExecuteMethod(apiContextInstance, apiMethod, methodArguments);
-            ScenarioContext.Current["response"] = result;
-
-            if (result is FlexibleJsonModel)
-            {
-                Assert.Empty((result as FlexibleJsonModel).WalkUnmatchedData());
-            }
-        }
-
+        
         [Then(@"I should receive an ok response")]
         public void ThenIShouldReceiveAnOkResponse()
         {
@@ -120,7 +106,7 @@ namespace Tab.Slack.Integration.Tests.Steps
                 }
                 else
                 {
-                    Assert.Equal(row["Value"], fieldValue.ToString());
+                    Assert.Equal(ParseIfFormatValue(row["Value"]), fieldValue.ToString());
                 }
             }
         }
@@ -131,6 +117,7 @@ namespace Tab.Slack.Integration.Tests.Steps
             object response = ScenarioContext.Current["response"];
             Assert.NotNull(response);
 
+            value = ParseIfFormatValue(value);
             var fieldValue = ObjectReflector.GetObjectPathValue<object>(response, complexFieldPath)?.ToString();
 
             Assert.NotNull(fieldValue);
@@ -143,6 +130,7 @@ namespace Tab.Slack.Integration.Tests.Steps
             object response = ScenarioContext.Current["response"];
             Assert.NotNull(response);
 
+            value = ParseIfFormatValue(value);
             var fieldValue = ObjectReflector.GetObjectPathValue<object>(response, complexFieldPath)?.ToString();
 
             Assert.NotNull(fieldValue);
@@ -150,6 +138,94 @@ namespace Tab.Slack.Integration.Tests.Steps
             var match = (fieldValue as IEnumerable).Cast<object>().FirstOrDefault(e => e?.ToString() == value);
 
             Assert.NotNull(match);
+        }
+
+        private void CallWebApi(object apiContextInstance, string apiMethod, Dictionary<string, string> methodArguments)
+        {
+            // these are "live" integration tests intended to be run once overnight
+            // so try not to get rate limited
+            Thread.Sleep(2000);
+            var result = ObjectReflector.ExecuteMethod(apiContextInstance, apiMethod, methodArguments);
+            ScenarioContext.Current["response"] = result;
+
+            if (result is FlexibleJsonModel)
+            {
+                Assert.Empty((result as FlexibleJsonModel).WalkUnmatchedData());
+            }
+        }
+
+        private string ParseIfFormatValue(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return value;
+
+            var valueLookup = ScenarioContext.Current["values"] as Dictionary<string, string>;
+
+            if (valueLookup == null)
+            {
+                valueLookup = new Dictionary<string, string>();
+                ScenarioContext.Current["values"] = valueLookup;
+            }
+
+            /*
+                Allows name three formats:
+                1. "$labelname" - e.g. a standard variable such as $tsnow
+                2. "%dynamicname%" - this will be transformed into a random unique name
+                3. "fixedname" - a known constant name
+
+                All three of which can be appended with an optional field reference:
+                "name:field" - will return the value of "field" on the domain object named "name"
+            */
+            var match = Regex.Match(value, @"(\%(?<dynamicname>[a-zA-Z\-_0-9]+)\%|(?<name>\$?[a-zA-Z\-_0-9]+))(\:(?<field>[a-zA-Z\-_0-9]+))?");
+
+            if (match.Success)
+            {
+                var dynamicName = match.Groups["dynamicname"].Value;
+                var name = match.Groups["name"].Value;
+                var field = match.Groups["field"].Value;
+
+                if (string.IsNullOrWhiteSpace(name))
+                    name = ParseDynamicName(dynamicName);
+
+                object domainValue = LookupDomainValueByName(name);
+
+                if (string.IsNullOrWhiteSpace(field))
+                    return domainValue?.ToString() ?? value;
+
+                return ObjectReflector.GetPropertyValue(domainValue, field)?.ToString();
+
+                var rand = new Random();
+                var formatValue = new StringBuilder();
+
+                foreach (var formatChar in format)
+                {
+                    switch (formatChar)
+                    {
+                        case '-':
+                            formatValue.Append('-'); break;
+                        case 'N':
+                            formatValue.Append(rand.Next(0, 9)); break;
+                        case 'S':
+                            formatValue.Append((char)rand.Next(65, 90)); break;
+                    }
+                }
+
+                valueLookup[name] = name + formatValue.ToString();
+
+                return valueLookup[name];
+            }
+            
+            return value;
+        }
+
+        private object LookupDomainValueByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string ParseDynamicName(string dynamicName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

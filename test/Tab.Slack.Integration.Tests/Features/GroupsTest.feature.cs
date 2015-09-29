@@ -269,7 +269,7 @@ this.ScenarioSetup(scenarioInfo);
                         "TestGroup:id"});
             table11.AddRow(new string[] {
                         "timestamp",
-                        "<NOW>"});
+                        "<TSNOW>"});
 #line 61
  testRunner.When("I call groups.mark with:", ((string)(null)), table11, "When ");
 #line hidden
