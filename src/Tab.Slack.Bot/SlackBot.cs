@@ -204,26 +204,36 @@ namespace Tab.Slack.Bot
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs args)
         {
-            this.Logger.Debug($"Input: {args.Message}");
-            var eventMessage = this.ResponseParser.DeserializeEvent(args.Message);
-
-            if (eventMessage == null)
+            try
             {
-                this.Logger.Warn($"Failed to parse received message: {args.Message}");
-                return;
-            }
+                this.Logger.Debug($"Input: {args.Message}");
+                var eventMessage = this.ResponseParser.DeserializeEvent(args.Message);
 
-            this.Logger.Debug($"Parsed input as: {eventMessage.Type}");
-
-            if (this.StrictProtocolWarnings)
-            {
-                foreach (var unmatchedEntry in eventMessage.WalkUnmatchedData())
+                if (eventMessage == null)
                 {
-                    this.Logger.Warn(unmatchedEntry);
+                    this.Logger.Warn($"Failed to parse received message: {args.Message}");
+                    return;
                 }
-            }
 
-            OfferMessageToHandlersAsync(eventMessage, args.Message);
+                this.Logger.Debug($"Parsed input as: {eventMessage.Type}");
+
+                if (this.StrictProtocolWarnings)
+                {
+                    foreach (var unmatchedEntry in eventMessage.WalkUnmatchedData())
+                    {
+                        this.Logger.Warn(unmatchedEntry);
+                    }
+                }
+                OfferMessageToHandlersAsync(eventMessage, args.Message);
+            }
+            catch (Newtonsoft.Json.JsonSerializationException)
+            {
+                this.Logger.Debug($"Input: {args.Message}");
+            }
+            catch (Exception)
+            {
+                
+            }
         }
         
         private async void OfferMessageToHandlersAsync(EventMessageBase message, string originalMessage)

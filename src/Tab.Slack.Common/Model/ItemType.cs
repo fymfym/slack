@@ -4,6 +4,7 @@
     {
         Message,
         File,
+        file,
         FileComment,
         Channel
     }

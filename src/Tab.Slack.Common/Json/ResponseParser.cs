@@ -111,10 +111,17 @@ namespace Tab.Slack.Common.Json
 
         private EventMessageBase ParseEvent<T>(JObject jsonObject, string typeKey)
         {
-            var enumValue = UnderscoreEnumTypeConverter.FindMatchingName<T>(typeKey);
-            var typeName = typeof(T).AssemblyQualifiedName.Replace(typeof(T).Name, enumValue);
+            try
+            {
+                var enumValue = UnderscoreEnumTypeConverter.FindMatchingName<T>(typeKey);
+                var typeName = typeof(T).AssemblyQualifiedName.Replace(typeof(T).Name, enumValue);
 
-            return (jsonObject ?? new JObject()).ToObject(Type.GetType(typeName), this.jsonSerializer) as EventMessageBase;
+                return (jsonObject ?? new JObject()).ToObject(Type.GetType(typeName), this.jsonSerializer) as EventMessageBase;
+            }
+            catch (Newtonsoft.Json.JsonSerializationException ex)
+            {
+                return null;
+            }
         }
     }
 }
